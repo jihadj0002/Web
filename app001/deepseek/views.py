@@ -7,6 +7,7 @@ def deepseek_api(request):
         base_url="https://openrouter.ai/api/v1",
         api_key="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",
     )
+    
 
     try:
         completion = client.chat.completions.create(
@@ -18,7 +19,7 @@ def deepseek_api(request):
             messages=[
                 {
                     "role": "user",
-                    "content": "What's up??"
+                    "content": "What is the meaning of life?"
                 }
             ]
         )
@@ -26,4 +27,5 @@ def deepseek_api(request):
         return JsonResponse({"response": response_content}, safe=False)
     except Exception as e:
         print("OpenRouter API Error:", e)
+        print("Error sakndjas")
         return JsonResponse({"error": str(e)}, status=500)

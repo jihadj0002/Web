@@ -31,7 +31,13 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    #Main
     "core",
+    
+    #Practice
+    "ecom",
+    
+    #others
     "deepseek",
     
     "django.contrib.admin",
