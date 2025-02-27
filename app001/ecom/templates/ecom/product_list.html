@@ -1,0 +1,26 @@
+{% extends "ecom/base.html" %}
+
+{% block content %}
+
+
+    <!-- Product List Section -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Product Card 1 -->
+            {% for p in products %}
+            <div class="col-md-4">
+                <div class="card product-card">
+                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Product 1">
+                    <div class="card-body">
+                        <h5 class="card-title">{{p.title}}</h5>
+                        <p class="card-text">{{p.description}}</p>
+                        <p class="card-text"><strong>${{p.price}}</strong></p>
+                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+{% endblock %}
