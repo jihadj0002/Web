@@ -7,15 +7,15 @@
     <div class="container mt-4">
         <div class="row">
             <!-- Product Card 1 -->
-            {% for p in products %}
+            {% for p in categorys %}
             <div class="col-md-4">
                 <div class="card product-card">
                     <img src="https://via.placeholder.com/300" class="card-img-top" alt="Product 1">
                     <div class="card-body">
                         <h5 class="card-title">{{p.title}}</h5>
                         <p class="card-text">{{p.description}}</p>
-                        <p class="card-text"><strong>${{p.price}}</strong></p>
-                        <a href="{% url 'ecom:shop' %}{{p.slug}}" class="btn btn-primary">Product Detail</a>
+                        <p class="card-text"><strong>$ Running </strong></p>
+                        <a href="{% url 'ecom:product-detail'%}" class="btn btn-primary">View</a>
                     </div>
                 </div>
             </div>

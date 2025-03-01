@@ -1,0 +1,71 @@
+{% extends "ecom/base.html" %}
+{% block content %}
+
+<!-- Product Detail Page -->
+<div class="container my-5">
+    <div class="row">
+      <!-- Product Image -->
+      <div class="col-md-6">
+        <img src="https://via.placeholder.com/600" class="img-fluid rounded" alt="Product Image">
+      </div>
+  
+      <!-- Product Details -->
+      <div class="col-md-6">
+        <h1 class="mb-3">{{product.title}}</h1>
+        <p class="text-muted">SKU: 123456</p>
+        <p class="lead">${{product.price}}</p>
+        <p class="text-success">In Stock</p>
+        <p class="text-muted">{{product.description}}</p>
+  
+        <!-- Quantity Selector -->
+        <div class="mb-3">
+          <label for="quantity" class="form-label">{{product.stock}}</label>
+          <input type="number" class="form-control" id="quantity" value="1" min="1" style="width: 100px;">
+        </div>
+  
+        <!-- Add to Cart Button -->
+        <button class="btn btn-primary btn-lg me-2">Add to Cart</button>
+        <button class="btn btn-outline-secondary btn-lg">Buy Now</button>
+  
+        <!-- Additional Info -->
+        <div class="mt-4">
+          <h4>Product Details</h4>
+          <ul class="list-unstyled">
+            <li><strong>Brand:</strong> Example Brand</li>
+            <li><strong>Weight:</strong> 1.5 lbs</li>
+            <li><strong>Dimensions:</strong> 10 x 5 x 3 in</li>
+            <li><strong>Material:</strong> Plastic, Metal</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Product Reviews -->
+    <div class="row mt-5">
+      <div class="col">
+        <h3>Customer Reviews</h3>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">John Doe</h5>
+            <div class="text-warning">
+              ★★★★☆
+            </div>
+            <p class="card-text">Great product! Works perfectly and looks amazing.</p>
+            <p class="text-muted">Reviewed on January 1, 2023</p>
+          </div>
+        </div>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Jane Smith</h5>
+            <div class="text-warning">
+              ★★★★★
+            </div>
+            <p class="card-text">Absolutely love it! Highly recommend.</p>
+            <p class="text-muted">Reviewed on February 15, 2023</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

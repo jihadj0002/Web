@@ -2,6 +2,60 @@
 
 {% block content %}
 
-<h1>Index Page</h1>
+  <!-- Hero Section -->
+  <div class="bg-light py-5">
+    <div class="container text-center">
+      <h1 class="display-4">Welcome to My E-commerce</h1>
+      <p class="lead">Discover amazing products at unbeatable prices.</p>
+      <a href="#" class="btn btn-primary btn-lg">Shop Now</a>
+    </div>
+  </div>
+  
+  <!-- Featured Products -->
+  <div class="container my-5">
+    <h2 class="text-center mb-4">Featured Products</h2>
+    <div class="row">
+      <!-- Product 1 -->
+       {% for p in products %}
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="{{p.image.url}}" class="card-img-top" alt="Product 1">
+          <div class="card-body">
+            <a href="{% url 'ecom:shop' %}{{p.slug}}">
+            <h5 class="card-title">{{p.title}}</h5>
+        </a>
+            <p class="card-text">${{p.price}}</p>
+            <a href="#" class="btn btn-primary">Add to Cart</a>
+          </div>
+        </div>
+      </div>
 
+        {% endfor %}
+    </div>
+  </div>
+  
+  <!-- Categories Section -->
+  <div class="bg-light py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Shop by Category</h2>
+      <div class="row">
+        <!-- Category 1 -->
+         {% for c in categorys %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <img src="{{c.image.url}}" class="card-img-top" alt="Electronics">
+            <div class="card-body text-center">
+                
+              <h5 class="card-title">{{c.title}}</h5>
+            
+              <a href="#" class="btn btn-outline-primary">Explore</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+       
+      </div>
+    </div>
+  </div>
+  
 {% endblock %}
