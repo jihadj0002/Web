@@ -32,6 +32,17 @@ def category_list(request):
     }
     return render(request, "ecom/category_list.html", context)
 
+def category_detail(request, slug):
+    
+    category = Category.objects.get(slug=slug)
+    products = Product.objects.filter(categories=category)
+    
+    context = {
+        "category": category,
+        "products": products,
+    }
+    return render(request, "ecom/category_detail.html", context)
+
 def product_detail(request, slug):
     
     product = Product.objects.get(slug=slug)

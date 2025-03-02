@@ -10,12 +10,12 @@
             {% for p in categorys %}
             <div class="col-md-4">
                 <div class="card product-card">
-                    <img src="https://via.placeholder.com/300" class="card-img-top" alt="Product 1">
+                    <img src="{{p.image.url}}" class="card-img-top" alt="Product 1">
                     <div class="card-body">
                         <h5 class="card-title">{{p.title}}</h5>
                         <p class="card-text">{{p.description}}</p>
                         <p class="card-text"><strong>$ Running </strong></p>
-                        <a href="{% url 'ecom:product-detail'%}" class="btn btn-primary">View</a>
+                        <a href="{% url 'ecom:cat'%}{{p.slug}}" class="btn btn-primary">View</a>
                     </div>
                 </div>
             </div>
