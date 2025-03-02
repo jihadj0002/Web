@@ -1,6 +1,14 @@
 {% extends "base/base.html" %}
 
 {% block content %}
+<br>
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="https://media.geeksforgeeks.org/wp-content/uploads/20201023014740/1Yj6cKL32MRuVT9MipFyaw-300x210.png" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">Url Shortener</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <a href="{% url 'urlshort:index' %}" class="btn btn-primary">App Home</a>
+    </div>
+  </div>
 
-<h1>Hello Base</h1>
 {% endblock %}

@@ -23,7 +23,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     
     path("", include("base.urls")),
-    #path("urlshort/", include("urlshort.urls")),
+    path("urlshort/", include("urlshort.urls")),
 ]
 
 
