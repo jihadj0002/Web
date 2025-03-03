@@ -4,5 +4,6 @@ from . import views
 app_name = "insta"
 
 urlpatterns = [
-    path("", views.view_profile, name="view_profile"),
+    path("", views.index, name="index"),
+    path("profile/", views.view_profile, name="view_profile"),
 ]

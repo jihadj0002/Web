@@ -5,6 +5,11 @@ import json
 
 
 # Create your views here.
+
+def index(request):
+    return render(request, "insta/index.html")
+
+
 def view_profile(request):
     
     domain = "https://graph.facebook.com/v22.0/"
