@@ -10,6 +10,7 @@ def index(request):
     }
     return render(request, "song/index.html", context)
 
+
 def detail(request, id):
     song = Song.objects.get(id=id)
     
