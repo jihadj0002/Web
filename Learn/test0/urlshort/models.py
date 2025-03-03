@@ -16,4 +16,4 @@ class UrlData(models.Model):
     
     def get_short_url(self):
         pass
-        #return "http://
+        #return "http:// 

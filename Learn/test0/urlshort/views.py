@@ -6,7 +6,7 @@ import random, string
 
 def index(request):
     
-    data = UrlData.objects.all()
+    data = UrlData.objects.order_by('-timestamp')
     
     if request.method == "POST":
         form = ShortenURLForm(request.POST)
@@ -18,7 +18,8 @@ def index(request):
             new_url = UrlData.objects.create(url=url, slug=slug)
             new_url.save()
             print("Saved")
-            return redirect("urlshort:view_url", slug=slug)
+            #return redirect("urlshort:view_url", slug=slug)
+            return redirect("urlshort:index")
         
     else:
         form = ShortenURLForm()
@@ -27,7 +28,13 @@ def index(request):
         "urls":data,
     }
         
-    return render(request, "urlshort/index.html")
+    return render(request, "urlshort/index.html", context)
+
+def url_redirect(request, slug):
+        
+        data = UrlData.objects.get(slug=slug)
+        
+        return redirect(data.url)
 
 def view_url(request, slug):
     

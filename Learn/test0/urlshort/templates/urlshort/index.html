@@ -45,6 +45,8 @@
                     <th scope="col">Original URL</th>
                     <th scope="col">Shortened URL</th>
                     <th scope="col">Created At</th>
+                    <th scope="col">View</th>
+                    <th scope="col">Open</th>
                 </tr>
             </thead>
             <tbody>
@@ -62,6 +64,16 @@
                         </a>
                     </td>
                     <td>{{ url.timestamp|date:"M d, Y H:i" }}</td>
+                    <td>
+                        <a href="{% url 'urlshort:view_url' url.slug%}" target="_blank" class="text-decoration-none">
+                            <button class="btn btn-primary">View</button>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url.url }}" target="_blank" class="text-decoration-none">
+                            <button class="btn btn-secondary">Open</button>
+                        </a>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
