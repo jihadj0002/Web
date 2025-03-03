@@ -1,27 +1,28 @@
 from django.shortcuts import render, HttpResponse
 import requests
+from rest_framework.response import Response
 import json
 
 
 # Create your views here.
 def view_profile(request):
     
-    # domain = "https://graph.instagram.com/v22.0/"
+    domain = "https://graph.facebook.com/v22.0/"
     
-    # my_username = "hike_camp__"
+    my_username = "hike_camp__"
+    fields = "id,name,short_name,education"
     
-    # part_a = "me?field=id,name,username,account_type,media_count,ig_id"
     
-    # access_token = "&access_token=EAAQzduZBkpZCQBOzrFH4pW54mu5qtm1VbRsK7hat05rWs1cacLRigDPZCEttT6N2diQuTE6Q4aaJQP7pRlSMWDKLhdDPcduglFpe6nhWNUuZBteNf5oLhlwd9FHxWrBIY5tpdcqJUFOqcyuwOqQ2cqKjDvr2uZBq6r51ZCeDlmR4J4Ft5k1HwkTTOYqXpAZBbyKGySbc6ZBxRprikIbM0DC9vkjMUf8ZD"
+    access_token = "EAAQzduZBkpZCQBOZBNkoBZA0DNJSzMZBcIJt5u8fccTbCk8bua048O744xk8FdOlrAYKRNHx2eKo7clPJwsavR55fzyK7FiLNUpEGu01R1fEPRQQAwCWraLt17uIIY7hmJ16DpqSrl2shz8IgBHM1cQ1NenXfMQZAtuCdbpux1wOgtb2e7JOsbX4dEPldMonh8fCTebaSEWeRIGE97bRXUvm78m2gZD"
     
-    # box = []
-    # i=0
-    # while i<10:
-    #     part_b = "media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,username&limit=10&after="
-    #     url = domain + part_a + str(i) + access_token
-    #     response = requests.get(url)
-    #     #data = json.loads(response.text)
-    #     #box.append(data)
-    #     i+=10
-        
-    return HttpResponse("Hello World")
+    url = f"{domain}me?fields={fields}&access_token={access_token}"
+    
+    response = requests.get(url)
+    data = response.json()
+    print(data)
+    
+    context = {
+        "data":data,
+    }
+    return render(request, "insta/profile_view.html", context)
+    #return HttpResponse(data)

@@ -1,0 +1,72 @@
+{% extends 'core/base.html' %}
+
+{%  block content %}
+<div class="container my-5"></div>
+    <div class="row">
+        <!-- Left Column: Profile Picture and Basic Info -->
+        <div class="col-md-4">
+            <div class="card text-center shadow">
+                <div class="card-body">
+                    <!-- Profile Picture -->
+                    <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Profile Picture">
+                    <!-- User Name -->
+                    <h4 class="card-title">{{data.short_name}}</h4>
+                    <!-- User Role -->
+                    <p class="text-muted">Premium Member</p>
+                    <!-- Edit Profile Button -->
+                    <a href="#" class="btn btn-primary btn-sm">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Detailed Information -->
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="card-title mb-4">Profile Information</h4>
+
+                    <!-- Personal Information -->
+                    <div class="mb-4">
+                        <h5>Personal Information</h5>
+                        <hr>
+                        <p><strong>Full Name:</strong> {{data.name}}</p>
+                        <p><strong>User Id:</strong> {{data.id}}</p>
+                        <p><strong>Email:</strong> john.doe@example.com</p>
+                        <p><strong>Phone:</strong> +1 234 567 890</p>
+                        <p><strong>Date of Birth:</strong> January 1, 1990</p>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="mb-4">
+                        <h5>Address</h5>
+                        <hr>
+                        <p><strong>Street:</strong> 123 Main St</p>
+                        <p><strong>City:</strong> New York</p>
+                        <p><strong>State:</strong> NY</p>
+                        <p><strong>Zip Code:</strong> 10001</p>
+                    </div>
+
+                    <!-- Social Media Links -->
+                    <div class="mb-4">
+                        <h5>Social Media</h5>
+                        <hr>
+                        <p>
+                            <strong>Twitter:</strong>
+                            <a href="https://twitter.com/johndoe" target="_blank" class="text-decoration-none">@johndoe</a>
+                        </p>
+                        <p>
+                            <strong>LinkedIn:</strong>
+                            <a href="https://linkedin.com/in/johndoe" target="_blank" class="text-decoration-none">linkedin.com/in/johndoe</a>
+                        </p>
+                        <p>
+                            <strong>GitHub:</strong>
+                            <a href="https://github.com/johndoe" target="_blank" class="text-decoration-none">github.com/johndoe</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
