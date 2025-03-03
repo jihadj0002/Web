@@ -1,6 +1,9 @@
 {% extends "core/base.html" %}
 
 {% block content %}
+<!-- Night Mode Toggle Button -->
+
+
 <h1 class="text-center mb-4">Song Lists</h1>
 
 <div class="container">
@@ -14,4 +17,93 @@
     </div>
     {% endfor %}
 </div>
+
+<script>
+    // Night Mode Toggle
+    const nightModeToggle = document.getElementById('night-mode-toggle');
+    const body = document.body;
+
+    // Check localStorage for night mode preference
+    if (localStorage.getItem('night-mode') === 'enabled') {
+        body.classList.add('night-mode');
+        nightModeToggle.textContent = '☀️ Day Mode';
+    }
+
+    // Toggle night mode
+    nightModeToggle.addEventListener('click', () => {
+        body.classList.toggle('night-mode');
+        if (body.classList.contains('night-mode')) {
+            localStorage.setItem('night-mode', 'enabled');
+            nightModeToggle.textContent = '☀️ Day Mode';
+        } else {
+            localStorage.setItem('night-mode', 'disabled');
+            nightModeToggle.textContent = '🌙 Night Mode';
+        }
+    });
+</script>
+
+<style>
+    /* Light Mode (Default) */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f9f9f9;
+        color: #333;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .card {
+        border: none;
+        border-radius: 10px;
+        transition: transform 0.2s, background-color 0.3s;
+        background-color: #fff;
+    }
+
+    .card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    /* Night Mode */
+    body.night-mode {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+
+    .night-mode .card {
+        background-color: #1e1e1e;
+        color: #e0e0e0;
+    }
+
+    .night-mode .card:hover {
+        box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    }
+
+    .night-mode .btn-primary {
+        background-color: #1a73e8;
+    }
+
+    .night-mode .btn-primary:hover {
+        background-color: #1557b0;
+    }
+
+    .night-mode .btn-secondary {
+        background-color: #333;
+        border: none;
+    }
+
+    .night-mode .btn-secondary:hover {
+        background-color: #555;
+    }
+</style>
 {% endblock %}
