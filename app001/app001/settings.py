@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     
     #others
     "insta",
+    "song",
     "deepseek",
     
     "django.contrib.admin",

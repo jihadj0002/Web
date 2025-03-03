@@ -1,14 +1,43 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-<br>
-<div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="https://media.geeksforgeeks.org/wp-content/uploads/20201023014740/1Yj6cKL32MRuVT9MipFyaw-300x210.png" alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">Instagram</h5>
-      <p class="card-text">Here We will Play with Instagram API</p>
-      <a href="{% url 'insta:view_profile' %}" class="btn btn-primary">App Home</a>
-    </div>
-  </div>
+<div class="container my-5">
+    <div class="row">
+        <!-- Card 1 -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img class="card-img-top" src="https://media.geeksforgeeks.org/wp-content/uploads/20201023014740/1Yj6cKL32MRuVT9MipFyaw-300x210.png" alt="Instagram">
+                <div class="card-body">
+                    <h5 class="card-title">Instagram</h5>
+                    <p class="card-text">Here We will Play with Instagram API</p>
+                    <a href="{% url 'insta:view_profile' %}" class="btn btn-primary">App Home</a>
+                </div>
+            </div>
+        </div>
 
+        <!-- Card 2 -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img class="card-img-top" src="https://www.normans.co.uk/cdn/shop/articles/acoustic-vs-classical_7aa53ad4-bd8b-4b5e-94be-7cb6fde78a4b.jpg" alt="Twitter">
+                <div class="card-body">
+                    <h5 class="card-title">Song</h5>
+                    <p class="card-text">Explore the guitar Learning Platform.</p>
+                    <a href="{% url 'song:index' %}" class="btn btn-primary">App Home</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img class="card-img-top" src="https://www.normans.co.uk/cdn/shop/articles/acoustic-vs-classical_7aa53ad4-bd8b-4b5e-94be-7cb6fde78a4b.jpg" alt="GitHub">
+                <div class="card-body">
+                    <h5 class="card-title">GitHub</h5>
+                    <p class="card-text">Integrate with GitHub API for repository management.</p>
+                    <a href="#" class="btn btn-primary">App Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
