@@ -1,3 +1,14 @@
-<h1>Hello World</h1>
-<h1>Hello World</h1>
-<h1>Hello World</h1>
+{% extends "core/base.html" %}
+
+{% block content %}
+<br>
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="https://media.geeksforgeeks.org/wp-content/uploads/20201023014740/1Yj6cKL32MRuVT9MipFyaw-300x210.png" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">Instagram</h5>
+      <p class="card-text">Here We will Play with Instagram API</p>
+      <a href="{% url 'insta:view_profile' %}" class="btn btn-primary">App Home</a>
+    </div>
+  </div>
+
+{% endblock %}

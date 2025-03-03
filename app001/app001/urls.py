@@ -22,11 +22,12 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     
-    path("core/", include("core.urls")),
+    path("", include("core.urls")),
     
-    path("", include("ecom.urls")),
+    path("ecom/", include("ecom.urls")),
     
     path("ds/", include("deepseek.urls")),
+    path("insta/", include("insta.urls")),
 ]
 
 

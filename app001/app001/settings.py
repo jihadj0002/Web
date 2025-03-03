@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "ecom",
     
     #others
+    "insta",
     "deepseek",
     
     "django.contrib.admin",
