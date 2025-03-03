@@ -1,5 +1,17 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-<h1>Song Lists</h1>
+<h1 class="text-center mb-4">Song Lists</h1>
+
+<div class="container">
+    {% for song in songs %}
+    <div class="card mb-4 shadow">
+        <div class="card-body">
+            <h5 class="card-title">{{ song.title }}</h5>
+            <p class="card-text"><strong>Artist:</strong> {{ song.artist }}</p>
+            <a href="{% url 'song:detail' song.id %}" class="btn btn-primary">View Song</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

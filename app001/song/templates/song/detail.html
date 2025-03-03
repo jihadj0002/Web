@@ -1,0 +1,150 @@
+{% extends "core/base.html" %}
+{% block content %}
+
+<h3>{{ song.title }}</h3>
+
+<!-- Speed Controls -->
+<div class="controls">
+    <label for="speed">Scroll Speed:</label>
+    <input type="range" id="speed" min="1" max="10" value="5">
+    <span id="speed-value">5</span>
+</div>
+
+<!-- Start/Stop Buttons -->
+<div class="controls">
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+</div>
+
+<!-- Scrollable Lyrics Container -->
+<div class="lyrics-container" id="scrollable">
+    {{ song.lyrics|linebreaks }}
+</div>
+
+<script>
+    // JavaScript for Auto-Scroller
+    const scrollable = document.getElementById('scrollable');
+    const speedInput = document.getElementById('speed');
+    const speedValue = document.getElementById('speed-value');
+
+    let scrollInterval;
+    let speed = 5; // Default speed
+
+    // Function to start auto-scrolling
+    function startAutoScroll() {
+        scrollInterval = setInterval(() => {
+            scrollable.scrollBy(0, 1); // Scroll down by 1px
+            // Stop scrolling when reaching the bottom
+            if (scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight) {
+                stopAutoScroll();
+            }
+        }, 100 / speed); // Adjust interval based on speed
+    }
+
+    // Function to stop auto-scrolling
+    function stopAutoScroll() {
+        clearInterval(scrollInterval);
+    }
+
+    // Start auto-scrolling when the "Start" button is clicked
+    document.getElementById('start').addEventListener('click', startAutoScroll);
+
+    // Stop auto-scrolling when the "Stop" button is clicked
+    document.getElementById('stop').addEventListener('click', stopAutoScroll);
+
+    // Update speed when the range input changes
+    speedInput.addEventListener('input', () => {
+        speed = speedInput.value;
+        speedValue.textContent = speed;
+        stopAutoScroll();
+        startAutoScroll();
+    });
+
+    // Function to increase speed
+function increaseSpeed() {
+    if (speed < 10) {
+        speed++;
+        speedInput.value = speed;
+        speedValue.textContent = speed;
+        stopAutoScroll();
+        startAutoScroll();
+    }
+}
+
+// Function to decrease speed
+function decreaseSpeed() {
+    if (speed > 1) {
+        speed--;
+        speedInput.value = speed;
+        speedValue.textContent = speed;
+        stopAutoScroll();
+        startAutoScroll();
+    }
+}
+
+// Listen for keyboard events
+document.addEventListener('keydown', (event) => {
+    if (event.key === '=' || event.key === '+') {
+        increaseSpeed();
+    } else if (event.key === '-') {
+        decreaseSpeed();
+    }
+});
+
+    // Start auto-scrolling initially
+    startAutoScroll();
+</script>
+
+<style>
+    /* Lyrics Container */
+    .lyrics-container {
+        white-space: pre-wrap; /* Preserve line breaks and wrap text */
+        font-family: Arial, sans-serif; /* Use a readable font */
+        font-size: 1.1em; /* Slightly larger font size */
+        line-height: 1.6; /* Improve readability with more line spacing */
+        padding: 15px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        height: 300px; /* Fixed height for scrolling */
+        overflow-y: scroll; /* Enable vertical scrolling */
+        margin: 20px auto; /* Center the container */
+        width: 80%; /* Set width */
+    }
+
+    /* Controls Styling */
+    .controls {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .controls label {
+        font-weight: bold;
+    }
+    .controls input[type="range"] {
+        width: 200px;
+    }
+
+    /* Buttons Styling */
+    .controls button {
+        padding: 10px 20px;
+        margin: 5px;
+        font-size: 1em;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+    }
+    .controls button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Body Styling */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+</style>
+{% endblock %}
