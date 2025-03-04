@@ -8,6 +8,7 @@ class Recipe(models.Model):
     title = models.CharField(max_length=200, default="Chicken Curry")
     description = models.TextField(default="This is a chicken curry recipe.")
     
+    
     day = models.DateField(auto_now_add=True)
     
     def __str__(self):

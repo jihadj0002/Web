@@ -2,4 +2,37 @@
 
 {% block content %}
 <h1>Recipe</h1>
+
+<div class="container mt-5"></div>
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center">Files</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example row, replace with Django template tags to loop through files -->
+                     {% for r in recipes %}
+                    <tr>
+                        <td>{{r.title}}</td>
+                        <td>{{r.day}}</td>
+                        <td>{{r.description}}</td>
+                    </tr>
+                    {% endfor %}
+                    <!-- End example row -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
