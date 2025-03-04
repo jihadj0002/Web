@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     #Myapps
     "base",
     "urlshort",
+    "recipe",
     
     #Default Apps
     "django.contrib.admin",
