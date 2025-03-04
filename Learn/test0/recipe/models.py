@@ -16,4 +16,4 @@ class Recipe(models.Model):
     
     class Meta:
         verbose_name = "Recipe"
-        verbose_name_plural = "Recipes"
+        verbose_name_plural = "Recipess"
