@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Recipe
-from django.contrib.auth import login as auth_login, authenticate
+from django.contrib.auth import login as auth_login, authenticate, logout
 from django.contrib import messages
 
 # Create your views here.
@@ -41,3 +41,8 @@ def login(request):
             print("Exception: ", e)
             return render(request, "recipe/login.html")
     return render(request, "recipe/login.html")
+
+
+def logoutt(request):
+    logout(request)
+    return redirect("recipe:login")

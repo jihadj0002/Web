@@ -23,7 +23,9 @@
                     <!-- Example row, replace with Django template tags to loop through files -->
                      {% for r in recipes %}
                     <tr>
-                        <td>{{r.title}}</td>
+                        
+                        <td><a href="{% url 'recipe:detail' r.pk %}">{{r.title}}</a></td>
+                        
                         <td>{{r.day}}</td>
                         <td>{{r.description}}</td>
                     </tr>
