@@ -3,6 +3,7 @@ from .models import Recipe
 from django.contrib.auth import login as auth_login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
@@ -22,6 +23,33 @@ def detail(request, pk):
         "recipe":recipe,
     }
     return render(request, "recipe/detail.html", context)
+
+
+
+@login_required(login_url="/login/")
+def delete_recipe(request, pk):
+    recipe = Recipe.objects.get(id=pk)
+    recipe.delete()
+    return redirect("recipe:index")
+
+@login_required(login_url="/login/")
+def update_recipe(request, pk):
+    
+    recipe = Recipe.objects.get(id=pk)
+    
+    if request.method == "POST":
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        
+        recipe.title = title
+        recipe.description = description
+        
+        recipe.save()
+        return redirect('/')
+    context = {
+        "recipe":recipe,
+    }
+    return render(request, "recipe/update_recipe.html", context)
 
 #Login Page For User
 def login(request):
