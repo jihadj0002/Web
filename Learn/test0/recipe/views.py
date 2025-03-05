@@ -7,8 +7,16 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
+    user = request.user
+    if request.method == "POST":
+        data = request.POST
+        title = data.get("title")
+        description = data.get("description")
+        recipe = Recipe.objects.create(user=user, title=title, description=description)
+        recipe.save()
+        return redirect('recipe:index')
     
-    recipes = Recipe.objects.all()
+    recipes = Recipe.objects.order_by("-day")
     
     context = {
         "recipes":recipes,

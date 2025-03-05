@@ -10,7 +10,7 @@ class Recipe(models.Model):
     description = models.TextField(default="This is a chicken curry recipe.")
     
     
-    day = models.DateField(auto_now_add=True)
+    day = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return f"{self.title} - {self.user.username}"
