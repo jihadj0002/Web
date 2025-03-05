@@ -26,13 +26,13 @@ def detail(request, pk):
 
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="recipe:login")
 def delete_recipe(request, pk):
     recipe = Recipe.objects.get(id=pk)
     recipe.delete()
     return redirect("recipe:index")
 
-@login_required(login_url="/login/")
+@login_required(login_url="recipe:login")
 def update_recipe(request, pk):
     
     recipe = Recipe.objects.get(id=pk)
@@ -45,7 +45,7 @@ def update_recipe(request, pk):
         recipe.description = description
         
         recipe.save()
-        return redirect('/')
+        return redirect("recipe:index")
     context = {
         "recipe":recipe,
     }
