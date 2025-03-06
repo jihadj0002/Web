@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "base",
     "urlshort",
     "recipe",
+    "cgpa",
     
     #Default Apps
     "django.contrib.admin",
