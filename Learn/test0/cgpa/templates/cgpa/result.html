@@ -1,3 +1,4 @@
+
 {% extends "base/base.html" %}
 
 {% block content %}
@@ -9,7 +10,7 @@
         {% csrf_token %}
         {{form.as_p}}
         <button type="submit">Add Subject</button>
-        <button><a href="{% url 'cgpa:result' %}">Generate Results</a></button>
+        <button><a href="#">Generate Results</a></button>
     </form>
     <br>
     <table>
@@ -24,28 +25,26 @@
         <tbody>
             {% for subject in subjects %}
             <tr>
-                <td style="font-family: 'Times New Roman', Times, serif;">{{subject.name}}</td>
+                <td style="font-family: 'Times New Roman', Times, serif;">{{subject.subject}}</td>
                 <td style="font-family: 'Times New Roman', Times, serif;">{{subject.grade}}</td>
                 <td style="font-family: 'Times New Roman', Times, serif;">{{subject.credit}}</td>
                 <td>
-                    <a href="{% url 'cgpa:edit_sub' subject.pk %}">Update</a>
-                    <a href="{% url 'cgpa:delete' subject.pk %}">Delete</a>
+                    <a href="#">Update</a>
+                    <a href="#">Delete</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <h3 style="font-family: 'Times New Roman', Times, serif;">CGPA: <span id="cgpa">{{cgpa}}</span></h3>
     
 </div>
 
-
 <br>
-<button onclick="myfun('mn')" type="button" class="btn btn-success btn1">Print CGPA</button>
+<button onclick="myfun('mn')" type="button" class="btn btn-success btn1">Generate CGPA</button>
 
 <script type="text/javascript">
     function myfun(mn){
-        let d = document.getElementById(mn).innerHTML;
+        let d = document.getElementById(pa).innerHTML;
         document.body.innerHTML = d;
         window.print();
     }
