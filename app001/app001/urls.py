@@ -28,6 +28,7 @@ urlpatterns = [
     path("song/", include("song.urls")),
     
     path("ds/", include("deepseek.urls")),
+    path("hk/", include("hiking.urls")),
     
     path("insta/", include("insta.urls")),
 ]

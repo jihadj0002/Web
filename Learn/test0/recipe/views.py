@@ -1,12 +1,22 @@
 from django.shortcuts import render, redirect
 from .models import Recipe
 from django.contrib.auth import login as auth_login, authenticate, logout
+from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
+    user = request.user
+    if request.method == "POST":
+        data = request.POST
+        title = data.get("title")
+        description = data.get("description")
+        recipe = Recipe.objects.create(user=user, title=title, description=description)
+        recipe.save()
+        return redirect('recipe:index')
     
-    recipes = Recipe.objects.all()
+    recipes = Recipe.objects.order_by("-day")
     
     context = {
         "recipes":recipes,
@@ -21,6 +31,33 @@ def detail(request, pk):
         "recipe":recipe,
     }
     return render(request, "recipe/detail.html", context)
+
+
+
+@login_required(login_url="recipe:login")
+def delete_recipe(request, pk):
+    recipe = Recipe.objects.get(id=pk)
+    recipe.delete()
+    return redirect("recipe:index")
+
+@login_required(login_url="recipe:login")
+def update_recipe(request, pk):
+    
+    recipe = Recipe.objects.get(id=pk)
+    
+    if request.method == "POST":
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        
+        recipe.title = title
+        recipe.description = description
+        
+        recipe.save()
+        return redirect("recipe:index")
+    context = {
+        "recipe":recipe,
+    }
+    return render(request, "recipe/update_recipe.html", context)
 
 #Login Page For User
 def login(request):
@@ -46,3 +83,24 @@ def login(request):
 def logoutt(request):
     logout(request)
     return redirect("recipe:login")
+
+def signup(request):
+    if request.method == "POST":
+        try:
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user_obj = User.objects.filter(username=username)
+            
+            if user_obj.exists():
+                messages.error(request, "Username is taken")
+                return redirect("recipe:signup")
+            user = User.objects.create(username=username) #Here using password=password dosent works because thats not clean data I guess. 
+            user.set_password(password)
+            
+            user.save()
+            messages.success(request, "User Created Successfully")
+            
+        except Exception as e:
+            messages.error(request, "Smething Went Wrong")
+    
+    return render(request, "recipe/sign-up.html")

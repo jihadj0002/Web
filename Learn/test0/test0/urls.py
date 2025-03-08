@@ -26,6 +26,7 @@ urlpatterns = [
     path("", include("base.urls")),
     path("urlshort/", include("urlshort.urls")),
     path("recipe/", include("recipe.urls")),
+    path("cg/", include("cgpa.urls")),
 ]
 
 

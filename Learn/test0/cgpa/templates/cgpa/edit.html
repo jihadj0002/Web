@@ -1,0 +1,16 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="calculator" id="calculator">
+    <br>
+    <h2 style="text-align: center;">Edit Subject</h2>
+    <br>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Update Subject</button>
+    </form>
+    <br>
+    <button><a href="">Cancel</a></button>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="mn" id="mn">
+    <h2 style="color: green;">CGPA calculator</h2>
+    <br>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Add Subject</button>
+        <button><a href="#">Generate Results</a></button>
+    </form>
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Grade</th>
+                <th>Credit</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subject in subjects %}
+            <tr>
+                <td style="font-family: 'Times New Roman', Times, serif;">{{subject.subject}}</td>
+                <td style="font-family: 'Times New Roman', Times, serif;">{{subject.grade}}</td>
+                <td style="font-family: 'Times New Roman', Times, serif;">{{subject.credit}}</td>
+                <td>
+                    <a href="#">Update</a>
+                    <a href="#">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</div>
+
+<br>
+<button onclick="myfun('mn')" type="button" class="btn btn-success btn1">Generate CGPA</button>
+
+<script type="text/javascript">
+    function myfun(mn){
+        let d = document.getElementById(pa).innerHTML;
+        document.body.innerHTML = d;
+        window.print();
+    }
+</script>
+{% endblock %}
