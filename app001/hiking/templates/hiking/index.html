@@ -1,0 +1,48 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Hiking</h2>
+
+    <!-- Responsive Table Wrapper -->
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-sm table-hover shadow">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Link</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Body</th>
+                    <th scope="col">Hashtags</th>
+                    <th scope="col">Is Dub?</th>
+                    <th scope="col">Upload Time</th>
+                    <th scope="col">Actions</th> <!-- New column for buttons -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in contents %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td><a href="{{ item.link }}" target="_blank" class="text-decoration-none">{{ item.link|truncatechars:30 }}</a></td>
+                    <td>{{ item.status }}</td>
+                    <td>{{ item.body|truncatechars:20 }}</td>
+                    <td>{{ item.hashtags }}</td>
+                    <td>{{ item.isdub|yesno:"Yes,No" }}</td>
+                    <td>{{ item.upload_time|date:"m-d H:i" }}</td>
+                    <td>
+                        <!-- Action Buttons -->
+                        <a href="#" class="btn btn-sm btn-primary me-1">Edit</a>
+                        <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add New Item Button -->
+    <div class="text-center mt-4">
+        <a href="#" class="btn btn-success">Add New Item</a>
+    </div>
+</div>
+{% endblock %}
