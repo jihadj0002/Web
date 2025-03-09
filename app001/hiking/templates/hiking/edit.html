@@ -1,0 +1,44 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Edit Content</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="link" class="form-label">Link</label>
+            <input type="url" class="form-control" id="link" name="link" value="{{ content.link }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-select" id="status" name="status" required>
+                <option value="Not Started" {% if content.status == "Not Started" %}selected{% endif %}>Not Started</option>
+                <option value="In Progress" {% if content.status == "In Progress" %}selected{% endif %}>In Progress</option>
+                <option value="Completed" {% if content.status == "Completed" %}selected{% endif %}>Completed</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="body" class="form-label">Body</label>
+            <textarea class="form-control" id="body" name="body" rows="4">{{ content.body }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="hashtags" class="form-label">Hashtags</label>
+            <input type="text" class="form-control" id="hashtags" name="hashtags" value="{{ content.hashtags }}">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="isdub" name="isdub" {% if content.isdub %}checked{% endif %}>
+            <label class="form-check-label" for="isdub">Is Dub?</label>
+        </div>
+        <!--
+        <div class="mb-3">
+            <label for="upload_time" class="form-label">Upload Time</label>
+            <input type="datetime-local" class="form-control" id="upload_time" name="upload_time" value="{{ content.upload_time|date:'Y-m-d\TH:i' }}" >
+        </div> -->
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{% url 'hiking:index' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
+
+
+
