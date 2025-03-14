@@ -48,6 +48,13 @@ def index(request):
     
     if request.method == "POST":
         form = SubjectForm(request.POST)
+        sub = request.POST.get("sub")
+        credit = request.POST.get("credit")
+        grade = request.POST.get("grade")
+        
+        sub = Subject.objects.create(user=request.user, name=sub, credit=int(credit), grade=grade)
+        sub.save()
+        
         if form.is_valid():
             subject = form.save(commit=False)
             subject.user = request.user
@@ -74,6 +81,7 @@ def index(request):
         "subjects": subjects,
         "form": form,
         "cgpa": cgpa,
+        "GRADE_POINTS":GRADE_POINTS,
     }
     return render(request, "cgpa/index.html", context)
 

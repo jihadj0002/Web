@@ -2,41 +2,103 @@
 
 {% block content %}
 <div class="mn" id="mn">
-    <h2 style="color: green;">CGPA calculator</h2>
-    <br>
-
-    <form action="" method="post">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit">Add Subject</button>
-        <button><a href="{% url 'cgpa:result' %}">Generate Results</a></button>
-    </form>
-    <br>
-    <table>
-        <thead>
-            <tr>
-                <th>Subject</th>
-                <th>Grade</th>
-                <th>Credit</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for subject in subjects %}
-            <tr>
-                <td style="font-family: 'Times New Roman', Times, serif;">{{subject.name}}</td>
-                <td style="font-family: 'Times New Roman', Times, serif;">{{subject.grade}}</td>
-                <td style="font-family: 'Times New Roman', Times, serif;">{{subject.credit}}</td>
-                <td>
-                    <a href="{% url 'cgpa:edit_sub' subject.pk %}">Update</a>
-                    <a href="{% url 'cgpa:delete' subject.pk %}">Delete</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <h3 style="font-family: 'Times New Roman', Times, serif;">CGPA: <span id="cgpa">{{cgpa}}</span></h3>
+    <div class="container mt-5">
+        <!-- Heading -->
+        <div class="h1 text-center bg-primary text-white py-3 rounded-top">
+            CGPA Calculator
+        </div>
     
+        <!-- Form Container -->
+        <div class="form-container border border-danger rounded-bottom p-4 bg-light">
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+    
+                <!-- Subject Name Input -->
+                <div class="mb-3">
+                    <label for="sub" class="form-label">Subject Name</label>
+                    <input type="text" class="form-control" name="sub" id="sub" required>
+                    <div class="invalid-feedback">
+                        Please enter a subject name.
+                    </div>
+                </div>
+    
+                <!-- Credit Input -->
+                <div class="mb-3">
+                    <label for="credit" class="form-label">Credit</label>
+                    <input type="number" class="form-control" name="credit" id="credit" required>
+                    <div class="invalid-feedback">
+                        Please enter the credit value.
+                    </div>
+                </div>
+    
+                <!-- Grade Selection -->
+                <div class="mb-3">
+                    <label for="grade" class="form-label">Grade</label>
+                    <select class="form-select" name="grade" id="grade" required>
+                        {% for grade in GRADE_POINTS %}
+                            <option value="{{ grade }}">{{ grade }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a grade.
+                    </div>
+                </div>
+    
+                <!-- Buttons -->
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-primary me-md-2">Add Subject</button>
+                    <a href="{% url 'cgpa:result' %}" class="btn btn-success">Generate Results</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    
+  
+    
+    <div class="container mt-4">
+        <div class="table-responsive">
+
+        {% if not subjects %}
+        <div class="alert alert-info mt-3" role="alert">
+            No subjects added yet. Start by adding a subject!
+        </div>
+        {% endif %}
+
+        <!-- Table for Subjects -->
+
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Subject</th>
+                        <th scope="col">Grade</th>
+                        <th scope="col">Credit</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject in subjects %}
+                    <tr>
+                        <td style="font-family: 'Times New Roman', Times, serif;">{{ subject.name }}</td>
+                        <td style="font-family: 'Times New Roman', Times, serif;">{{ subject.grade }}</td>
+                        <td style="font-family: 'Times New Roman', Times, serif;">{{ subject.credit }}</td>
+                        <td>
+                            <a href="{% url 'cgpa:edit_sub' subject.pk %}" class="btn btn-sm btn-warning me-2">Update</a>
+                            <a href="{% url 'cgpa:delete' subject.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    
+        <!-- CGPA Display -->
+        <div class="mt-4 text-center">
+            <h3 style="font-family: 'Times New Roman', Times, serif;">
+                CGPA: <span id="cgpa" class="fw-bold">{{ cgpa }}</span>
+            </h3>
+        </div>
+    </div>
 </div>
 
 
@@ -49,5 +111,25 @@
         document.body.innerHTML = d;
         window.print();
     }
+
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
 </script>
 {% endblock %}
