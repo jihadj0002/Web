@@ -43,16 +43,16 @@
                                 {{ user.username }}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{% url 'recipe:logout' %}">Logout</a></li>
+                                <li><a class="dropdown-item" href="{% url 'userauth:logout' %}">Logout</a></li>
                             </ul>
                         </li>
                     <!-- If user is logged out -->
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'recipe:signup' %}">Register</a>
+                            <a class="nav-link" href="{% url 'userauth:signup' %}">Register</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'recipe:login' %}">Login</a>
+                            <a class="nav-link" href="{% url 'userauth:login' %}">Login</a>
                         </li>
                     {% endif %}
 
@@ -76,6 +76,14 @@
         {% endif %}
     </div>
 
+    
+    <div class="text-end mb-4">
+        <button id="night-mode-toggle" class="btn btn-secondary">
+            🌙 Night Mode
+        </button>
+    </div>
+
+
     {% block content %}
 
     {% endblock %}
@@ -90,7 +98,107 @@
 
     <script>
         console.log('Hey Django')
+
+        //Night Mode Toggle
+
+        const nightModeToggle = document.getElementById('night-mode-toggle')
+        const body = document.body;
+
+        // Check LocalStorage for night mode preference
+        if (localStorage.getItem('night-mode') === 'enabled') {
+            body.classList.add('night-mode');
+            nightModeToggle.textContent = '☀️ Day Mode';
+        }
+
+        //Toggle Night mode
+        nightModeToggle.addEventListener('click', () => {
+            body.classList.toggle('night-mode');
+            if (body.classList.contains('night-mode')) {
+                localStorage.setItem('night-mode', 'enabled');
+                nightModeToggle.textContent = '☀️ Day Mode';
+            }
+            else {
+                localStorage.setItem('night-mode', 'disabled');
+                nightModeToggle.textContent = '🌙 Night Mode';
+            }
+        });
+
+
     </script>
+
+    <style>
+        /* Night Mode */
+
+        body.night-mode {
+            background-color: #121212;
+            color: white;
+        }
+
+        .night-mode .card {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+
+        .night-mode .card:hover {
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        }
+
+        .night-mode .btn-primary {
+            background-color: #1a73e8;
+        }
+
+        .night-mode .btn-primary:hover {
+            background-color: #1557b0;
+        }
+
+        .night-mode .btn-secondary {
+            background-color: #333;
+            border: none;
+        }
+
+        .night-mode .btn-secondary:hover {
+            background-color: #555;
+        }
+
+        /* Night Mode Table */
+
+        .night-mode .table {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+
+        .night-mode .table thead th {
+            background-color: #333;
+            color: #e0e0e0;
+        }
+
+        .night-mode .table tbody tr {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+
+        .night-mode .table-hover tbody tr:hover{
+            background-color: #333;
+        }
+
+        .night-mode .table-hover tbody td {
+            background-color: #333;
+            color: #e0e0e0;
+        }
+
+        .night-mode .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #2a2a2a;
+        }
+
+        .night-mode .table-ordered {
+            border-color: #444;
+        }
+
+        .night-mode .table-bordered th,
+        .night-mode .table-bordered td {
+            border-color: #444;
+        }
+    </style>
     
 </body>
 </html>

@@ -1,0 +1,32 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<br><br><br><br>
+<div class="container bg-white mx-auto col-md-2 card shadow p-3">
+    <div class="login-form">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+
+            <h4>Register</h4>
+            <div class="">
+                <input type="text" name="username" id="username" placeholder="Username" required>
+            </div>
+            <div class="mt-2">
+                <input type="password" name="password" id="password" placeholder="Password" required>
+            </div>
+            <div class="mt-2">
+                <button>Register</button>
+            </div>
+        </form>
+        <p>Already Have an Account? <a href="{% url 'recipe:login' %}">Log in</a></p>
+
+    </div>
+</div>
+{% endblock %}

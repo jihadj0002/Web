@@ -22,6 +22,9 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
     
+    #UserAuth
+    path("user/", include("userauth.urls")),
+    
     #My apps Urls
     path("", include("base.urls")),
     path("urlshort/", include("urlshort.urls")),

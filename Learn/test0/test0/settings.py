@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #User 
+    "userauth",
+    
     #Myapps
     "base",
     "urlshort",
