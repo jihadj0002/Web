@@ -272,3 +272,42 @@ p {
     color: var(--white-color);
     text-transform: uppercase;
  }
+
+
+ /* 
+ ==============================
+        About Section Design
+ ==============================
+ */
+
+ .about-section {
+    background: var(--white-color);
+ }
+
+ .about-section .card,
+ .about-section .card img {
+    border-radius: 0.625rem;
+ }
+
+ .about-section .text-sec {
+    padding: 2rem;
+ }
+ 
+
+  /* 
+ ==============================
+        Food Type section design
+ ==============================
+ */
+
+ .food-type {
+    padding-top: 3.25rem;
+ }
+
+ .food-type ul li {
+    font-size: 1rem;
+    color: var(--text-color);
+    line-height: 32px;
+    position: relative;
+    margin-left: 30px;
+ }
