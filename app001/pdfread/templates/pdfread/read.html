@@ -1,0 +1,37 @@
+{% extends "core/base.html" %}
+{% load custom_filters %}
+{% block head %}
+<style>
+    .pdf-content{
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.6;
+    }
+
+    .pdf-content img {
+        max-width: 100%;
+        height: auto;
+        margin: 10px 0;
+    }
+</style>
+
+{% endblock %}
+
+
+<!-- Body -->
+{% block content %}
+<h3 class="text-center">{{pdf.title}}</h3>
+
+<div class="pdf-content">
+    {% for page in pdf.extracted_content %}
+    <div class="page">
+        {% for element in page %}
+            {% if element.type == 'text' %}
+                <p>{{ element.data }}</p>
+            
+            {% endif %}
+        {% endfor %}
+    </div>
+    <hr>
+    {% endfor %}
+</div>
+{% endblock %}
