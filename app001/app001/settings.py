@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "ecom",
     
     #others
+    "pdfread",
     "insta",
     "song",
     "deepseek",

@@ -29,6 +29,7 @@ urlpatterns = [
     
     path("ds/", include("deepseek.urls")),
     path("hk/", include("hiking.urls")),
+    path("pdf/", include("pdfread.urls")),
     
     path("insta/", include("insta.urls")),
 ]
