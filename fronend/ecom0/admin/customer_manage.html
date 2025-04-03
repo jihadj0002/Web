@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management | ShopEasy Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --topbar-height: 60px;
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #0dcaf0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            overflow-x: hidden;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: var(--dark-color);
+            color: white;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        .sidebar-menu {
+            padding: 0;
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            position: relative;
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: #adb5bd;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu li a:hover,
+        .sidebar-menu li a.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-menu li a .badge {
+            float: right;
+        }
+        
+        .sidebar-menu li ul {
+            list-style: none;
+            padding-left: 40px;
+            display: none;
+        }
+        
+        .sidebar-menu li.active ul {
+            display: block;
+        }
+        
+        .sidebar-menu li ul li a {
+            padding: 8px 15px;
+            font-size: 0.9em;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding-top: var(--topbar-height);
+            min-height: 100vh;
+            transition: all 0.3s;
+        }
+        
+        /* Topbar Styles */
+        .topbar {
+            height: var(--topbar-height);
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            transition: all 0.3s;
+        }
+        
+        .topbar-menu {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+        
+        .topbar-menu .dropdown-toggle::after {
+            display: none;
+        }
+        
+        .topbar-menu .nav-link {
+            padding: 0 15px;
+            color: var(--secondary-color);
+        }
+        
+        .topbar-menu .nav-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .topbar-menu .nav-link i {
+            font-size: 1.2rem;
+        }
+        
+        .topbar-menu .badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        
+        /* Card Styles */
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            background: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Table Styles */
+        .table th {
+            border-top: none;
+            font-weight: 600;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .table td {
+            vertical-align: middle;
+        }
+        
+        .table .badge {
+            font-weight: 500;
+            padding: 5px 10px;
+        }
+        
+        /* Status Badges */
+        .badge-primary-light {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .badge-success-light {
+            background-color: rgba(25, 135, 84, 0.1);
+            color: var(--success-color);
+        }
+        
+        .badge-warning-light {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .badge-danger-light {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 3px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                left: -var(--sidebar-width);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .topbar {
+                left: 0;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content.active {
+                margin-left: var(--sidebar-width);
+            }
+            
+            .topbar.active {
+                left: var(--sidebar-width);
+            }
+        }
+        
+        /* Toggle Button */
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            cursor: pointer;
+            margin-right: 15px;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        /* Tab Navigation */
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            padding: 10px 20px;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            background: transparent;
+        }
+        
+        /* Order Status Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 2px;
+            background: #dee2e6;
+        }
+        
+        .timeline-step {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-icon {
+            position: absolute;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 1;
+        }
+        
+        .timeline-content {
+            padding-left: 20px;
+        }
+        
+        /* Customer Info Card */
+        .customer-card {
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        /* Order Summary */
+        .order-summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        
+        .order-summary-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>ShopEasy</h3>
+            <p class="text-muted mb-0">Admin Dashboard</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="dashboard.html">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="#productsSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-box-open"></i> Products <i class="fas fa-angle-down float-end mt-1"></i>
+                </a>
+                <ul id="productsSubmenu" class="collapse">
+                    <li><a href="admin-products.html">All Products</a></li>
+                    <li><a href="admin-add-product.html">Add New</a></li>
+                    <li><a href="admin-categories.html">Categories</a></li>
+                    <li><a href="admin-inventory.html">Inventory</a></li>
+                </ul>
+            </li>
+            <li class="active">
+                <a href="#ordersSubmenu" data-bs-toggle="collapse" class="active">
+                    <i class="fas fa-shopping-cart"></i> Orders <i class="fas fa-angle-down float-end mt-1"></i>
+                </a>
+                <ul id="ordersSubmenu" class="collapse show">
+                    <li><a href="#" class="active">All Orders</a></li>
+                    <li><a href="#">Pending</a></li>
+                    <li><a href="#">Processing</a></li>
+                    <li><a href="#">Completed</a></li>
+                    <li><a href="#">Cancelled</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#customersSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-users"></i> Customers
+                </a>
+                <ul id="customersSubmenu" class="collapse">
+                    <li><a href="#">All Customers</a></li>
+                    <li><a href="#">Add New</a></li>
+                    <li><a href="#">Customer Groups</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#reportsSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </a>
+                <ul id="reportsSubmenu" class="collapse">
+                    <li><a href="#">Sales</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Customers</a></li>
+                    <li><a href="#">Taxes</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#marketingSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-bullhorn"></i> Marketing
+                </a>
+                <ul id="marketingSubmenu" class="collapse">
+                    <li><a href="#">Coupons</a></li>
+                    <li><a href="#">Email Campaigns</a></li>
+                    <li><a href="#">Banners</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-comments"></i> Reviews
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-blog"></i> Blog
+                </a>
+            </li>
+            <li>
+                <a href="#settingsSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <ul id="settingsSubmenu" class="collapse">
+                    <li><a href="#">General</a></li>
+                    <li><a href="#">Payment</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Tax</a></li>
+                    <li><a href="#">Users</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Topbar -->
+        <nav class="topbar">
+            <button class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="topbar-menu">
+                <a href="#" class="nav-link position-relative">
+                    <i class="fas fa-envelope"></i>
+                    <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">3</span>
+                </a>
+                <a href="#" class="nav-link position-relative">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">7</span>
+                </a>
+                <div class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown">
+                        <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="User">
+                        <span class="d-none d-md-inline">Admin User</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-envelope me-2"></i> Messages</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <div class="container-fluid p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="mb-0">Order Management</h4>
+                <div>
+                    <button class="btn btn-outline-primary me-2">
+                        <i class="fas fa-file-export me-2"></i>Export
+                    </button>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Create Order
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Order Tabs -->
+            <ul class="nav nav-tabs mb-4" id="orderTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab">All Orders</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab">Pending <span class="badge bg-warning ms-1">5</span></button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="processing-tab" data-bs-toggle="tab" data-bs-target="#processing" type="button" role="tab">Processing <span class="badge bg-primary ms-1">3</span></button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab">Completed</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab">Cancelled</button>
+                </li>
+            </ul>
+            
+            <!-- Filters and Search -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label for="searchOrder" class="form-label">Search Orders</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="searchOrder" placeholder="Order ID, customer...">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="orderDate" class="form-label">Date</label>
+                            <select class="form-select" id="orderDate">
+                                <option selected>All Dates</option>
+                                <option>Today</option>
+                                <option>Yesterday</option>
+                                <option>Last 7 Days</option>
+                                <option>Last 30 Days</option>
+                                <option>This Month</option>
+                                <option>Custom Range</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="orderTotal" class="form-label">Total</label>
+                            <select class="form-select" id="orderTotal">
+                                <option selected>Any Amount</option>
+                                <option>$0 - $50</option>
+                                <option>$50 - $100</option>
+                                <option>$100 - $500</option>
+                                <option>$500+</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="paymentMethod" class="form-label">Payment</label>
+                            <select class="form-select" id="paymentMethod">
+                                <option selected>All Methods</option>
+                                <option>Credit Card</option>
+                                <option>PayPal</option>
+                                <option>Bank Transfer</option>
+                                <option>Cash on Delivery</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button class="btn btn-outline-secondary me-2 w-100">
+                                <i class="fas fa-filter me-2"></i>Filter
+                            </button>
+                            <button class="btn btn-outline-danger w-auto">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Orders Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Recent Orders</h5>
+                    <div class="d-flex align-items-center">
+                        <span class="me-3">Show:</span>
+                        <select class="form-select form-select-sm w-auto">
+                            <option>10</option>
+                            <option selected>25</option>
+                            <option>50</option>
+                            <option>100</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="50px">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="selectAllOrders">
+                                        </div>
+                                    </th>
+                                    <th>Order ID</th>
+                                    <th>Date</th>
+                                    <th>Customer</th>
+                                    <th>Total</th>
+                                    <th>Payment</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="text-primary fw-bold">#SH12548</a>
+                                    </td>
+                                    <td>Jun 15, 2023</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="Customer">
+                                            <span>John Smith</span>
+                                        </div>
+                                    </td>
+                                    <td>$149.99</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fab fa-cc-visa me-1"></i> Visa
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">Completed</span>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="text-primary fw-bold">#SH12547</a>
+                                    </td>
+                                    <td>Jun 14, 2023</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="Customer">
+                                            <span>Sarah Johnson</span>
+                                        </div>
+                                    </td>
+                                    <td>$89.99</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fab fa-paypal me-1"></i> PayPal
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-primary">Processing</span>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="text-primary fw-bold">#SH12546</a>
+                                    </td>
+                                    <td>Jun 14, 2023</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="Customer">
+                                            <span>Michael Brown</span>
+                                        </div>
+                                    </td>
+                                    <td>$279.97</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fas fa-credit-card me-1"></i> Credit Card
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-primary">Processing</span>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="text-primary fw-bold">#SH12545</a>
+                                    </td>
+                                    <td>Jun 13, 2023</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="Customer">
+                                            <span>Emily Davis</span>
+                                        </div>
+                                    </td>
+                                    <td>$199.99</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fab fa-cc-mastercard me-1"></i> Mastercard
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-warning">Pending</span>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="text-primary fw-bold">#SH12544</a>
+                                    </td>
+                                    <td>Jun 12, 2023</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="Customer">
+                                            <span>Robert Wilson</span>
+                                        </div>
+                                    </td>
+                                    <td>$59.99</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fas fa-money-bill-wave me-1"></i> Cash on Delivery
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-danger">Cancelled</span>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="text-primary fw-bold">#SH12543</a>
+                                    </td>
+                                    <td>Jun 11, 2023</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="Customer">
+                                            <span>Jennifer Lee</span>
+                                        </div>
+                                    </td>
+                                    <td>$129.99</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fab fa-cc-visa me-1"></i> Visa
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">Completed</span>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="text-primary fw-bold">#SH12542</a>
+                                    </td>
+                                    <td>Jun 10, 2023</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="Customer">
+                                            <span>David Thompson</span>
+                                        </div>
+                                    </td>
+                                    <td>$349.99</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fab fa-cc-amex me-1"></i> American Express
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-primary">Processing</span>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="text-primary fw-bold">#SH12541</a>
+                                    </td>
+                                    <td>Jun 9, 2023</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="Customer">
+                                            <span>Lisa Martinez</span>
+                                        </div>
+                                    </td>
+                                    <td>$79.99</td>
+                                    <td>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fab fa-paypal me-1"></i> PayPal
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-warning">Pending</span>
+                                    </td>
+                                    <td>
+                                        <a href="admin-order-detail.html" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <nav aria-label="Order pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="card-footer bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <select class="form-select form-select-sm w-auto d-inline-block me-2">
+                                <option>Bulk Actions</option>
+                                <option>Process Selected</option>
+                                <option>Complete Selected</option>
+                                <option>Cancel Selected</option>
+                                <option>Export Selected</option>
+                            </select>
+                            <button class="btn btn-sm btn-outline-secondary">Apply</button>
+                        </div>
+                        <div>
+                            <span class="text-muted me-2">Showing 1 to 8 of 24 orders</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Toggle Sidebar
+        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.querySelector('.main-content').classList.toggle('active');
+            document.querySelector('.topbar').classList.toggle('active');
+        });
+        
+        // Select All Checkbox
+        document.getElementById('selectAllOrders').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('tbody .form-check-input');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+        
+        // Initialize order status change functionality
+        document.querySelectorAll('.order-status-select').forEach(select => {
+            select.addEventListener('change', function() {
+                const orderId = this.getAttribute('data-order-id');
+                const newStatus = this.value;
+                
+                // Here you would typically make an AJAX call to update the order status
+                console.log(`Changing order ${orderId} to status: ${newStatus}`);
+                
+                // Update the status badge visually
+                const statusBadge = this.closest('tr').querySelector('.order-status-badge');
+                statusBadge.className = 'order-status-badge badge bg-' + getStatusColor(newStatus);
+                statusBadge.textContent = getStatusText(newStatus);
+            });
+        });
+        
+        function getStatusColor(status) {
+            const statusColors = {
+                'pending': 'warning',
+                'processing': 'primary',
+                'completed': 'success',
+                'cancelled': 'danger',
+                'refunded': 'info'
+            };
+            return statusColors[status] || 'secondary';
+        }
+        
+        function getStatusText(status) {
+            const statusTexts = {
+                'pending': 'Pending',
+                'processing': 'Processing',
+                'completed': 'Completed',
+                'cancelled': 'Cancelled',
+                'refunded': 'Refunded'
+            };
+            return statusTexts[status] || status;
+        }
+    </script>
+</body>
+</html>

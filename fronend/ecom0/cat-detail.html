@@ -3,13 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products - ShopEasy</title>
+    <title>Electronics - ShopEasy</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Product card styles */
+        .category-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://via.placeholder.com/1920x400?text=Electronics');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+        
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        
         .product-card {
             transition: transform 0.3s;
             margin-bottom: 20px;
@@ -27,45 +43,37 @@
             padding: 20px;
         }
         
-        /* List view styles */
-        .list-view .product-card {
-            flex-direction: row;
-            max-width: 100%;
-        }
-        
-        .list-view .product-card .card-img-top {
-            width: 200px;
-            height: 200px;
-            padding: 20px;
-        }
-        
-        .list-view .product-card .card-body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        /* Ensure proper spacing in list view */
-        .list-view .col-md-6, 
-        .list-view .col-lg-4 {
-            flex: 0 0 100%;
-            max-width: 100%;
-        }
-        
-        /* Filter section styles */
-        .filter-section {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 30px;
-        }
-        
         .price-range-slider {
             width: 100%;
         }
         
         .view-options .btn {
             padding: 6px 12px;
+        }
+        
+        .subcategory-card {
+            transition: all 0.3s;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .subcategory-card:hover {
+            border-color: #0d6efd;
+            background-color: #f8f9fa;
+        }
+        
+        .subcategory-card img {
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+        
+        .breadcrumb {
+            background-color: transparent;
+            padding: 0;
         }
     </style>
 </head>
@@ -83,16 +91,16 @@
                         <a class="nav-link" href="index.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="products.html">Products</a>
+                        <a class="nav-link" href="products.html">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="cateories.html">Categories</a>
+                        <a class="nav-link active" href="categories.html">Categories</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="about.html">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact</a>
+                        <a class="nav-link" href="#">Contact</a>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -116,52 +124,78 @@
         </div>
     </nav>
 
-    <!-- Page Header -->
-    <section class="py-5 bg-light">
+    <!-- Category Header -->
+    <section class="category-header text-center">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h1>All Products</h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Products</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+            <h1 class="display-4 fw-bold mb-3">Electronics</h1>
+            <p class="lead mb-4">Discover the latest gadgets and tech accessories</p>
+            <a href="#products" class="btn btn-primary btn-lg px-4 me-2">Shop Now</a>
         </div>
     </section>
 
     <!-- Main Content -->
-    <section class="py-5">
+    <section class="py-3">
         <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="categories.html">Categories</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Electronics</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <section class="py-3" id="products">
+        <div class="container">
+            <!-- Subcategories -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h3 class="mb-4">Shop by Subcategory</h3>
+                </div>
+                
+                <div class="col-6 col-md-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="subcategory-card">
+                            <img src="images/img/09.jpg?text=Headphones" alt="Headphones">
+                            <h5>Headphones</h5>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="col-6 col-md-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="subcategory-card">
+                            <img src="images/img/09.jpg?text=Smartphones" alt="Smartphones">
+                            <h5>Smartphones</h5>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="col-6 col-md-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="subcategory-card">
+                            <img src="images/img/09.jpg?text=Laptops" alt="Laptops">
+                            <h5>Laptops</h5>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="col-6 col-md-3">
+                    <a href="#" class="text-decoration-none">
+                        <div class="subcategory-card">
+                            <img src="images/img/09.jpg?text=Cameras" alt="Cameras">
+                            <h5>Cameras</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
             <div class="row">
                 <!-- Filters Sidebar -->
                 <div class="col-lg-3">
                     <div class="filter-section">
                         <h5 class="mb-4">Filter Products</h5>
-                        
-                        <!-- Categories -->
-                        <div class="mb-4">
-                            <h6>Categories</h6>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="cat1" checked>
-                                <label class="form-check-label" for="cat1">Electronics</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="cat2">
-                                <label class="form-check-label" for="cat2">Fashion</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="cat3">
-                                <label class="form-check-label" for="cat3">Home & Garden</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="cat4">
-                                <label class="form-check-label" for="cat4">Sports</label>
-                            </div>
-                        </div>
                         
                         <!-- Price Range -->
                         <div class="mb-4">
@@ -180,11 +214,11 @@
                         <div class="mb-4">
                             <h6>Brands</h6>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="brand1">
+                                <input class="form-check-input" type="checkbox" id="brand1" checked>
                                 <label class="form-check-label" for="brand1">Apple</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="brand2">
+                                <input class="form-check-input" type="checkbox" id="brand2" checked>
                                 <label class="form-check-label" for="brand2">Samsung</label>
                             </div>
                             <div class="form-check">
@@ -193,7 +227,11 @@
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="brand4">
-                                <label class="form-check-label" for="brand4">Nike</label>
+                                <label class="form-check-label" for="brand4">Bose</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="brand5">
+                                <label class="form-check-label" for="brand5">LG</label>
                             </div>
                         </div>
                         
@@ -240,6 +278,15 @@
                         
                         <button class="btn btn-danger w-100">Reset All Filters</button>
                     </div>
+                    
+                    <!-- Category Description -->
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title">About Electronics</h5>
+                            <p class="card-text">Discover the latest in consumer electronics including smartphones, laptops, headphones, and more from top brands at competitive prices.</p>
+                            <a href="#" class="btn btn-sm btn-outline-primary">Learn More</a>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Products Listing -->
@@ -259,21 +306,24 @@
                             </div>
                         </div>
                         <div class="col-md-6 text-md-end">
-                            <div class="view-options btn-group" role="group">
-                                <button type="button" class="btn btn-outline-secondary active grid-view-btn">
-                                    <i class="fas fa-th-large"></i> Grid
-                                </button>
-                                <button type="button" class="btn btn-outline-secondary list-view-btn">
-                                    <i class="fas fa-list"></i> List
-                                </button>
+                            <div class="d-flex justify-content-end align-items-center">
+                                <span class="me-2">Showing 1-12 of 48 products</span>
+                                <div class="view-options btn-group" role="group">
+                                    <button type="button" class="btn btn-outline-secondary active">
+                                        <i class="fas fa-th-large"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary">
+                                        <i class="fas fa-list"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Products Grid -->
-                    <div class="row" id="productsContainer">
+                    <div class="row">
                         <!-- Product 1 -->
-                        <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="col-md-6 col-lg-4">
                             <div class="card product-card h-100">
                                 <span class="badge bg-danger position-absolute top-0 start-0 m-2">Sale</span>
                                 <img src="images/img/09.jpg" class="card-img-top" alt="Product 1">
@@ -301,7 +351,7 @@
                         </div>
                         
                         <!-- Product 2 -->
-                        <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="col-md-6 col-lg-4">
                             <div class="card product-card h-100">
                                 <img src="images/img/09.jpg" class="card-img-top" alt="Product 2">
                                 <div class="card-body">
@@ -327,7 +377,7 @@
                         </div>
                         
                         <!-- Product 3 -->
-                        <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="col-md-6 col-lg-4">
                             <div class="card product-card h-100">
                                 <span class="badge bg-success position-absolute top-0 start-0 m-2">New</span>
                                 <img src="images/img/09.jpg" class="card-img-top" alt="Product 3">
@@ -355,11 +405,11 @@
                         </div>
                         
                         <!-- Product 4 -->
-                        <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="col-md-6 col-lg-4">
                             <div class="card product-card h-100">
                                 <img src="images/img/09.jpg" class="card-img-top" alt="Product 4">
                                 <div class="card-body">
-                                    <h5 class="card-title">Laptop Backpack</h5>
+                                    <h5 class="card-title">Wireless Earbuds Pro</h5>
                                     <div class="mb-2">
                                         <span class="text-warning">
                                             <i class="fas fa-star"></i>
@@ -371,7 +421,7 @@
                                         <span class="text-muted">(27 reviews)</span>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h6 class="mb-0">$49.99</h6>
+                                        <h6 class="mb-0">$129.99</h6>
                                     </div>
                                 </div>
                                 <div class="card-footer bg-white">
@@ -381,12 +431,12 @@
                         </div>
                         
                         <!-- Product 5 -->
-                        <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="col-md-6 col-lg-4">
                             <div class="card product-card h-100">
                                 <span class="badge bg-danger position-absolute top-0 start-0 m-2">-30%</span>
                                 <img src="images/img/09.jpg" class="card-img-top" alt="Product 5">
                                 <div class="card-body">
-                                    <h5 class="card-title">Wireless Earbuds</h5>
+                                    <h5 class="card-title">4K Smart TV</h5>
                                     <div class="mb-2">
                                         <span class="text-warning">
                                             <i class="fas fa-star"></i>
@@ -398,8 +448,8 @@
                                         <span class="text-muted">(64 reviews)</span>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h6 class="mb-0">$69.99</h6>
-                                        <del class="text-muted">$99.99</del>
+                                        <h6 class="mb-0">$499.99</h6>
+                                        <del class="text-muted">$699.99</del>
                                     </div>
                                 </div>
                                 <div class="card-footer bg-white">
@@ -409,11 +459,11 @@
                         </div>
                         
                         <!-- Product 6 -->
-                        <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="col-md-6 col-lg-4">
                             <div class="card product-card h-100">
                                 <img src="images/img/09.jpg" class="card-img-top" alt="Product 6">
                                 <div class="card-body">
-                                    <h5 class="card-title">Fitness Tracker</h5>
+                                    <h5 class="card-title">Gaming Laptop</h5>
                                     <div class="mb-2">
                                         <span class="text-warning">
                                             <i class="fas fa-star"></i>
@@ -425,7 +475,7 @@
                                         <span class="text-muted">(38 reviews)</span>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h6 class="mb-0">$59.99</h6>
+                                        <h6 class="mb-0">$999.99</h6>
                                     </div>
                                 </div>
                                 <div class="card-footer bg-white">
@@ -444,11 +494,40 @@
                             <li class="page-item active"><a class="page-link" href="#">1</a></li>
                             <li class="page-item"><a class="page-link" href="#">2</a></li>
                             <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
                             <li class="page-item">
                                 <a class="page-link" href="#">Next</a>
                             </li>
                         </ul>
                     </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Brands -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="mb-4 text-center">Shop by Brand</h3>
+                    <div class="row justify-content-center">
+                        <div class="col-6 col-md-2 text-center mb-4">
+                            <img src="images/img/09.jpg?text=Apple" alt="Apple" class="img-fluid">
+                        </div>
+                        <div class="col-6 col-md-2 text-center mb-4">
+                            <img src="images/img/09.jpg?text=Samsung" alt="Samsung" class="img-fluid">
+                        </div>
+                        <div class="col-6 col-md-2 text-center mb-4">
+                            <img src="images/img/09.jpg?text=Sony" alt="Sony" class="img-fluid">
+                        </div>
+                        <div class="col-6 col-md-2 text-center mb-4">
+                            <img src="images/img/09.jpg?text=Bose" alt="Bose" class="img-fluid">
+                        </div>
+                        <div class="col-6 col-md-2 text-center mb-4">
+                            <img src="images/img/09.jpg?text=LG" alt="LG" class="img-fluid">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -473,9 +552,9 @@
                     <ul class="list-unstyled">
                         <li><a href="index.html" class="text-white">Home</a></li>
                         <li><a href="products.html" class="text-white">Products</a></li>
+                        <li><a href="categories.html" class="text-white">Categories</a></li>
                         <li><a href="#" class="text-white">About Us</a></li>
                         <li><a href="#" class="text-white">Contact</a></li>
-                        <li><a href="#" class="text-white">FAQ</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3 mb-4">
@@ -511,57 +590,5 @@
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Custom JS for view toggle -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const gridViewBtn = document.querySelector('.grid-view-btn');
-            const listViewBtn = document.querySelector('.list-view-btn');
-            const productsContainer = document.getElementById('productsContainer');
-            const productCards = document.querySelectorAll('.product-card');
-            const productColumns = document.querySelectorAll('#productsContainer > div');
-            
-            // Grid view by default
-            productsContainer.classList.remove('list-view');
-            
-            gridViewBtn.addEventListener('click', function() {
-                // Remove list view classes
-                productsContainer.classList.remove('list-view');
-                
-                // Reset all columns to their original classes
-                productColumns.forEach(col => {
-                    col.className = 'col-md-6 col-lg-4 mb-4';
-                });
-                
-                // Reset all cards to vertical layout
-                productCards.forEach(card => {
-                    card.style.flexDirection = 'column';
-                });
-                
-                // Update active button state
-                gridViewBtn.classList.add('active');
-                listViewBtn.classList.remove('active');
-            });
-            
-            listViewBtn.addEventListener('click', function() {
-                // Add list view class to container
-                productsContainer.classList.add('list-view');
-                
-                // Update all columns to full width
-                productColumns.forEach(col => {
-                    col.className = 'col-12 mb-4';
-                });
-                
-                // Change all cards to horizontal layout
-                productCards.forEach(card => {
-                    card.style.flexDirection = 'row';
-                });
-                
-                // Update active button state
-                listViewBtn.classList.add('active');
-                gridViewBtn.classList.remove('active');
-            });
-        });
-    </script>
 </body>
 </html>

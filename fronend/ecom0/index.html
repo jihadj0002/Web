@@ -22,23 +22,30 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
+                        <a class="nav-link active" href="index.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="D:\Code\Python\New_Learning\DJango\Web\fronend\ecom0\shop.html">Products</a>
+                        <a class="nav-link" href="shop.html">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Categories</a>
+                        <a class="nav-link" href="cateories.html">Categories</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="about.html">About</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <a href="#" class="btn btn-outline-light me-2"><i class="fas fa-search"></i></a>
+                    <form class="d-flex me-2" action="search.html" method="GET">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search..." name="q" aria-label="Search">
+                            <button class="btn btn-outline-light" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
                     <a href="#" class="btn btn-outline-light me-2"><i class="fas fa-user"></i></a>
                     <a href="#" class="btn btn-outline-light position-relative">
                         <i class="fas fa-shopping-cart"></i>

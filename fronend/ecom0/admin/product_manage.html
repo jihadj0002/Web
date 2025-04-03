@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management | ShopEasy Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Dropzone CSS -->
+    <link href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --topbar-height: 60px;
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #0dcaf0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            overflow-x: hidden;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: var(--dark-color);
+            color: white;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        .sidebar-menu {
+            padding: 0;
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            position: relative;
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: #adb5bd;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu li a:hover,
+        .sidebar-menu li a.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-menu li a .badge {
+            float: right;
+        }
+        
+        .sidebar-menu li ul {
+            list-style: none;
+            padding-left: 40px;
+            display: none;
+        }
+        
+        .sidebar-menu li.active ul {
+            display: block;
+        }
+        
+        .sidebar-menu li ul li a {
+            padding: 8px 15px;
+            font-size: 0.9em;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding-top: var(--topbar-height);
+            min-height: 100vh;
+            transition: all 0.3s;
+        }
+        
+        /* Topbar Styles */
+        .topbar {
+            height: var(--topbar-height);
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            transition: all 0.3s;
+        }
+        
+        .topbar-menu {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+        
+        .topbar-menu .dropdown-toggle::after {
+            display: none;
+        }
+        
+        .topbar-menu .nav-link {
+            padding: 0 15px;
+            color: var(--secondary-color);
+        }
+        
+        .topbar-menu .nav-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .topbar-menu .nav-link i {
+            font-size: 1.2rem;
+        }
+        
+        .topbar-menu .badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        
+        /* Card Styles */
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            background: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Table Styles */
+        .table th {
+            border-top: none;
+            font-weight: 600;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .table td {
+            vertical-align: middle;
+        }
+        
+        .table .badge {
+            font-weight: 500;
+            padding: 5px 10px;
+        }
+        
+        /* Product Image Thumbnail */
+        .product-thumb {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        /* Status Badges */
+        .badge-success-light {
+            background-color: rgba(25, 135, 84, 0.1);
+            color: var(--success-color);
+        }
+        
+        .badge-warning-light {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .badge-danger-light {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 3px;
+        }
+        
+        /* Dropzone Styles */
+        .dropzone {
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            background: #f8f9fa;
+            min-height: 150px;
+            padding: 20px;
+        }
+        
+        .dz-preview {
+            margin: 10px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                left: -var(--sidebar-width);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .topbar {
+                left: 0;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content.active {
+                margin-left: var(--sidebar-width);
+            }
+            
+            .topbar.active {
+                left: var(--sidebar-width);
+            }
+        }
+        
+        /* Toggle Button */
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            cursor: pointer;
+            margin-right: 15px;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        /* Tab Navigation */
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            padding: 10px 20px;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            background: transparent;
+        }
+        
+        /* Form Styles */
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 10px 15px;
+        }
+        
+        /* Editor Styles */
+        .editor-toolbar {
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .CodeMirror {
+            border-radius: 0 0 8px 8px;
+            height: 200px;
+        }
+        
+        /* Variant Table */
+        .variant-table th {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>ShopEasy</h3>
+            <p class="text-muted mb-0">Admin Dashboard</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="dashboard.html">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+            </li>
+            <li class="active">
+                <a href="#productsSubmenu" data-bs-toggle="collapse" class="active">
+                    <i class="fas fa-box-open"></i> Products <i class="fas fa-angle-down float-end mt-1"></i>
+                </a>
+                <ul id="productsSubmenu" class="collapse show">
+                    <li><a href="#" class="active">All Products</a></li>
+                    <li><a href="admin-add-product.html">Add New</a></li>
+                    <li><a href="admin-categories.html">Categories</a></li>
+                    <li><a href="admin-inventory.html">Inventory</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#ordersSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-shopping-cart"></i> Orders <span class="badge bg-warning float-end">5</span>
+                </a>
+                <ul id="ordersSubmenu" class="collapse">
+                    <li><a href="#">All Orders</a></li>
+                    <li><a href="#">Pending</a></li>
+                    <li><a href="#">Processing</a></li>
+                    <li><a href="#">Completed</a></li>
+                    <li><a href="#">Cancelled</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#customersSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-users"></i> Customers
+                </a>
+                <ul id="customersSubmenu" class="collapse">
+                    <li><a href="#">All Customers</a></li>
+                    <li><a href="#">Add New</a></li>
+                    <li><a href="#">Customer Groups</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#reportsSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </a>
+                <ul id="reportsSubmenu" class="collapse">
+                    <li><a href="#">Sales</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Customers</a></li>
+                    <li><a href="#">Taxes</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#marketingSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-bullhorn"></i> Marketing
+                </a>
+                <ul id="marketingSubmenu" class="collapse">
+                    <li><a href="#">Coupons</a></li>
+                    <li><a href="#">Email Campaigns</a></li>
+                    <li><a href="#">Banners</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-comments"></i> Reviews
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-blog"></i> Blog
+                </a>
+            </li>
+            <li>
+                <a href="#settingsSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <ul id="settingsSubmenu" class="collapse">
+                    <li><a href="#">General</a></li>
+                    <li><a href="#">Payment</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Tax</a></li>
+                    <li><a href="#">Users</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Topbar -->
+        <nav class="topbar">
+            <button class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="topbar-menu">
+                <a href="#" class="nav-link position-relative">
+                    <i class="fas fa-envelope"></i>
+                    <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">3</span>
+                </a>
+                <a href="#" class="nav-link position-relative">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">7</span>
+                </a>
+                <div class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown">
+                        <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="User">
+                        <span class="d-none d-md-inline">Admin User</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-envelope me-2"></i> Messages</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <div class="container-fluid p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="mb-0">Product Management</h4>
+                <a href="admin-add-product.html" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Add Product
+                </a>
+            </div>
+            
+            <!-- Filters and Search -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="searchProduct" class="form-label">Search Products</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="searchProduct" placeholder="Product name, SKU...">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="productCategory" class="form-label">Category</label>
+                            <select class="form-select" id="productCategory">
+                                <option selected>All Categories</option>
+                                <option>Electronics</option>
+                                <option>Fashion</option>
+                                <option>Home & Garden</option>
+                                <option>Accessories</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="productStatus" class="form-label">Status</label>
+                            <select class="form-select" id="productStatus">
+                                <option selected>All Statuses</option>
+                                <option>Published</option>
+                                <option>Draft</option>
+                                <option>Out of Stock</option>
+                                <option>Archived</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button class="btn btn-outline-secondary w-100">
+                                <i class="fas fa-filter me-2"></i>Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Products Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">All Products</h5>
+                    <div class="d-flex align-items-center">
+                        <span class="me-3">Show:</span>
+                        <select class="form-select form-select-sm w-auto">
+                            <option>10</option>
+                            <option selected>25</option>
+                            <option>50</option>
+                            <option>100</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th width="50px">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="selectAll">
+                                        </div>
+                                    </th>
+                                    <th>Product</th>
+                                    <th>SKU</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/60x60" class="product-thumb me-3" alt="Product">
+                                            <div>
+                                                <h6 class="mb-0">SoundMaster Pro X3 Wireless Headphones</h6>
+                                                <small class="text-muted">Updated: Jun 15, 2023</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>WH-2023</td>
+                                    <td>$99.99</td>
+                                    <td>
+                                        <span class="badge bg-success">In Stock (42)</span>
+                                    </td>
+                                    <td>Electronics</td>
+                                    <td>
+                                        <span class="badge bg-success">Published</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="admin-edit-product.html" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/60x60" class="product-thumb me-3" alt="Product">
+                                            <div>
+                                                <h6 class="mb-0">AudioPro Elite 500 Smart Watch</h6>
+                                                <small class="text-muted">Updated: Jun 14, 2023</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>SW-2023</td>
+                                    <td>$149.99</td>
+                                    <td>
+                                        <span class="badge bg-warning">Low Stock (5)</span>
+                                    </td>
+                                    <td>Electronics</td>
+                                    <td>
+                                        <span class="badge bg-success">Published</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="admin-edit-product.html" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/60x60" class="product-thumb me-3" alt="Product">
+                                            <div>
+                                                <h6 class="mb-0">BeatWave Solo Bluetooth Speaker</h6>
+                                                <small class="text-muted">Updated: Jun 12, 2023</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>BS-2023</td>
+                                    <td>$79.99</td>
+                                    <td>
+                                        <span class="badge bg-danger">Out of Stock</span>
+                                    </td>
+                                    <td>Electronics</td>
+                                    <td>
+                                        <span class="badge bg-secondary">Draft</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="admin-edit-product.html" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/60x60" class="product-thumb me-3" alt="Product">
+                                            <div>
+                                                <h6 class="mb-0">Laptop Backpack Pro</h6>
+                                                <small class="text-muted">Updated: Jun 10, 2023</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>LB-2023</td>
+                                    <td>$49.99</td>
+                                    <td>
+                                        <span class="badge bg-success">In Stock (87)</span>
+                                    </td>
+                                    <td>Accessories</td>
+                                    <td>
+                                        <span class="badge bg-success">Published</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="admin-edit-product.html" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/60x60" class="product-thumb me-3" alt="Product">
+                                            <div>
+                                                <h6 class="mb-0">Wireless Earbuds Pro</h6>
+                                                <small class="text-muted">Updated: Jun 8, 2023</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>WE-2023</td>
+                                    <td>$89.99</td>
+                                    <td>
+                                        <span class="badge bg-success">In Stock (32)</span>
+                                    </td>
+                                    <td>Electronics</td>
+                                    <td>
+                                        <span class="badge bg-success">Published</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="admin-edit-product.html" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/60x60" class="product-thumb me-3" alt="Product">
+                                            <div>
+                                                <h6 class="mb-0">Smart Home Security Camera</h6>
+                                                <small class="text-muted">Updated: Jun 5, 2023</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>SH-2023</td>
+                                    <td>$129.99</td>
+                                    <td>
+                                        <span class="badge bg-success">In Stock (15)</span>
+                                    </td>
+                                    <td>Home & Garden</td>
+                                    <td>
+                                        <span class="badge bg-success">Published</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="admin-edit-product.html" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/60x60" class="product-thumb me-3" alt="Product">
+                                            <div>
+                                                <h6 class="mb-0">Fitness Tracker X5</h6>
+                                                <small class="text-muted">Updated: Jun 3, 2023</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>FT-2023</td>
+                                    <td>$59.99</td>
+                                    <td>
+                                        <span class="badge bg-success">In Stock (28)</span>
+                                    </td>
+                                    <td>Electronics</td>
+                                    <td>
+                                        <span class="badge bg-success">Published</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="admin-edit-product.html" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://via.placeholder.com/60x60" class="product-thumb me-3" alt="Product">
+                                            <div>
+                                                <h6 class="mb-0">Ergonomic Office Chair</h6>
+                                                <small class="text-muted">Updated: May 30, 2023</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>OC-2023</td>
+                                    <td>$199.99</td>
+                                    <td>
+                                        <span class="badge bg-success">In Stock (12)</span>
+                                    </td>
+                                    <td>Home & Garden</td>
+                                    <td>
+                                        <span class="badge bg-success">Published</span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-primary" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="admin-edit-product.html" class="action-btn btn btn-sm btn-outline-secondary" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="#" class="action-btn btn btn-sm btn-outline-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <nav aria-label="Product pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="card-footer bg-white">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <select class="form-select form-select-sm w-auto d-inline-block me-2">
+                                <option>Bulk Actions</option>
+                                <option>Edit</option>
+                                <option>Move to Trash</option>
+                                <option>Export</option>
+                            </select>
+                            <button class="btn btn-sm btn-outline-secondary">Apply</button>
+                        </div>
+                        <div>
+                            <span class="text-muted me-2">Showing 1 to 8 of 24 products</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Dropzone JS -->
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <!-- SimpleMDE Editor -->
+    <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+    
+    <script>
+        // Toggle Sidebar
+        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.querySelector('.main-content').classList.toggle('active');
+            document.querySelector('.topbar').classList.toggle('active');
+        });
+        
+        // Select All Checkbox
+        document.getElementById('selectAll').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('tbody .form-check-input');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+        });
+        
+        // Initialize Dropzone for image uploads
+        Dropzone.autoDiscover = false;
+        const myDropzone = new Dropzone("#productImages", {
+            url: "/file-upload",
+            paramName: "file",
+            maxFilesize: 5,
+            acceptedFiles: "image/*",
+            addRemoveLinks: true,
+            autoProcessQueue: false,
+            dictDefaultMessage: "Drop files here or click to upload",
+            dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
+            dictFileTooBig: "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.",
+            dictInvalidFileType: "You can't upload files of this type.",
+            dictResponseError: "Server responded with {{statusCode}} code.",
+            dictCancelUpload: "Cancel upload",
+            dictUploadCanceled: "Upload canceled.",
+            dictRemoveFile: "Remove file",
+            dictMaxFilesExceeded: "You can not upload any more files."
+        });
+        
+        // Initialize Markdown Editor for product description
+        const easyMDE = new EasyMDE({
+            element: document.getElementById('productDescription'),
+            spellChecker: false,
+            autosave: {
+                enabled: false
+            },
+            placeholder: "Enter detailed product description here...",
+            status: false,
+            toolbar: ["bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list", "|", "link", "image", "|", "preview", "side-by-side", "fullscreen", "|", "guide"]
+        });
+    </script>
+</body>
+</html>

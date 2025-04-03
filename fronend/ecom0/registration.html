@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | ShopEasy</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .register-container {
+            max-width: 600px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .register-hero {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        .form-icon {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e9ecef;
+            border-radius: 50%;
+        }
+        .password-strength {
+            height: 5px;
+            background-color: #e9ecef;
+            margin-top: 5px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .progress-bar-weak {
+            background-color: #dc3545;
+            width: 25%;
+        }
+        .progress-bar-medium {
+            background-color: #fd7e14;
+            width: 50%;
+        }
+        .progress-bar-strong {
+            background-color: #28a745;
+            width: 75%;
+        }
+        .progress-bar-very-strong {
+            background-color: #20c997;
+            width: 100%;
+        }
+        .terms-text {
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (same as index.html) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">ShopEasy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="shop.html">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cateories.html">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <form class="d-flex me-2" action="search.html" method="GET">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search..." name="q" aria-label="Search">
+                            <button class="btn btn-outline-light" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <a href="login.html" class="btn btn-outline-light me-2"><i class="fas fa-user"></i> Login</a>
+                    <a href="#" class="btn btn-outline-light position-relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            0
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Registration Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="register-container bg-white overflow-hidden">
+                <!-- Hero Header -->
+                <div class="register-hero p-4 text-center">
+                    <h2><i class="fas fa-user-plus me-2"></i>Create Your Account</h2>
+                    <p class="mb-0">Join ShopEasy to enjoy personalized shopping</p>
+                </div>
+                
+                <!-- Registration Form -->
+                <div class="p-4">
+                    <form id="registrationForm">
+                        <div class="row g-3">
+                            <!-- First Name -->
+                            <div class="col-md-6">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input type="text" class="form-control" id="firstName" placeholder="John" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Last Name -->
+                            <div class="col-md-6">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input type="text" class="form-control" id="lastName" placeholder="Doe" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Email -->
+                            <div class="col-12">
+                                <label for="email" class="form-label">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control" id="email" placeholder="your@email.com" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Password -->
+                            <div class="col-12">
+                                <label for="password" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    <input type="password" class="form-control" id="password" placeholder="••••••••" required>
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength mt-1">
+                                    <div class="password-strength-bar" id="passwordStrength"></div>
+                                </div>
+                                <small class="text-muted d-block mt-1">Use 8 or more characters with a mix of letters, numbers & symbols</small>
+                            </div>
+                            
+                            <!-- Confirm Password -->
+                            <div class="col-12">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    <input type="password" class="form-control" id="confirmPassword" placeholder="••••••••" required>
+                                    <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div id="passwordMatch" class="mt-1"></div>
+                            </div>
+                            
+                            <!-- Phone Number -->
+                            <div class="col-12">
+                                <label for="phone" class="form-label">Phone Number (Optional)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                    <input type="tel" class="form-control" id="phone" placeholder="+1 (123) 456-7890">
+                                </div>
+                            </div>
+                            
+                            <!-- Birthday -->
+                            <div class="col-md-6">
+                                <label for="birthday" class="form-label">Birthday (Optional)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-birthday-cake"></i></span>
+                                    <input type="date" class="form-control" id="birthday">
+                                </div>
+                            </div>
+                            
+                            <!-- Gender -->
+                            <div class="col-md-6">
+                                <label class="form-label">Gender (Optional)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-venus-mars"></i></span>
+                                    <select class="form-select" id="gender">
+                                        <option value="" selected>Select gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                        <option value="prefer-not-to-say">Prefer not to say</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Terms and Conditions -->
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="terms" required>
+                                    <label class="form-check-label terms-text" for="terms">
+                                        I agree to the <a href="#" class="text-decoration-none">Terms of Service</a> and <a href="#" class="text-decoration-none">Privacy Policy</a>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Newsletter -->
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="newsletter" checked>
+                                    <label class="form-check-label terms-text" for="newsletter">
+                                        Subscribe to our newsletter for updates and promotions
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Submit Button -->
+                            <div class="col-12 mt-3">
+                                <button type="submit" class="btn btn-primary w-100 py-2">
+                                    <i class="fas fa-user-plus me-2"></i> Create Account
+                                </button>
+                            </div>
+                            
+                            <!-- Login Link -->
+                            <div class="col-12 text-center mt-3">
+                                <p class="mb-0">Already have an account? <a href="login.html" class="text-decoration-none">Log in</a></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (same as index.html) -->
+    <footer class="bg-dark text-white pt-5 pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5>ShopEasy</h5>
+                    <p>Your one-stop shop for all your needs.</p>
+                    <div class="social-icons">
+                        <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-white">Home</a></li>
+                        <li><a href="shop.html" class="text-white">Products</a></li>
+                        <li><a href="about.html" class="text-white">About Us</a></li>
+                        <li><a href="#" class="text-white">Contact</a></li>
+                        <li><a href="#" class="text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Customer Service</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">My Account</a></li>
+                        <li><a href="#" class="text-white">Order Tracking</a></li>
+                        <li><a href="#" class="text-white">Wishlist</a></li>
+                        <li><a href="#" class="text-white">Returns</a></li>
+                        <li><a href="#" class="text-white">Shipping</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Contact Info</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Street, City, Country</li>
+                        <li><i class="fas fa-phone me-2"></i> +1 234 567 890</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@shopeasy.com</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2023 ShopEasy. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <img src="https://via.placeholder.com/200x30" alt="Payment Methods" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const password = document.getElementById('password');
+            const icon = this.querySelector('i');
+            togglePasswordVisibility(password, icon);
+        });
+
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+            const confirmPassword = document.getElementById('confirmPassword');
+            const icon = this.querySelector('i');
+            togglePasswordVisibility(confirmPassword, icon);
+        });
+
+        function togglePasswordVisibility(field, icon) {
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Password strength indicator
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.getElementById('passwordStrength');
+            const strength = checkPasswordStrength(password);
+            
+            // Reset classes
+            strengthBar.className = 'password-strength-bar';
+            
+            // Update strength bar
+            if (password.length === 0) {
+                strengthBar.style.width = '0%';
+            } else {
+                switch(strength) {
+                    case 0:
+                    case 1:
+                        strengthBar.style.width = '25%';
+                        strengthBar.classList.add('progress-bar-weak');
+                        break;
+                    case 2:
+                        strengthBar.style.width = '50%';
+                        strengthBar.classList.add('progress-bar-medium');
+                        break;
+                    case 3:
+                        strengthBar.style.width = '75%';
+                        strengthBar.classList.add('progress-bar-strong');
+                        break;
+                    case 4:
+                        strengthBar.style.width = '100%';
+                        strengthBar.classList.add('progress-bar-very-strong');
+                        break;
+                }
+            }
+        });
+
+        // Check password strength
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            
+            // Length >= 8
+            if (password.length >= 8) strength++;
+            
+            // Contains lowercase letter
+            if (/[a-z]/.test(password)) strength++;
+            
+            // Contains uppercase letter
+            if (/[A-Z]/.test(password)) strength++;
+            
+            // Contains number
+            if (/[0-9]/.test(password)) strength++;
+            
+            // Contains special character
+            if (/[^a-zA-Z0-9]/.test(password)) strength++;
+            
+            return Math.min(strength, 4); // Cap at 4 for our progress bars
+        }
+
+        // Password match verification
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            const matchIndicator = document.getElementById('passwordMatch');
+            
+            if (confirmPassword.length === 0) {
+                matchIndicator.innerHTML = '';
+            } else if (password === confirmPassword) {
+                matchIndicator.innerHTML = '<small class="text-success"><i class="fas fa-check-circle me-1"></i>Passwords match</small>';
+            } else {
+                matchIndicator.innerHTML = '<small class="text-danger"><i class="fas fa-times-circle me-1"></i>Passwords do not match</small>';
+            }
+        });
+
+        // Form submission
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Here you would typically send the form data to your server
+            // For demonstration, we'll just show an alert
+            alert('Registration successful! Redirecting to your account...');
+            
+            // In a real application, you would redirect after successful registration
+            // window.location.href = 'account.html';
+        });
+    </script>
+</body>
+</html>

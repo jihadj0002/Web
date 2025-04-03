@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results | ShopEasy</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .search-header {
+            background-color: #f8f9fa;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        .filter-card {
+            position: sticky;
+            top: 20px;
+        }
+        .product-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 20px;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .price-original {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        .price-discount {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .rating {
+            color: #ffc107;
+        }
+        .pagination .page-item.active .page-link {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .breadcrumb {
+            background-color: transparent;
+            padding: 0;
+        }
+        .sort-dropdown .dropdown-toggle::after {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">ShopEasy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="shop.html">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cateories.html">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <form class="d-flex me-2" action="search.html" method="GET">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search..." name="q" value="Wireless Headphones">
+                            <button class="btn btn-outline-light" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <a href="login.html" class="btn btn-outline-light me-2"><i class="fas fa-user"></i></a>
+                    <a href="#" class="btn btn-outline-light position-relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            3
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Header -->
+    <section class="search-header">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Search Results</li>
+                </ol>
+            </nav>
+            <h1 class="mb-3">Search Results for "Wireless Headphones"</h1>
+            <p class="text-muted">24 results found</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-3">
+        <div class="container">
+            <div class="row">
+                <!-- Filters Column -->
+                <div class="col-lg-3">
+                    <div class="card filter-card mb-4">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">Filters</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Price Range Filter -->
+                            <div class="mb-4">
+                                <h6>Price Range</h6>
+                                <div class="range-slider mt-3">
+                                    <input type="range" class="form-range" min="0" max="500" step="10" id="priceMin" value="50">
+                                    <input type="range" class="form-range" min="0" max="500" step="10" id="priceMax" value="300">
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <span>$<span id="priceMinValue">50</span></span>
+                                        <span>$<span id="priceMaxValue">300</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Category Filter -->
+                            <div class="mb-4">
+                                <h6>Categories</h6>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" id="category1" checked>
+                                    <label class="form-check-label" for="category1">
+                                        Headphones (18)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="category2">
+                                    <label class="form-check-label" for="category2">
+                                        Earphones (6)
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Brand Filter -->
+                            <div class="mb-4">
+                                <h6>Brands</h6>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" id="brand1" checked>
+                                    <label class="form-check-label" for="brand1">
+                                        SoundMaster (8)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="brand2" checked>
+                                    <label class="form-check-label" for="brand2">
+                                        AudioPro (5)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="brand3">
+                                    <label class="form-check-label" for="brand3">
+                                        SonicGear (4)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="brand4">
+                                    <label class="form-check-label" for="brand4">
+                                        BeatWave (7)
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Rating Filter -->
+                            <div class="mb-4">
+                                <h6>Customer Rating</h6>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" id="rating5">
+                                    <label class="form-check-label" for="rating5">
+                                        <span class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </span> & Up (12)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="rating4" checked>
+                                    <label class="form-check-label" for="rating4">
+                                        <span class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </span> & Up (8)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="rating3">
+                                    <label class="form-check-label" for="rating3">
+                                        <span class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </span> & Up (4)
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Availability -->
+                            <div class="mb-3">
+                                <h6>Availability</h6>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" id="inStock" checked>
+                                    <label class="form-check-label" for="inStock">
+                                        In Stock (20)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="outOfStock">
+                                    <label class="form-check-label" for="outOfStock">
+                                        Out of Stock (4)
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary w-100 mt-2">Apply Filters</button>
+                            <button class="btn btn-outline-secondary w-100 mt-2">Reset All</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results Column -->
+                <div class="col-lg-9">
+                    <!-- Sorting Options -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <p class="mb-0 text-muted">Showing 1-12 of 24 results</p>
+                        <div class="d-flex align-items-center">
+                            <span class="me-2">Sort by:</span>
+                            <div class="dropdown sort-dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown">
+                                    Best Match
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                                    <li><a class="dropdown-item active" href="#">Best Match</a></li>
+                                    <li><a class="dropdown-item" href="#">Price: Low to High</a></li>
+                                    <li><a class="dropdown-item" href="#">Price: High to Low</a></li>
+                                    <li><a class="dropdown-item" href="#">Customer Rating</a></li>
+                                    <li><a class="dropdown-item" href="#">Newest Arrivals</a></li>
+                                    <li><a class="dropdown-item" href="#">Most Popular</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product Grid -->
+                    <div class="row">
+                        <!-- Product 1 -->
+                        <div class="col-sm-6 col-md-4 col-lg-4 mb-4">
+                            <div class="card product-card h-100">
+                                <span class="badge bg-danger position-absolute top-0 end-0 m-2">Sale</span>
+                                <img src="images/img/09.jpg" class="card-img-top" alt="Wireless Headphones">
+                                <div class="card-body">
+                                    <h5 class="card-title">SoundMaster Pro X3</h5>
+                                    <div class="mb-2">
+                                        <span class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </span>
+                                        <span class="text-muted">(128)</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">$89.99</h6>
+                                        <del class="price-original">$129.99</del>
+                                    </div>
+                                    <div class="price-discount">31% off</div>
+                                </div>
+                                <div class="card-footer bg-white border-top-0">
+                                    <button class="btn btn-primary w-100">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 2 -->
+                        <div class="col-sm-6 col-md-4 col-lg-4 mb-4">
+                            <div class="card product-card h-100">
+                                <span class="badge bg-success position-absolute top-0 end-0 m-2">New</span>
+                                <img src="images/img/09.jpg" class="card-img-top" alt="Wireless Headphones">
+                                <div class="card-body">
+                                    <h5 class="card-title">AudioPro Elite 500</h5>
+                                    <div class="mb-2">
+                                        <span class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </span>
+                                        <span class="text-muted">(76)</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">$149.99</h6>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-white border-top-0">
+                                    <button class="btn btn-primary w-100">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 3 -->
+                        <div class="col-sm-6 col-md-4 col-lg-4 mb-4">
+                            <div class="card product-card h-100">
+                                <img src="images/img/09.jpg" class="card-img-top" alt="Wireless Headphones">
+                                <div class="card-body">
+                                    <h5 class="card-title">BeatWave Solo</h5>
+                                    <div class="mb-2">
+                                        <span class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </span>
+                                        <span class="text-muted">(215)</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">$79.99</h6>
+                                        <del class="price-original">$99.99</del>
+                                    </div>
+                                    <div class="price-discount">20% off</div>
+                                </div>
+                                <div class="card-footer bg-white border-top-0">
+                                    <button class="btn btn-primary w-100">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 4 -->
+                        <div class="col-sm-6 col-md-4 col-lg-4 mb-4">
+                            <div class="card product-card h-100">
+                                <span class="badge bg-danger position-absolute top-0 end-0 m-2">Sale</span>
+                                <img src="images/img/09.jpg" class="card-img-top" alt="Wireless Headphones">
+                                <div class="card-body">
+                                    <h5 class="card-title">SonicGear Free 2</h5>
+                                    <div class="mb-2">
+                                        <span class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                            <i class="far fa-star"></i>
+                                        </span>
+                                        <span class="text-muted">(42)</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">$59.99</h6>
+                                        <del class="price-original">$79.99</del>
+                                    </div>
+                                    <div class="price-discount">25% off</div>
+                                </div>
+                                <div class="card-footer bg-white border-top-0">
+                                    <button class="btn btn-primary w-100">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 5 -->
+                        <div class="col-sm-6 col-md-4 col-lg-4 mb-4">
+                            <div class="card product-card h-100">
+                                <img src="images/img/09.jpg" class="card-img-top" alt="Wireless Headphones">
+                                <div class="card-body">
+                                    <h5 class="card-title">SoundMaster Buds Pro</h5>
+                                    <div class="mb-2">
+                                        <span class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </span>
+                                        <span class="text-muted">(93)</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">$129.99</h6>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-white border-top-0">
+                                    <button class="btn btn-primary w-100">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 6 -->
+                        <div class="col-sm-6 col-md-4 col-lg-4 mb-4">
+                            <div class="card product-card h-100">
+                                <span class="badge bg-warning position-absolute top-0 end-0 m-2">Limited</span>
+                                <img src="images/img/09.jpg" class="card-img-top" alt="Wireless Headphones">
+                                <div class="card-body">
+                                    <h5 class="card-title">AudioPro Mini Q7</h5>
+                                    <div class="mb-2">
+                                        <span class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </span>
+                                        <span class="text-muted">(187)</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">$199.99</h6>
+                                        <del class="price-original">$249.99</del>
+                                    </div>
+                                    <div class="price-discount">20% off</div>
+                                </div>
+                                <div class="card-footer bg-white border-top-0">
+                                    <button class="btn btn-primary w-100">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <nav aria-label="Search results pagination" class="mt-5">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5>ShopEasy</h5>
+                    <p>Your one-stop shop for all your needs.</p>
+                    <div class="social-icons">
+                        <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-white">Home</a></li>
+                        <li><a href="shop.html" class="text-white">Products</a></li>
+                        <li><a href="about.html" class="text-white">About Us</a></li>
+                        <li><a href="#" class="text-white">Contact</a></li>
+                        <li><a href="#" class="text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Customer Service</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">My Account</a></li>
+                        <li><a href="#" class="text-white">Order Tracking</a></li>
+                        <li><a href="#" class="text-white">Wishlist</a></li>
+                        <li><a href="#" class="text-white">Returns</a></li>
+                        <li><a href="#" class="text-white">Shipping</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Contact Info</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Street, City, Country</li>
+                        <li><i class="fas fa-phone me-2"></i> +1 234 567 890</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@shopeasy.com</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2023 ShopEasy. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <img src="https://via.placeholder.com/200x30" alt="Payment Methods" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Update price range values
+        document.getElementById('priceMin').addEventListener('input', function() {
+            document.getElementById('priceMinValue').textContent = this.value;
+        });
+        
+        document.getElementById('priceMax').addEventListener('input', function() {
+            document.getElementById('priceMaxValue').textContent = this.value;
+        });
+    </script>
+</body>
+</html>

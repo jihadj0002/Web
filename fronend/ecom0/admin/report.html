@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics & Reports | ShopEasy Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --topbar-height: 60px;
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #0dcaf0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            overflow-x: hidden;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: var(--dark-color);
+            color: white;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        .sidebar-menu {
+            padding: 0;
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            position: relative;
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: #adb5bd;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu li a:hover,
+        .sidebar-menu li a.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-menu li a .badge {
+            float: right;
+        }
+        
+        .sidebar-menu li ul {
+            list-style: none;
+            padding-left: 40px;
+            display: none;
+        }
+        
+        .sidebar-menu li.active ul {
+            display: block;
+        }
+        
+        .sidebar-menu li ul li a {
+            padding: 8px 15px;
+            font-size: 0.9em;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding-top: var(--topbar-height);
+            min-height: 100vh;
+            transition: all 0.3s;
+        }
+        
+        /* Topbar Styles */
+        .topbar {
+            height: var(--topbar-height);
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            transition: all 0.3s;
+        }
+        
+        .topbar-menu {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+        
+        .topbar-menu .dropdown-toggle::after {
+            display: none;
+        }
+        
+        .topbar-menu .nav-link {
+            padding: 0 15px;
+            color: var(--secondary-color);
+        }
+        
+        .topbar-menu .nav-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .topbar-menu .nav-link i {
+            font-size: 1.2rem;
+        }
+        
+        .topbar-menu .badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        
+        /* Card Styles */
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            background: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* Table Styles */
+        .table th {
+            border-top: none;
+            font-weight: 600;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .table td {
+            vertical-align: middle;
+        }
+        
+        .table .badge {
+            font-weight: 500;
+            padding: 5px 10px;
+        }
+        
+        /* Status Badges */
+        .badge-primary-light {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .badge-success-light {
+            background-color: rgba(25, 135, 84, 0.1);
+            color: var(--success-color);
+        }
+        
+        .badge-warning-light {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .badge-danger-light {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 3px;
+        }
+        
+        /* Chart Containers */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        
+        .mini-chart-container {
+            position: relative;
+            height: 150px;
+            width: 100%;
+        }
+        
+        /* Metric Cards */
+        .metric-card {
+            border-left: 4px solid;
+            transition: all 0.3s;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-card.sales {
+            border-left-color: var(--primary-color);
+        }
+        
+        .metric-card.orders {
+            border-left-color: var(--success-color);
+        }
+        
+        .metric-card.customers {
+            border-left-color: var(--warning-color);
+        }
+        
+        .metric-card.revenue {
+            border-left-color: var(--info-color);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                left: -var(--sidebar-width);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .topbar {
+                left: 0;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content.active {
+                margin-left: var(--sidebar-width);
+            }
+            
+            .topbar.active {
+                left: var(--sidebar-width);
+            }
+        }
+        
+        /* Toggle Button */
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            cursor: pointer;
+            margin-right: 15px;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        /* Tab Navigation */
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            padding: 10px 20px;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            background: transparent;
+        }
+        
+        /* Date Range Picker */
+        .date-range-picker {
+            display: flex;
+            align-items: center;
+        }
+        
+        .date-range-picker .form-control {
+            width: 120px;
+        }
+        
+        .date-range-picker .separator {
+            margin: 0 10px;
+        }
+        
+        /* Progress Bars */
+        .progress {
+            height: 8px;
+        }
+        
+        /* Legend Items */
+        .legend-item {
+            display: inline-block;
+            margin-right: 15px;
+        }
+        
+        .legend-color {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>ShopEasy</h3>
+            <p class="text-muted mb-0">Admin Dashboard</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="dashboard.html">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="#productsSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-box-open"></i> Products <i class="fas fa-angle-down float-end mt-1"></i>
+                </a>
+                <ul id="productsSubmenu" class="collapse">
+                    <li><a href="admin-products.html">All Products</a></li>
+                    <li><a href="admin-add-product.html">Add New</a></li>
+                    <li><a href="admin-categories.html">Categories</a></li>
+                    <li><a href="admin-inventory.html">Inventory</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#ordersSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-shopping-cart"></i> Orders <i class="fas fa-angle-down float-end mt-1"></i>
+                </a>
+                <ul id="ordersSubmenu" class="collapse">
+                    <li><a href="#">All Orders</a></li>
+                    <li><a href="#">Pending</a></li>
+                    <li><a href="#">Processing</a></li>
+                    <li><a href="#">Completed</a></li>
+                    <li><a href="#">Cancelled</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#customersSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-users"></i> Customers <i class="fas fa-angle-down float-end mt-1"></i>
+                </a>
+                <ul id="customersSubmenu" class="collapse">
+                    <li><a href="#">All Customers</a></li>
+                    <li><a href="#">Add New</a></li>
+                    <li><a href="#">Customer Groups</a></li>
+                </ul>
+            </li>
+            <li class="active">
+                <a href="#reportsSubmenu" data-bs-toggle="collapse" class="active">
+                    <i class="fas fa-chart-bar"></i> Analytics & Reports <i class="fas fa-angle-down float-end mt-1"></i>
+                </a>
+                <ul id="reportsSubmenu" class="collapse show">
+                    <li><a href="#" class="active">Dashboard</a></li>
+                    <li><a href="#">Sales</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Customers</a></li>
+                    <li><a href="#">Taxes</a></li>
+                    <li><a href="#">Custom Reports</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#marketingSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-bullhorn"></i> Marketing
+                </a>
+                <ul id="marketingSubmenu" class="collapse">
+                    <li><a href="#">Coupons</a></li>
+                    <li><a href="#">Email Campaigns</a></li>
+                    <li><a href="#">Banners</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-comments"></i> Reviews
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-blog"></i> Blog
+                </a>
+            </li>
+            <li>
+                <a href="#settingsSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <ul id="settingsSubmenu" class="collapse">
+                    <li><a href="#">General</a></li>
+                    <li><a href="#">Payment</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Tax</a></li>
+                    <li><a href="#">Users</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Topbar -->
+        <nav class="topbar">
+            <button class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="topbar-menu">
+                <a href="#" class="nav-link position-relative">
+                    <i class="fas fa-envelope"></i>
+                    <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">3</span>
+                </a>
+                <a href="#" class="nav-link position-relative">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">7</span>
+                </a>
+                <div class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown">
+                        <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="User">
+                        <span class="d-none d-md-inline">Admin User</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-envelope me-2"></i> Messages</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <div class="container-fluid p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="mb-0">Analytics Dashboard</h4>
+                <div class="date-range-picker">
+                    <select class="form-select form-select-sm me-2 w-auto">
+                        <option selected>Last 7 Days</option>
+                        <option>Today</option>
+                        <option>Yesterday</option>
+                        <option>Last 30 Days</option>
+                        <option>This Month</option>
+                        <option>Last Month</option>
+                        <option>Custom Range</option>
+                    </select>
+                    <input type="date" class="form-control form-control-sm" value="2023-06-01">
+                    <span class="separator">to</span>
+                    <input type="date" class="form-control form-control-sm" value="2023-06-07">
+                    <button class="btn btn-sm btn-primary ms-2">
+                        <i class="fas fa-filter"></i> Apply
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Key Metrics -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card metric-card sales">
+                        <div class="card-body">
+                            <h6 class="text-muted mb-3">Total Sales</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="mb-0">$24,780</h3>
+                                <span class="badge bg-success">+12.5%</span>
+                            </div>
+                            <div class="mini-chart-container mt-3">
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card metric-card orders">
+                        <div class="card-body">
+                            <h6 class="text-muted mb-3">Total Orders</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="mb-0">1,248</h3>
+                                <span class="badge bg-success">+8.3%</span>
+                            </div>
+                            <div class="mini-chart-container mt-3">
+                                <canvas id="ordersChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card metric-card customers">
+                        <div class="card-body">
+                            <h6 class="text-muted mb-3">New Customers</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="mb-0">187</h3>
+                                <span class="badge bg-danger">-3.2%</span>
+                            </div>
+                            <div class="mini-chart-container mt-3">
+                                <canvas id="customersChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card metric-card revenue">
+                        <div class="card-body">
+                            <h6 class="text-muted mb-3">Avg. Order Value</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="mb-0">$89.50</h3>
+                                <span class="badge bg-success">+5.7%</span>
+                            </div>
+                            <div class="mini-chart-container mt-3">
+                                <canvas id="revenueChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Charts -->
+            <div class="row mb-4">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Sales Overview</h5>
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-outline-secondary active">Daily</button>
+                                <button class="btn btn-sm btn-outline-secondary">Weekly</button>
+                                <button class="btn btn-sm btn-outline-secondary">Monthly</button>
+                                <button class="btn btn-sm btn-outline-secondary">Yearly</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="salesOverviewChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Revenue Sources</h5>
+                            <div class="dropdown d-inline-block">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="revenueSourceDropdown" data-bs-toggle="dropdown">
+                                    This Month
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="revenueSourceDropdown">
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Week</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="revenueSourcesChart"></canvas>
+                            </div>
+                            <div class="mt-3 text-center">
+                                <span class="legend-item"><span class="legend-color" style="background-color: #4e73df;"></span> Online</span>
+                                <span class="legend-item"><span class="legend-color" style="background-color: #1cc88a;"></span> In-Store</span>
+                                <span class="legend-item"><span class="legend-color" style="background-color: #36b9cc;"></span> Wholesale</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Secondary Charts -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Top Products</h5>
+                            <select class="form-select form-select-sm w-auto">
+                                <option selected>By Revenue</option>
+                                <option>By Units Sold</option>
+                                <option>By Profit</option>
+                            </select>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Revenue</th>
+                                            <th>Units Sold</th>
+                                            <th>% of Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Wireless Headphones Pro</td>
+                                            <td>$4,890</td>
+                                            <td>120</td>
+                                            <td>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Smart Watch X3</td>
+                                            <td>$3,750</td>
+                                            <td>85</td>
+                                            <td>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bluetooth Speaker</td>
+                                            <td>$2,980</td>
+                                            <td>112</td>
+                                            <td>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-info" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fitness Tracker</td>
+                                            <td>$1,890</td>
+                                            <td>95</td>
+                                            <td>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phone Case Ultra</td>
+                                            <td>$1,250</td>
+                                            <td>210</td>
+                                            <td>
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 17%" aria-valuenow="17" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Customer Acquisition</h5>
+                            <select class="form-select form-select-sm w-auto">
+                                <option selected>Last 30 Days</option>
+                                <option>Last 7 Days</option>
+                                <option>Last 90 Days</option>
+                                <option>This Year</option>
+                            </select>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="customerAcquisitionChart"></canvas>
+                            </div>
+                            <div class="mt-3 text-center">
+                                <span class="legend-item"><span class="legend-color" style="background-color: #4e73df;"></span> Organic</span>
+                                <span class="legend-item"><span class="legend-color" style="background-color: #1cc88a;"></span> Paid Ads</span>
+                                <span class="legend-item"><span class="legend-color" style="background-color: #36b9cc;"></span> Social Media</span>
+                                <span class="legend-item"><span class="legend-color" style="background-color: #f6c23e;"></span> Email</span>
+                                <span class="legend-item"><span class="legend-color" style="background-color: #e74a3b;"></span> Referral</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reports Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Quick Reports</h5>
+                    <button class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus me-1"></i> Generate Custom Report
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <div class="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-block mb-3">
+                                        <i class="fas fa-shopping-cart text-primary fs-4"></i>
+                                    </div>
+                                    <h5>Sales Report</h5>
+                                    <p class="text-muted">Detailed breakdown of sales by product, category, and time period.</p>
+                                    <button class="btn btn-sm btn-outline-primary">Generate</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <div class="bg-success bg-opacity-10 p-3 rounded-circle d-inline-block mb-3">
+                                        <i class="fas fa-users text-success fs-4"></i>
+                                    </div>
+                                    <h5>Customer Report</h5>
+                                    <p class="text-muted">Customer demographics, purchase history, and lifetime value.</p>
+                                    <button class="btn btn-sm btn-outline-success">Generate</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <div class="bg-warning bg-opacity-10 p-3 rounded-circle d-inline-block mb-3">
+                                        <i class="fas fa-box-open text-warning fs-4"></i>
+                                    </div>
+                                    <h5>Inventory Report</h5>
+                                    <p class="text-muted">Stock levels, turnover rates, and product performance.</p>
+                                    <button class="btn btn-sm btn-outline-warning">Generate</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Toggle Sidebar
+        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.querySelector('.main-content').classList.toggle('active');
+            document.querySelector('.topbar').classList.toggle('active');
+        });
+        
+        // Mini Charts
+        const salesCtx = document.getElementById('salesChart').getContext('2d');
+        const salesChart = new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    data: [1200, 1900, 1700, 2100, 2300, 2500, 2200],
+                    borderColor: '#0d6efd',
+                    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        display: false
+                    },
+                    y: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        const ordersCtx = document.getElementById('ordersChart').getContext('2d');
+        const ordersChart = new Chart(ordersCtx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    data: [15, 22, 18, 25, 30, 28, 24],
+                    borderColor: '#198754',
+                    backgroundColor: 'rgba(25, 135, 84, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        display: false
+                    },
+                    y: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        const customersCtx = document.getElementById('customersChart').getContext('2d');
+        const customersChart = new Chart(customersCtx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    data: [8, 12, 10, 15, 18, 20, 16],
+                    borderColor: '#ffc107',
+                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        display: false
+                    },
+                    y: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        const revenueChart = new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    data: [75, 82, 78, 85, 90, 88, 92],
+                    borderColor: '#0dcaf0',
+                    backgroundColor: 'rgba(13, 202, 240, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        display: false
+                    },
+                    y: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        // Sales Overview Chart
+        const salesOverviewCtx = document.getElementById('salesOverviewChart').getContext('2d');
+        const salesOverviewChart = new Chart(salesOverviewCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Current Year',
+                    data: [21500, 19800, 22400, 21800, 23600, 24780, 25500, 24100, 22800, 23400, 22000, 21000],
+                    backgroundColor: 'rgba(13, 110, 253, 0.7)',
+                    borderColor: '#0d6efd',
+                    borderWidth: 1
+                }, {
+                    label: 'Previous Year',
+                    data: [18500, 17200, 19800, 20400, 21800, 22500, 23100, 21900, 20800, 21400, 20200, 19500],
+                    backgroundColor: 'rgba(108, 117, 125, 0.5)',
+                    borderColor: '#6c757d',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Revenue Sources Chart
+        const revenueSourcesCtx = document.getElementById('revenueSourcesChart').getContext('2d');
+        const revenueSourcesChart = new Chart(revenueSourcesCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Online Store', 'Physical Store', 'Wholesale'],
+                datasets: [{
+                    data: [65, 25, 10],
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                    hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.raw + '%';
+                            }
+                        }
+                    }
+                },
+                cutout: '70%',
+            }
+        });
+        
+        // Customer Acquisition Chart
+        const customerAcquisitionCtx = document.getElementById('customerAcquisitionChart').getContext('2d');
+        const customerAcquisitionChart = new Chart(customerAcquisitionCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Organic', 'Paid Ads', 'Social Media', 'Email', 'Referral'],
+                datasets: [{
+                    label: 'New Customers',
+                    data: [65, 40, 35, 25, 20],
+                    backgroundColor: [
+                        'rgba(78, 115, 223, 0.7)',
+                        'rgba(28, 200, 138, 0.7)',
+                        'rgba(54, 185, 204, 0.7)',
+                        'rgba(246, 194, 62, 0.7)',
+                        'rgba(231, 74, 59, 0.7)'
+                    ],
+                    borderColor: [
+                        '#4e73df',
+                        '#1cc88a',
+                        '#36b9cc',
+                        '#f6c23e',
+                        '#e74a3b'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

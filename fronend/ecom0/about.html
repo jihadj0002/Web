@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - ShopEasy</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .about-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://via.placeholder.com/1920x600?text=Our+Story');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            margin-bottom: 50px;
+        }
+        
+        .team-card {
+            transition: transform 0.3s;
+            margin-bottom: 30px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .team-card img {
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 4px solid #0d6efd;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background: #0d6efd;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            margin-right: 5px;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: #0b5ed7;
+            transform: translateY(-3px);
+        }
+        
+        .testimonial-card {
+            border-left: 4px solid #0d6efd;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            height: 100%;
+        }
+        
+        .testimonial-card .rating {
+            color: #ffc107;
+            margin-bottom: 15px;
+        }
+        
+        .milestone-item {
+            text-align: center;
+            padding: 30px 15px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            margin-bottom: 30px;
+            transition: all 0.3s;
+        }
+        
+        .milestone-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .milestone-item i {
+            font-size: 2.5rem;
+            color: #0d6efd;
+            margin-bottom: 15px;
+        }
+        
+        .values-card {
+            padding: 30px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            margin-bottom: 30px;
+            height: 100%;
+            border-left: 4px solid #0d6efd;
+        }
+        
+        .values-card i {
+            font-size: 2rem;
+            color: #0d6efd;
+            margin-bottom: 15px;
+        }
+        
+        .breadcrumb {
+            background-color: transparent;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">ShopEasy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="products.html">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="categories.html">Categories</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <form class="d-flex me-2" action="search.html" method="GET">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search..." name="q" aria-label="Search">
+                            <button class="btn btn-outline-light" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <a href="#" class="btn btn-outline-light me-2"><i class="fas fa-user"></i></a>
+                    <a href="#" class="btn btn-outline-light position-relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            3
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="py-3 bg-light">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">About Us</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="about-hero text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">Our Story</h1>
+            <p class="lead mb-5">From humble beginnings to becoming your favorite online shopping destination</p>
+            <a href="#our-mission" class="btn btn-primary btn-lg px-4 me-2">Our Mission</a>
+            <a href="#our-team" class="btn btn-outline-light btn-lg px-4">Meet the Team</a>
+        </div>
+    </section>
+
+    <!-- Our Story -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="mb-4">Who We Are</h2>
+                    <p>Founded in 2015, ShopEasy began as a small family business with a passion for bringing quality products to customers at affordable prices. What started as a modest online store has grown into one of the most trusted ecommerce platforms, serving millions of satisfied customers worldwide.</p>
+                    <p>Our journey hasn't always been easy, but our commitment to customer satisfaction and product excellence has remained unwavering. Every day, we strive to make online shopping easier, more enjoyable, and more accessible to everyone.</p>
+                    <p>At ShopEasy, we don't just sell products - we build relationships. Our customers are at the heart of everything we do, and their satisfaction is our greatest reward.</p>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://via.placeholder.com/600x400?text=Our+Team+Working" alt="Our Team" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Mission -->
+    <section class="py-5 bg-light" id="our-mission">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2>Our Mission & Values</h2>
+                    <p class="lead">Guiding principles that drive everything we do</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="values-card">
+                        <i class="fas fa-bullseye"></i>
+                        <h4>Our Mission</h4>
+                        <p>To provide an exceptional online shopping experience by offering high-quality products, competitive prices, and outstanding customer service that makes shopping easy and enjoyable for everyone.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="values-card">
+                        <i class="fas fa-eye"></i>
+                        <h4>Our Vision</h4>
+                        <p>To become the most customer-centric online marketplace, where people can find and discover anything they want to buy at the best possible prices with the most convenient shopping experience.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="values-card">
+                        <i class="fas fa-heart"></i>
+                        <h4>Our Promise</h4>
+                        <p>We promise to treat every customer with respect, provide honest product information, stand behind the quality of what we sell, and continuously improve our services based on your feedback.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Milestones -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2>Our Milestones</h2>
+                    <p class="lead">Key moments in our journey</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="milestone-item">
+                        <i class="fas fa-calendar-check"></i>
+                        <h3>2015</h3>
+                        <p>Founded with just 3 employees and 50 products in our catalog</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="milestone-item">
+                        <i class="fas fa-trophy"></i>
+                        <h3>2017</h3>
+                        <p>Named "Fastest Growing Ecommerce Startup" by Business Today</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="milestone-item">
+                        <i class="fas fa-users"></i>
+                        <h3>2019</h3>
+                        <p>Reached 1 million satisfied customers worldwide</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="milestone-item">
+                        <i class="fas fa-globe"></i>
+                        <h3>2023</h3>
+                        <p>Expanded to 10 countries with over 500 employees</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Team -->
+    <section class="py-5 bg-light" id="our-team">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2>Meet Our Team</h2>
+                    <p class="lead">The passionate people behind ShopEasy</p>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Team Member 1 -->
+                <div class="col-md-4">
+                    <div class="card team-card">
+                        <img src="https://via.placeholder.com/400x400?text=CEO" class="card-img-top" alt="CEO">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Sarah Johnson</h5>
+                            <p class="text-muted">CEO & Founder</p>
+                            <p class="card-text">With over 15 years in ecommerce, Sarah's vision drives our company forward.</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Team Member 2 -->
+                <div class="col-md-4">
+                    <div class="card team-card">
+                        <img src="https://via.placeholder.com/400x400?text=CTO" class="card-img-top" alt="CTO">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Michael Chen</h5>
+                            <p class="text-muted">Chief Technology Officer</p>
+                            <p class="card-text">Michael leads our tech team to create the best shopping platform.</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-github"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Team Member 3 -->
+                <div class="col-md-4">
+                    <div class="card team-card">
+                        <img src="https://via.placeholder.com/400x400?text=CMO" class="card-img-top" alt="CMO">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">David Rodriguez</h5>
+                            <p class="text-muted">Chief Marketing Officer</p>
+                            <p class="card-text">David's innovative strategies connect us with customers worldwide.</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <!-- Team Member 4 -->
+                <div class="col-md-3">
+                    <div class="card team-card">
+                        <img src="https://via.placeholder.com/400x400?text=Customer+Service" class="card-img-top" alt="Customer Service">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Emily Wilson</h5>
+                            <p class="text-muted">Customer Service Director</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Team Member 5 -->
+                <div class="col-md-3">
+                    <div class="card team-card">
+                        <img src="https://via.placeholder.com/400x400?text=Product" class="card-img-top" alt="Product">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">James Brown</h5>
+                            <p class="text-muted">Product Manager</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Team Member 6 -->
+                <div class="col-md-3">
+                    <div class="card team-card">
+                        <img src="https://via.placeholder.com/400x400?text=Logistics" class="card-img-top" alt="Logistics">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Lisa Kim</h5>
+                            <p class="text-muted">Logistics Director</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Team Member 7 -->
+                <div class="col-md-3">
+                    <div class="card team-card">
+                        <img src="https://via.placeholder.com/400x400?text=Design" class="card-img-top" alt="Design">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Alex Turner</h5>
+                            <p class="text-muted">Creative Director</p>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-behance"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2>What Our Customers Say</h2>
+                    <p class="lead">Don't just take our word for it</p>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Testimonial 1 -->
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="mb-4">"ShopEasy has completely transformed how I shop online. The selection is incredible, prices are competitive, and their customer service is outstanding."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://via.placeholder.com/50x50" class="rounded-circle me-3" alt="Customer">
+                            <div>
+                                <h6 class="mb-0">Jennifer K.</h6>
+                                <small class="text-muted">Verified Customer</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="mb-4">"I've been shopping with ShopEasy for 3 years now and they never disappoint. Fast shipping, quality products, and easy returns when needed."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://via.placeholder.com/50x50" class="rounded-circle me-3" alt="Customer">
+                            <div>
+                                <h6 class="mb-0">Robert T.</h6>
+                                <small class="text-muted">Verified Customer</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="col-md-4">
+                    <div class="testimonial-card">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="mb-4">"The mobile app makes shopping so convenient. I can order anything I need in just a few taps and it arrives at my door in no time."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://via.placeholder.com/50x50" class="rounded-circle me-3" alt="Customer">
+                            <div>
+                                <h6 class="mb-0">Amanda S.</h6>
+                                <small class="text-muted">Verified Customer</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container text-center">
+            <h2 class="mb-4">Ready to Experience ShopEasy?</h2>
+            <p class="lead mb-5">Join millions of satisfied customers who shop with us every day</p>
+            <a href="products.html" class="btn btn-light btn-lg px-4 me-2">Shop Now</a>
+            <a href="contact.html" class="btn btn-outline-light btn-lg px-4">Contact Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5>ShopEasy</h5>
+                    <p>Your one-stop shop for all your needs.</p>
+                    <div class="social-icons">
+                        <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-white">Home</a></li>
+                        <li><a href="products.html" class="text-white">Products</a></li>
+                        <li><a href="categories.html" class="text-white">Categories</a></li>
+                        <li><a href="about.html" class="text-white">About Us</a></li>
+                        <li><a href="contact.html" class="text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Customer Service</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">My Account</a></li>
+                        <li><a href="#" class="text-white">Order Tracking</a></li>
+                        <li><a href="#" class="text-white">Wishlist</a></li>
+                        <li><a href="#" class="text-white">Returns</a></li>
+                        <li><a href="#" class="text-white">Shipping</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Contact Info</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Street, City, Country</li>
+                        <li><i class="fas fa-phone me-2"></i> +1 234 567 890</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@shopeasy.com</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2023 ShopEasy. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <img src="https://via.placeholder.com/200x30" alt="Payment Methods" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | ShopEasy</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --topbar-height: 60px;
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #0dcaf0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            overflow-x: hidden;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: var(--dark-color);
+            color: white;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        
+        .sidebar-menu {
+            padding: 0;
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            position: relative;
+        }
+        
+        .sidebar-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: #adb5bd;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu li a:hover,
+        .sidebar-menu li a.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-menu li a .badge {
+            float: right;
+        }
+        
+        .sidebar-menu li ul {
+            list-style: none;
+            padding-left: 40px;
+            display: none;
+        }
+        
+        .sidebar-menu li.active ul {
+            display: block;
+        }
+        
+        .sidebar-menu li ul li a {
+            padding: 8px 15px;
+            font-size: 0.9em;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding-top: var(--topbar-height);
+            min-height: 100vh;
+            transition: all 0.3s;
+        }
+        
+        /* Topbar Styles */
+        .topbar {
+            height: var(--topbar-height);
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            transition: all 0.3s;
+        }
+        
+        .topbar-menu {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+        
+        .topbar-menu .dropdown-toggle::after {
+            display: none;
+        }
+        
+        .topbar-menu .nav-link {
+            padding: 0 15px;
+            color: var(--secondary-color);
+        }
+        
+        .topbar-menu .nav-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .topbar-menu .nav-link i {
+            font-size: 1.2rem;
+        }
+        
+        .topbar-menu .badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+        
+        /* Card Styles */
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            background: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+        }
+        
+        /* Stats Card Styles */
+        .stats-card {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stats-card .icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .stats-card .icon.primary {
+            background: rgba(13, 110, 253, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .stats-card .icon.success {
+            background: rgba(25, 135, 84, 0.1);
+            color: var(--success-color);
+        }
+        
+        .stats-card .icon.warning {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .stats-card .icon.danger {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+        
+        .stats-card .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stats-card .title {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Table Styles */
+        .table th {
+            border-top: none;
+            font-weight: 600;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .table td {
+            vertical-align: middle;
+        }
+        
+        .table .badge {
+            font-weight: 500;
+            padding: 5px 10px;
+        }
+        
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                left: -var(--sidebar-width);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .topbar {
+                left: 0;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content.active {
+                margin-left: var(--sidebar-width);
+            }
+            
+            .topbar.active {
+                left: var(--sidebar-width);
+            }
+        }
+        
+        /* Toggle Button */
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            cursor: pointer;
+            margin-right: 15px;
+        }
+        
+        /* Product Image Thumbnail */
+        .product-thumb {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        /* Status Badges */
+        .badge-success-light {
+            background-color: rgba(25, 135, 84, 0.1);
+            color: var(--success-color);
+        }
+        
+        .badge-warning-light {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+        }
+        
+        .badge-danger-light {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>ShopEasy</h3>
+            <p class="text-muted mb-0">Admin Dashboard</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="active">
+                <a href="#" class="active">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="#productsSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-box-open"></i> Products <i class="fas fa-angle-down float-end mt-1"></i>
+                </a>
+                <ul id="productsSubmenu" class="collapse show">
+                    <li><a href="#">All Products</a></li>
+                    <li><a href="#">Add New</a></li>
+                    <li><a href="#">Categories</a></li>
+                    <li><a href="#">Inventory</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#ordersSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-shopping-cart"></i> Orders <span class="badge bg-warning float-end">5</span>
+                </a>
+                <ul id="ordersSubmenu" class="collapse">
+                    <li><a href="#">All Orders</a></li>
+                    <li><a href="#">Pending</a></li>
+                    <li><a href="#">Processing</a></li>
+                    <li><a href="#">Completed</a></li>
+                    <li><a href="#">Cancelled</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#customersSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-users"></i> Customers
+                </a>
+                <ul id="customersSubmenu" class="collapse">
+                    <li><a href="#">All Customers</a></li>
+                    <li><a href="#">Add New</a></li>
+                    <li><a href="#">Customer Groups</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#reportsSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </a>
+                <ul id="reportsSubmenu" class="collapse">
+                    <li><a href="#">Sales</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Customers</a></li>
+                    <li><a href="#">Taxes</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#marketingSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-bullhorn"></i> Marketing
+                </a>
+                <ul id="marketingSubmenu" class="collapse">
+                    <li><a href="#">Coupons</a></li>
+                    <li><a href="#">Email Campaigns</a></li>
+                    <li><a href="#">Banners</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-comments"></i> Reviews
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-blog"></i> Blog
+                </a>
+            </li>
+            <li>
+                <a href="#settingsSubmenu" data-bs-toggle="collapse">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <ul id="settingsSubmenu" class="collapse">
+                    <li><a href="#">General</a></li>
+                    <li><a href="#">Payment</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Tax</a></li>
+                    <li><a href="#">Users</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Topbar -->
+        <nav class="topbar">
+            <button class="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="topbar-menu">
+                <a href="#" class="nav-link position-relative">
+                    <i class="fas fa-envelope"></i>
+                    <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">3</span>
+                </a>
+                <a href="#" class="nav-link position-relative">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">7</span>
+                </a>
+                <div class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown">
+                        <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="User">
+                        <span class="d-none d-md-inline">Admin User</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-envelope me-2"></i> Messages</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <div class="container-fluid p-4">
+            <h4 class="mb-4">Dashboard Overview</h4>
+            
+            <!-- Stats Cards -->
+            <div class="row">
+                <div class="col-md-6 col-lg-3">
+                    <div class="card stats-card">
+                        <div class="icon primary">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="number">1,254</div>
+                        <div class="title">Total Orders</div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card stats-card">
+                        <div class="icon success">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="number">$34,215</div>
+                        <div class="title">Total Revenue</div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card stats-card">
+                        <div class="icon warning">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="number">1,862</div>
+                        <div class="title">Customers</div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="card stats-card">
+                        <div class="icon danger">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <div class="number">324</div>
+                        <div class="title">Products</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Row -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Sales Overview</h5>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="salesDropdown" data-bs-toggle="dropdown">
+                                    This Month
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="salesDropdown">
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Week</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Revenue Sources</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="revenueChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Orders & Top Products -->
+            <div class="row mt-4">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Recent Orders</h5>
+                            <a href="#" class="btn btn-sm btn-primary">View All</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Customer</th>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>#SH12548</td>
+                                            <td>John Smith</td>
+                                            <td>Jun 15, 2023</td>
+                                            <td>$149.99</td>
+                                            <td><span class="badge bg-success">Completed</span></td>
+                                            <td><a href="#" class="btn btn-sm btn-outline-primary">View</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>#SH12547</td>
+                                            <td>Sarah Johnson</td>
+                                            <td>Jun 14, 2023</td>
+                                            <td>$89.99</td>
+                                            <td><span class="badge bg-primary">Processing</span></td>
+                                            <td><a href="#" class="btn btn-sm btn-outline-primary">View</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>#SH12546</td>
+                                            <td>Michael Brown</td>
+                                            <td>Jun 14, 2023</td>
+                                            <td>$279.97</td>
+                                            <td><span class="badge bg-primary">Processing</span></td>
+                                            <td><a href="#" class="btn btn-sm btn-outline-primary">View</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>#SH12545</td>
+                                            <td>Emily Davis</td>
+                                            <td>Jun 13, 2023</td>
+                                            <td>$199.99</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td><a href="#" class="btn btn-sm btn-outline-primary">View</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>#SH12544</td>
+                                            <td>Robert Wilson</td>
+                                            <td>Jun 12, 2023</td>
+                                            <td>$59.99</td>
+                                            <td><span class="badge bg-danger">Cancelled</span></td>
+                                            <td><a href="#" class="btn btn-sm btn-outline-primary">View</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Top Selling Products</h5>
+                            <a href="#" class="btn btn-sm btn-primary">View All</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Sales</th>
+                                            <th>Revenue</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <img src="https://via.placeholder.com/40x40" class="product-thumb me-2" alt="">
+                                                Wireless Headphones
+                                            </td>
+                                            <td>128</td>
+                                            <td>$12,672</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="https://via.placeholder.com/40x40" class="product-thumb me-2" alt="">
+                                                Smart Watch
+                                            </td>
+                                            <td>95</td>
+                                            <td>$14,250</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="https://via.placeholder.com/40x40" class="product-thumb me-2" alt="">
+                                                Bluetooth Speaker
+                                            </td>
+                                            <td>87</td>
+                                            <td>$6,963</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="https://via.placeholder.com/40x40" class="product-thumb me-2" alt="">
+                                                Laptop Backpack
+                                            </td>
+                                            <td>76</td>
+                                            <td>$3,800</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="https://via.placeholder.com/40x40" class="product-thumb me-2" alt="">
+                                                Wireless Earbuds
+                                            </td>
+                                            <td>65</td>
+                                            <td>$5,850</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Customers & Activity -->
+            <div class="row mt-4">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Recent Customers</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Customer</th>
+                                            <th>Email</th>
+                                            <th>Joined</th>
+                                            <th>Orders</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="">
+                                                John Smith
+                                            </td>
+                                            <td>john@example.com</td>
+                                            <td>Jun 15, 2023</td>
+                                            <td>3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="">
+                                                Sarah Johnson
+                                            </td>
+                                            <td>sarah@example.com</td>
+                                            <td>Jun 14, 2023</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="">
+                                                Michael Brown
+                                            </td>
+                                            <td>michael@example.com</td>
+                                            <td>Jun 14, 2023</td>
+                                            <td>2</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="">
+                                                Emily Davis
+                                            </td>
+                                            <td>emily@example.com</td>
+                                            <td>Jun 13, 2023</td>
+                                            <td>1</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="">
+                                                Robert Wilson
+                                            </td>
+                                            <td>robert@example.com</td>
+                                            <td>Jun 12, 2023</td>
+                                            <td>1</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Recent Activity</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-feed">
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <img src="https://via.placeholder.com/40x40" class="rounded-circle" alt="User">
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1">John Smith placed a new order</h6>
+                                        <p class="text-muted mb-0">Order #SH12548 - $149.99</p>
+                                        <small class="text-muted">2 minutes ago</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-box-open"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1">New product added</h6>
+                                        <p class="text-muted mb-0">"Wireless Earbuds Pro" by Admin</p>
+                                        <small class="text-muted">1 hour ago</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <img src="https://via.placeholder.com/40x40" class="rounded-circle" alt="User">
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1">Sarah Johnson left a review</h6>
+                                        <p class="text-muted mb-0">5 stars for "Smart Watch X3"</p>
+                                        <small class="text-muted">3 hours ago</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1">Order #SH12547 completed</h6>
+                                        <p class="text-muted mb-0">Total: $89.99</p>
+                                        <small class="text-muted">5 hours ago</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-tag"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1">New coupon created</h6>
+                                        <p class="text-muted mb-0">"SUMMER25" - 25% off</p>
+                                        <small class="text-muted">1 day ago</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Toggle Sidebar
+        document.querySelector('.sidebar-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+            document.querySelector('.main-content').classList.toggle('active');
+            document.querySelector('.topbar').classList.toggle('active');
+        });
+        
+        // Initialize Charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sales Chart
+            const salesCtx = document.getElementById('salesChart').getContext('2d');
+            const salesChart = new Chart(salesCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [{
+                        label: 'Sales',
+                        data: [1250, 1900, 1700, 2100, 2500, 2900, 3100, 2800, 3200, 3500, 3800, 4200],
+                        backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                        borderColor: 'rgba(13, 110, 253, 1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            const revenueChart = new Chart(revenueCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Electronics', 'Fashion', 'Home & Garden', 'Accessories', 'Others'],
+                    datasets: [{
+                        data: [35, 25, 20, 15, 5],
+                        backgroundColor: [
+                            'rgba(13, 110, 253, 0.8)',
+                            'rgba(25, 135, 84, 0.8)',
+                            'rgba(255, 193, 7, 0.8)',
+                            'rgba(220, 53, 69, 0.8)',
+                            'rgba(108, 117, 125, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(13, 110, 253, 1)',
+                            'rgba(25, 135, 84, 1)',
+                            'rgba(255, 193, 7, 1)',
+                            'rgba(220, 53, 69, 1)',
+                            'rgba(108, 117, 125, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        });
+    </script>
+</body>
+</html>

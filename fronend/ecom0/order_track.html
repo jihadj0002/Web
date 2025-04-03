@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order | ShopEasy</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .tracking-header {
+            background-color: #f8f9fa;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        .tracking-card {
+            border-left: 4px solid #0d6efd;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 2px;
+            background: #dee2e6;
+        }
+        .timeline-step {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-icon {
+            position: absolute;
+            left: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 1;
+        }
+        .timeline-content {
+            padding-left: 20px;
+        }
+        .product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .status-badge {
+            font-size: 0.9rem;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">ShopEasy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="shop.html">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cateories.html">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a href="#" class="btn btn-outline-light me-2"><i class="fas fa-search"></i></a>
+                    <a href="login.html" class="btn btn-outline-light me-2"><i class="fas fa-user"></i></a>
+                    <a href="#" class="btn btn-outline-light position-relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            3
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tracking Header -->
+    <section class="tracking-header">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">My Account</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Order Tracking</li>
+                </ol>
+            </nav>
+            <h1 class="mb-3">Track Your Order</h1>
+            <p class="lead text-muted">Check the status of your recent orders</p>
+        </div>
+    </section>
+
+    <!-- Tracking Content -->
+    <section class="py-3">
+        <div class="container">
+            <div class="row">
+                <!-- Order Summary -->
+                <div class="col-lg-5 mb-4">
+                    <div class="card h-100 tracking-card">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">Order Summary</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">Order Number:</span>
+                                <span class="fw-bold">SH12345678</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">Order Date:</span>
+                                <span>June 15, 2023</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">Total Amount:</span>
+                                <span class="fw-bold">$279.97</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <span class="text-muted">Status:</span>
+                                <span class="badge bg-warning text-dark status-badge">In Transit</span>
+                            </div>
+                            
+                            <h6 class="mb-3">Ordered Items</h6>
+                            <div class="border-top pt-3">
+                                <!-- Item 1 -->
+                                <div class="d-flex mb-3">
+                                    <img src="images/img/09.jpg" alt="Product" class="product-img me-3">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">SoundMaster Pro X3 Wireless Headphones</h6>
+                                        <p class="text-muted mb-1">1 x $99.99</p>
+                                        <span class="badge bg-light text-dark">SKU: WH-2023</span>
+                                    </div>
+                                    <div class="text-end">
+                                        <p class="mb-0 fw-bold">$99.99</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Item 2 -->
+                                <div class="d-flex mb-3">
+                                    <img src="images/img/09.jpg" alt="Product" class="product-img me-3">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">AudioPro Elite 500 Smart Watch</h6>
+                                        <p class="text-muted mb-1">1 x $149.99</p>
+                                        <span class="badge bg-light text-dark">SKU: SW-2023</span>
+                                    </div>
+                                    <div class="text-end">
+                                        <p class="mb-0 fw-bold">$149.99</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Item 3 -->
+                                <div class="d-flex">
+                                    <img src="images/img/09.jpg" alt="Product" class="product-img me-3">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">BeatWave Solo Bluetooth Speaker</h6>
+                                        <p class="text-muted mb-1">1 x $79.99</p>
+                                        <span class="badge bg-light text-dark">SKU: BS-2023</span>
+                                    </div>
+                                    <div class="text-end">
+                                        <p class="mb-0 fw-bold">$79.99</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-white">
+                            <div class="d-flex justify-content-between">
+                                <span>Subtotal:</span>
+                                <span>$329.97</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Shipping:</span>
+                                <span>FREE</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Discount:</span>
+                                <span class="text-danger">-$50.00</span>
+                            </div>
+                            <div class="d-flex justify-content-between fw-bold fs-5 mt-2">
+                                <span>Total:</span>
+                                <span>$279.97</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tracking Details -->
+                <div class="col-lg-7">
+                    <div class="card h-100 tracking-card">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0">Shipping & Tracking</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <h6>Shipping Address</h6>
+                                    <address class="text-muted">
+                                        <strong>John Doe</strong><br>
+                                        123 Main Street<br>
+                                        Apt 4B<br>
+                                        New York, NY 10001<br>
+                                        United States<br>
+                                        <i class="fas fa-phone me-1"></i> (123) 456-7890
+                                    </address>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Shipping Method</h6>
+                                    <p class="text-muted">
+                                        <i class="fas fa-truck me-2"></i> Standard Shipping<br>
+                                        <small>Estimated delivery: June 20-22, 2023</small>
+                                    </p>
+                                    <h6>Tracking Number</h6>
+                                    <p class="text-muted">
+                                        <i class="fas fa-barcode me-2"></i> SH12345678US<br>
+                                        <a href="#" class="text-decoration-none">View carrier details</a>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <h6 class="mb-3">Order Status</h6>
+                            <div class="timeline">
+                                <!-- Step 1 -->
+                                <div class="timeline-step">
+                                    <div class="timeline-icon bg-success">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <h6 class="mb-1">Order Confirmed</h6>
+                                        <p class="text-muted mb-0">June 15, 2023 - 10:30 AM</p>
+                                        <p class="mb-0">Your order has been confirmed and is being processed.</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Step 2 -->
+                                <div class="timeline-step">
+                                    <div class="timeline-icon bg-success">
+                                        <i class="fas fa-box"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <h6 class="mb-1">Processing</h6>
+                                        <p class="text-muted mb-0">June 15, 2023 - 2:45 PM</p>
+                                        <p class="mb-0">Your order is being prepared for shipment.</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Step 3 -->
+                                <div class="timeline-step">
+                                    <div class="timeline-icon bg-success">
+                                        <i class="fas fa-shipping-fast"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <h6 class="mb-1">Shipped</h6>
+                                        <p class="text-muted mb-0">June 17, 2023 - 9:15 AM</p>
+                                        <p class="mb-0">Your order has left our warehouse.</p>
+                                        <p class="mb-0"><strong>Carrier:</strong> USPS</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Step 4 -->
+                                <div class="timeline-step">
+                                    <div class="timeline-icon bg-primary">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="timeline-content">
+                                        <h6 class="mb-1">In Transit</h6>
+                                        <p class="text-muted mb-0">June 18, 2023 - 3:30 PM</p>
+                                        <p class="mb-0">Your package is on its way to the destination.</p>
+                                        <p class="mb-0"><strong>Last Scan:</strong> Philadelphia, PA</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Step 5 -->
+                                <div class="timeline-step">
+                                    <div class="timeline-icon bg-light text-muted">
+                                        <i class="fas fa-home"></i>
+                                    </div>
+                                    <div class="timeline-content text-muted">
+                                        <h6 class="mb-1">Delivered</h6>
+                                        <p class="mb-0">Estimated delivery: June 20-22, 2023</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-white text-center">
+                            <a href="#" class="btn btn-primary me-2">
+                                <i class="fas fa-print me-2"></i>Print Invoice
+                            </a>
+                            <a href="#" class="btn btn-outline-primary">
+                                <i class="fas fa-headset me-2"></i>Need Help?
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Track Another Order -->
+            <div class="card mt-4">
+                <div class="card-body text-center">
+                    <h5 class="mb-3">Track Another Order</h5>
+                    <form class="row g-2 justify-content-center">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                                <input type="text" class="form-control" placeholder="Enter Order Number" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input type="email" class="form-control" placeholder="Your Email" required>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">Track</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5>ShopEasy</h5>
+                    <p>Your one-stop shop for all your needs.</p>
+                    <div class="social-icons">
+                        <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-white">Home</a></li>
+                        <li><a href="shop.html" class="text-white">Products</a></li>
+                        <li><a href="about.html" class="text-white">About Us</a></li>
+                        <li><a href="#" class="text-white">Contact</a></li>
+                        <li><a href="#" class="text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Customer Service</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">My Account</a></li>
+                        <li><a href="#" class="text-white">Order Tracking</a></li>
+                        <li><a href="#" class="text-white">Wishlist</a></li>
+                        <li><a href="#" class="text-white">Returns</a></li>
+                        <li><a href="#" class="text-white">Shipping</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Contact Info</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Street, City, Country</li>
+                        <li><i class="fas fa-phone me-2"></i> +1 234 567 890</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@shopeasy.com</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2023 ShopEasy. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <img src="https://via.placeholder.com/200x30" alt="Payment Methods" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
