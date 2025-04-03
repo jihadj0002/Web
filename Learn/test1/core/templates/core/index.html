@@ -82,11 +82,12 @@
             
             <div class="row">
                 <!-- Product 1 -->
+                 {% for p in f_products %}
                 <div class="col-md-6 col-lg-3">
                     <div class="card product-card">
-                        <img src="images/img/09.jpg" class="card-img-top" alt="Product 1">
+                        <img src="{{p.image.url}}" class="card-img-top" alt="Product 1">
                         <div class="card-body">
-                            <h5 class="card-title">Wireless Headphones</h5>
+                            <h5 class="card-title">{{p.title}}</h5>
                             <div class="mb-2">
                                 <span class="text-warning">
                                     <i class="fas fa-star"></i>
@@ -98,8 +99,8 @@
                                 <span class="text-muted">(42 reviews)</span>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0">$99.99</h6>
-                                <del class="text-muted">$129.99</del>
+                                <h6 class="mb-0">${{p.discount_price}}</h6>
+                                <del class="text-muted">${{p.price}}</del>
                                 <span class="badge bg-danger">Sale</span>
                             </div>
                         </div>
@@ -108,8 +109,11 @@
                         </div>
                     </div>
                 </div>
+                {% endfor %}
                 
                 <!-- Product 2 -->
+                
+<!--                 
                 <div class="col-md-6 col-lg-3">
                     <div class="card product-card">
                         <img src="images/img/09.jpg" class="card-img-top" alt="Product 2">
@@ -135,60 +139,9 @@
                         </div>
                     </div>
                 </div>
+                 -->
+
                 
-                <!-- Product 3 -->
-                <div class="col-md-6 col-lg-3">
-                    <div class="card product-card">
-                        <img src="images/img/09.jpg" class="card-img-top" alt="Product 3">
-                        <div class="card-body">
-                            <h5 class="card-title">Bluetooth Speaker</h5>
-                            <div class="mb-2">
-                                <span class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </span>
-                                <span class="text-muted">(58 reviews)</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0">$79.99</h6>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-white">
-                            <button class="btn btn-primary w-100">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Product 4 -->
-                <div class="col-md-6 col-lg-3">
-                    <div class="card product-card">
-                        <img src="images/img/09.jpg" class="card-img-top" alt="Product 4">
-                        <div class="card-body">
-                            <h5 class="card-title">Laptop Backpack</h5>
-                            <div class="mb-2">
-                                <span class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </span>
-                                <span class="text-muted">(27 reviews)</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0">$49.99</h6>
-                                <del class="text-muted">$59.99</del>
-                                <span class="badge bg-success">New</span>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-white">
-                            <button class="btn btn-primary w-100">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -199,16 +152,17 @@
             <h2 class="text-center mb-5">Shop by Category</h2>
             <div class="row">
                 <!-- Category 1 -->
+                 {% for c in categories %}
                 <div class="col-md-4">
                     <div class="category-card">
-                        <img src="images/img/05.jpg" class="img-fluid w-100" alt="Electronics">
+                        <img src="{{c.image.url}}" class="img-fluid w-100" alt="Category 1">
                         <div class="category-title">
-                            <h4>Electronics</h4>
+                            <h4>{{c.name}}</h4>
                         </div>
                     </div>
-                </div>
-                
+                {% endfor %}
                 <!-- Category 2 -->
+<!--                  
                 <div class="col-md-4">
                     <div class="category-card">
                         <img src="images/img/05.jpg" class="img-fluid w-100" alt="Fashion">
@@ -216,9 +170,10 @@
                             <h4>Fashion</h4>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 
                 <!-- Category 3 -->
+<!--                 
                 <div class="col-md-4">
                     <div class="category-card">
                         <img src="images/img/05.jpg" class="img-fluid w-100" alt="Home & Garden">
@@ -227,6 +182,8 @@
                         </div>
                     </div>
                 </div>
+ -->
+
             </div>
         </div>
     </section>
