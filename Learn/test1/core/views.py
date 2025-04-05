@@ -24,7 +24,9 @@ def shop(request):
 
 def categories(request):
     categories = Category.objects.all()
+    products = Product.objects.all().order_by('-created_at')[:6]
     context = {
         'categories': categories,
+        'products': products,
     }
     return render(request, "core/cateories.html", context)
