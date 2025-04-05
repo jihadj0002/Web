@@ -21,20 +21,19 @@
                 <!-- Product Gallery -->
                 <div class="col-lg-6">
                     <div class="product-gallery">
-                        <img id="mainImage" src="images/img/09.jpg" class="img-fluid main-image" alt="Wireless Headphones">
+                        <img id="mainImage" src="{{product.image.url}}" class="img-fluid main-image" alt="Wireless Headphones">
                         <div class="thumbnail-container">
-                            <img src="images/img/05.jpg" class="thumbnail active" onclick="changeImage(this)" alt="Thumbnail 1">
-                            <img src="images/img/07.jpg?text=Angle+View" class="thumbnail" onclick="changeImage(this)" alt="Thumbnail 2">
-                            <img src="images/img/03.jpg?text=Side+View" class="thumbnail" onclick="changeImage(this)" alt="Thumbnail 3">
-                            <img src="images/img/02.jpg?text=Back+View" class="thumbnail" onclick="changeImage(this)" alt="Thumbnail 4">
-                        </div>
+                            {% for image in product.images.all %}
+                            <img src="{{image.image.url}}" class="thumbnail" onclick="changeImage(this)" alt="Thumbnail {{forloop.counter}}">
+                            {% endfor %}
+                            </div>
                     </div>
                 </div>
                 
                 <!-- Product Info -->
                 <div class="col-lg-6">
                     <div class="product-info">
-                        <h1 class="mb-3">Premium Wireless Headphones</h1>
+                        <h1 class="mb-3">{{product.title}}</h1>
                         <div class="d-flex align-items-center mb-3">
                             <div class="rating-stars me-2">
                                 <i class="fas fa-star"></i>
@@ -48,8 +47,8 @@
                         </div>
                         
                         <div class="mb-4">
-                            <span class="price">$99.99</span>
-                            <span class="original-price ms-2">$129.99</span>
+                            <span class="price">${{product.discount_price}}</span>
+                            <span class="original-price ms-2">${{product.price}}</span>
                             <span class="badge bg-danger discount-badge ms-2">23% OFF</span>
                         </div>
                         

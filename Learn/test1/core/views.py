@@ -23,7 +23,7 @@ def shop(request):
     return render(request, "core/shop.html", context)
 
 def view_product(request, slug):
-    product = get_object_or_404(Product, slug=slug)
+    product = get_object_or_404(Product.objects.prefetch_related('images'), slug=slug)
     categories = Category.objects.all()
     context = {
         'product': product,
