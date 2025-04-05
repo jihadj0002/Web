@@ -30,3 +30,6 @@ def categories(request):
         'products': products,
     }
     return render(request, "core/cateories.html", context)
+
+def about(request):
+    return render(request, "core/about.html")
