@@ -27,6 +27,10 @@ class Product(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=200)
     image = models.ImageField(upload_to='categories/', null=True, blank=True)
+    
+    is_featured = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    
     slug = models.SlugField(unique=True)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

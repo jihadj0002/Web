@@ -1,0 +1,211 @@
+{% extends "core/base.html" %}
+{% block content %}
+    <!-- Page Header -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>All Products</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Products</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Filters Sidebar -->
+                <div class="col-lg-3">
+                    <div class="filter-section">
+                        <h5 class="mb-4">Filter Products</h5>
+                        
+                        <!-- Categories -->
+                        <div class="mb-4">
+                            <h6>Categories</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cat1" checked>
+                                <label class="form-check-label" for="cat1">Electronics</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cat2">
+                                <label class="form-check-label" for="cat2">Fashion</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cat3">
+                                <label class="form-check-label" for="cat3">Home & Garden</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cat4">
+                                <label class="form-check-label" for="cat4">Sports</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Price Range -->
+                        <div class="mb-4">
+                            <h6>Price Range</h6>
+                            <input type="range" class="form-range price-range-slider" min="0" max="1000" step="10" id="priceRange">
+                            <div class="d-flex justify-content-between">
+                                <span>$0</span>
+                                <span>$1000</span>
+                            </div>
+                            <div class="mt-2">
+                                <button class="btn btn-sm btn-primary">Apply Price Filter</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Brands -->
+                        <div class="mb-4">
+                            <h6>Brands</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="brand1">
+                                <label class="form-check-label" for="brand1">Apple</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="brand2">
+                                <label class="form-check-label" for="brand2">Samsung</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="brand3">
+                                <label class="form-check-label" for="brand3">Sony</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="brand4">
+                                <label class="form-check-label" for="brand4">Nike</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Ratings -->
+                        <div class="mb-4">
+                            <h6>Customer Ratings</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rating5">
+                                <label class="form-check-label" for="rating5">
+                                    <span class="text-warning">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rating4">
+                                <label class="form-check-label" for="rating4">
+                                    <span class="text-warning">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </span> & Up
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rating3">
+                                <label class="form-check-label" for="rating3">
+                                    <span class="text-warning">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </span> & Up
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-danger w-100">Reset All Filters</button>
+                    </div>
+                </div>
+                
+                <!-- Products Listing -->
+                <div class="col-lg-9">
+                    <!-- Sorting and View Options -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <span class="me-2">Sort by:</span>
+                                <select class="form-select form-select-sm" style="width: auto;">
+                                    <option selected>Featured</option>
+                                    <option>Price: Low to High</option>
+                                    <option>Price: High to Low</option>
+                                    <option>Customer Ratings</option>
+                                    <option>Newest Arrivals</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <div class="view-options btn-group" role="group">
+                                <button type="button" class="btn btn-outline-secondary active grid-view-btn">
+                                    <i class="fas fa-th-large"></i> Grid
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary list-view-btn">
+                                    <i class="fas fa-list"></i> List
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Products Grid -->
+                    <div class="row" id="productsContainer">
+                        <!-- Product 1 -->
+
+                        {% for p in products %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card product-card h-100">
+                                <span class="badge bg-danger position-absolute top-0 start-0 m-2">Sale</span>
+                                <img src="{{p.image.url}}" class="card-img-top" alt="{{p.slug}}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{p.title}}</h5>
+                                    <div class="mb-2">
+                                        <span class="text-warning">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </span>
+                                        <span class="text-muted">(42 reviews)</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0">${{p.discount_price}}</h6>
+                                        <del class="text-muted">${{p.price}}</del>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-white">
+                                    <button class="btn btn-primary w-100">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <nav aria-label="Page navigation" class="mt-5">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+    

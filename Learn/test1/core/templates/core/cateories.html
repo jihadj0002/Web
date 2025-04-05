@@ -1,0 +1,326 @@
+{% extends 'core/base.html' %}
+{% block content %}
+    <!-- Page Header -->
+    <section class="py-3 bg-light">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Categories</li>
+                </ol>
+            </nav>
+            <h1 class="mb-4">Shop by Category</h1>
+            <p class="lead">Browse our wide selection of products by category</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Featured Categories -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="mb-4">Featured Categories</h2>
+                </div>
+                
+                <!-- Category 1 -->
+                 {% for c in categories %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="category-card">
+                        <img src="{{c.image.url}}" alt="{{c.slug}}" class="img-fluid">
+                        <div class="category-overlay">
+                            <h3>{{c.name}}</h3>
+                            <ul class="subcategory-list">
+                                <li><a href="#">Headphones</a></li>
+                                <li><a href="#">Smartphones</a></li>
+                                <li><a href="#">Laptops</a></li>
+                                <li><a href="#">Cameras</a></li>
+                            </ul>
+                            <a href="#" class="btn btn-outline-light mt-2">View All</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                
+            </div>
+            
+            <!-- All Categories List -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="mb-4">All Categories</h2>
+                    <div class="row">
+                        <div class="col-md-4 col-lg-3 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Electronics</h5>
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Headphones</a></li>
+                                        <li><a href="#">Smartphones</a></li>
+                                        <li><a href="#">Laptops</a></li>
+                                        <li><a href="#">Cameras</a></li>
+                                        <li><a href="#">TVs</a></li>
+                                    </ul>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Fashion</h5>
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Men's Clothing</a></li>
+                                        <li><a href="#">Women's Clothing</a></li>
+                                        <li><a href="#">Shoes</a></li>
+                                        <li><a href="#">Accessories</a></li>
+                                        <li><a href="#">Jewelry</a></li>
+                                    </ul>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Home & Garden</h5>
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Furniture</a></li>
+                                        <li><a href="#">Kitchen</a></li>
+                                        <li><a href="#">Bedding</a></li>
+                                        <li><a href="#">Decor</a></li>
+                                        <li><a href="#">Lighting</a></li>
+                                    </ul>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Sports & Fitness</h5>
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Exercise Equipment</a></li>
+                                        <li><a href="#">Team Sports</a></li>
+                                        <li><a href="#">Outdoor Recreation</a></li>
+                                        <li><a href="#">Fitness Accessories</a></li>
+                                        <li><a href="#">Yoga</a></li>
+                                    </ul>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Beauty</h5>
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Skincare</a></li>
+                                        <li><a href="#">Makeup</a></li>
+                                        <li><a href="#">Hair Care</a></li>
+                                        <li><a href="#">Fragrances</a></li>
+                                        <li><a href="#">Personal Care</a></li>
+                                    </ul>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Toys & Games</h5>
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Action Figures</a></li>
+                                        <li><a href="#">Board Games</a></li>
+                                        <li><a href="#">Dolls</a></li>
+                                        <li><a href="#">Puzzles</a></li>
+                                        <li><a href="#">Building Sets</a></li>
+                                    </ul>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Books</h5>
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Fiction</a></li>
+                                        <li><a href="#">Non-Fiction</a></li>
+                                        <li><a href="#">Children's Books</a></li>
+                                        <li><a href="#">Textbooks</a></li>
+                                        <li><a href="#">Audiobooks</a></li>
+                                    </ul>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Automotive</h5>
+                                    <ul class="list-unstyled">
+                                        <li><a href="#">Car Parts</a></li>
+                                        <li><a href="#">Tools & Equipment</a></li>
+                                        <li><a href="#">Car Care</a></li>
+                                        <li><a href="#">Interior Accessories</a></li>
+                                        <li><a href="#">Exterior Accessories</a></li>
+                                    </ul>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">View All</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Featured Products -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="featured-products">
+                        <h2 class="mb-4">Popular Products</h2>
+                        <div class="row">
+                            <!-- Product 1 -->
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <div class="card featured-product-card h-100">
+                                    <img src="images/img/09.jpg" class="card-img-top" alt="Product 1">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Wireless Headphones</h6>
+                                        <div class="mb-2">
+                                            <span class="text-warning">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0">$99.99</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Product 2 -->
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <div class="card featured-product-card h-100">
+                                    <img src="images/img/09.jpg" class="card-img-top" alt="Product 2">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Smart Watch</h6>
+                                        <div class="mb-2">
+                                            <span class="text-warning">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0">$149.99</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Product 3 -->
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <div class="card featured-product-card h-100">
+                                    <img src="images/img/09.jpg" class="card-img-top" alt="Product 3">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Bluetooth Speaker</h6>
+                                        <div class="mb-2">
+                                            <span class="text-warning">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0">$79.99</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Product 4 -->
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <div class="card featured-product-card h-100">
+                                    <img src="images/img/09.jpg" class="card-img-top" alt="Product 4">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Laptop Backpack</h6>
+                                        <div class="mb-2">
+                                            <span class="text-warning">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0">$49.99</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Product 5 -->
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <div class="card featured-product-card h-100">
+                                    <img src="images/img/09.jpg" class="card-img-top" alt="Product 5">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Wireless Earbuds</h6>
+                                        <div class="mb-2">
+                                            <span class="text-warning">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0">$69.99</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Product 6 -->
+                            <div class="col-6 col-md-4 col-lg-2">
+                                <div class="card featured-product-card h-100">
+                                    <img src="images/img/09.jpg" class="card-img-top" alt="Product 6">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Fitness Tracker</h6>
+                                        <div class="mb-2">
+                                            <span class="text-warning">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                                <i class="far fa-star"></i>
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-0">$59.99</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -30,7 +30,8 @@ class ProductAdmin(admin.ModelAdmin):
     mark_as_inactive.short_description = "Mark selected products as inactive"
     
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'created_at')
+    list_display = ('name', 'slug', 'created_at', 'is_active', 'is_featured')
+    prepopulated_fields = {'slug': ('name',)}
     list_filter = ('created_at',)
     search_fields = ('name', 'description')
     

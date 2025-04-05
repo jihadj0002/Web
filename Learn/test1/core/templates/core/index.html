@@ -1,63 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopEasy - Online Shopping</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-
-
-<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">ShopEasy</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="shop.html">Products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="cateories.html">Categories</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    <form class="d-flex me-2" action="search.html" method="GET">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search..." name="q" aria-label="Search">
-                            <button class="btn btn-outline-light" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                    <a href="#" class="btn btn-outline-light me-2"><i class="fas fa-user"></i></a>
-                    <a href="#" class="btn btn-outline-light position-relative">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            3
-                        </span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
+{% extends 'core/base.html' %}
+{% block content %}
     <!-- Hero Section -->
     <section class="hero-section text-center">
         <div class="container">
@@ -151,38 +93,17 @@
         <div class="container">
             <h2 class="text-center mb-5">Shop by Category</h2>
             <div class="row">
+                {% for c in categories %}
                 <!-- Category 1 -->
-                 {% for c in categories %}
                 <div class="col-md-4">
                     <div class="category-card">
-                        <img src="{{c.image.url}}" class="img-fluid w-100" alt="Category 1">
+                        <img src="{{c.image.url}}" class="img-fluid w-100" alt="{{c.slug}}">
                         <div class="category-title">
                             <h4>{{c.name}}</h4>
                         </div>
                     </div>
-                {% endfor %}
-                <!-- Category 2 -->
-<!--                  
-                <div class="col-md-4">
-                    <div class="category-card">
-                        <img src="images/img/05.jpg" class="img-fluid w-100" alt="Fashion">
-                        <div class="category-title">
-                            <h4>Fashion</h4>
-                        </div>
-                    </div>
-                </div> -->
-                
-                <!-- Category 3 -->
-<!--                 
-                <div class="col-md-4">
-                    <div class="category-card">
-                        <img src="images/img/05.jpg" class="img-fluid w-100" alt="Home & Garden">
-                        <div class="category-title">
-                            <h4>Home & Garden</h4>
-                        </div>
-                    </div>
                 </div>
- -->
+                {% endfor %}
 
             </div>
         </div>
@@ -226,63 +147,4 @@
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white pt-5 pb-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 mb-4">
-                    <h5>ShopEasy</h5>
-                    <p>Your one-stop shop for all your needs.</p>
-                    <div class="social-icons">
-                        <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-white me-2"><i class="fab fa-pinterest"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <h5>Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Home</a></li>
-                        <li><a href="#" class="text-white">Products</a></li>
-                        <li><a href="#" class="text-white">About Us</a></li>
-                        <li><a href="#" class="text-white">Contact</a></li>
-                        <li><a href="#" class="text-white">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <h5>Customer Service</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">My Account</a></li>
-                        <li><a href="#" class="text-white">Order Tracking</a></li>
-                        <li><a href="#" class="text-white">Wishlist</a></li>
-                        <li><a href="#" class="text-white">Returns</a></li>
-                        <li><a href="#" class="text-white">Shipping</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <h5>Contact Info</h5>
-                    <ul class="list-unstyled">
-                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Street, City, Country</li>
-                        <li><i class="fas fa-phone me-2"></i> +1 234 567 890</li>
-                        <li><i class="fas fa-envelope me-2"></i> info@shopeasy.com</li>
-                    </ul>
-                </div>
-            </div>
-            <hr class="my-4">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start">
-                    <p class="mb-0">&copy; 2023 ShopEasy. All rights reserved.</p>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <img src="https://via.placeholder.com/200x30" alt="Payment Methods" class="img-fluid">
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}
