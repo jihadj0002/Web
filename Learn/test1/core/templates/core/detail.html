@@ -52,7 +52,7 @@
                             <span class="badge bg-danger discount-badge ms-2">{{product.discount_percentage}}% OFF</span>
                         </div>
                         
-                        <p class="mb-4">Experience crystal-clear sound with our premium wireless headphones. Featuring active noise cancellation, 30-hour battery life, and ultra-comfortable ear cushions for all-day listening.</p>
+                        <p class="mb-4">{{product.description}}</p>
                         
                         <div class="mb-4">
                             <h5>Key Features:</h5>
@@ -385,11 +385,12 @@
                 </div>
                 
                 <!-- Related Product 1 -->
+                 {% for p in products %}
                 <div class="col-md-6 col-lg-3 mb-4">
                     <div class="card related-product-card h-100">
-                        <img src="images/img/09.jpg" class="card-img-top" alt="Related Product 1">
+                        <img src="{{p.image.url}}" class="card-img-top" alt="Related Product 1">
                         <div class="card-body">
-                            <h5 class="card-title">Wireless Earbuds Pro</h5>
+                            <h5 class="card-title"><a href="{% url 'core:view_product' p.slug %}" class="text-dark text-decoration-none">{{p.title}}</a></h5>
                             <div class="mb-2">
                                 <span class="text-warning">
                                     <i class="fas fa-star"></i>
@@ -401,8 +402,8 @@
                                 <span class="text-muted">(28 reviews)</span>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0">$79.99</h6>
-                                <del class="text-muted">$99.99</del>
+                                <h6 class="mb-0">${{p.discount_price}}</h6>
+                                <del class="text-muted">${{p.price}}</del>
                             </div>
                         </div>
                         <div class="card-footer bg-white">
@@ -410,87 +411,8 @@
                         </div>
                     </div>
                 </div>
+                {% endfor %}
                 
-                <!-- Related Product 2 -->
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <div class="card related-product-card h-100">
-                        <span class="badge bg-success position-absolute top-0 start-0 m-2">New</span>
-                        <img src="images/img/09.jpg" class="card-img-top" alt="Related Product 2">
-                        <div class="card-body">
-                            <h5 class="card-title">Bluetooth Speaker</h5>
-                            <div class="mb-2">
-                                <span class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </span>
-                                <span class="text-muted">(45 reviews)</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0">$59.99</h6>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-white">
-                            <button class="btn btn-primary w-100">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Related Product 3 -->
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <div class="card related-product-card h-100">
-                        <img src="images/img/09.jpg" class="card-img-top" alt="Related Product 3">
-                        <div class="card-body">
-                            <h5 class="card-title">Noise Cancelling Headphones</h5>
-                            <div class="mb-2">
-                                <span class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </span>
-                                <span class="text-muted">(32 reviews)</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0">$149.99</h6>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-white">
-                            <button class="btn btn-primary w-100">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Related Product 4 -->
-                <div class="col-md-6 col-lg-3 mb-4">
-                    <div class="card related-product-card h-100">
-                        <span class="badge bg-danger position-absolute top-0 start-0 m-2">-20%</span>
-                        <img src="images/img/09.jpg" class="card-img-top" alt="Related Product 4">
-                        <div class="card-body">
-                            <h5 class="card-title">Portable DAC</h5>
-                            <div class="mb-2">
-                                <span class="text-warning">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </span>
-                                <span class="text-muted">(18 reviews)</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0">$89.99</h6>
-                                <del class="text-muted">$112.99</del>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-white">
-                            <button class="btn btn-primary w-100">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
