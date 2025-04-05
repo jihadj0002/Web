@@ -20,6 +20,12 @@ class Product(models.Model):
     slug = models.SlugField(unique=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='products')
     
+    @property
+    def discount_percentage(self):
+        if self.discount_price and self.price:
+            discount = ((self.price - self.discount_price) / self.price) * 100
+            return round(discount, 2)
+    
     def __str__(self):
         return self.title
     
