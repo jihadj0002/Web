@@ -5,10 +5,10 @@
         <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item"><a href="products.html">Products</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'core:index' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'core:shop' %}">Products</a></li>
                     <li class="breadcrumb-item"><a href="#">Electronics</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Wireless Headphones</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{product.title}}</li>
                 </ol>
             </nav>
         </div>
