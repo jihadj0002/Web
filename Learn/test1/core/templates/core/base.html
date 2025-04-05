@@ -63,7 +63,7 @@
                         {% if request.path == contact_url %}
                         <a class="nav-link active" href="{% url 'core:contact' %}">Contact</a>
                         {% else %}
-                        <a href="{% url 'core:contact' %}" class="nav-link nav">Contact</a>
+                        <a href="{% url 'core:contact' %}" class="nav-link">Contact</a>
                         {% endif %}
                     </li>
                 </ul>
@@ -119,8 +119,8 @@
                     <ul class="list-unstyled">
                         <li><a href="{% url 'core:index' %}" class="text-white">Home</a></li>
                         <li><a href="{% url 'core:shop' %}" class="text-white">Products</a></li>
-                        <li><a href="#" class="text-white">About Us</a></li>
-                        <li><a href="#" class="text-white">Contact</a></li>
+                        <li><a href="{% url 'core:about' %}" class="text-white">About Us</a></li>
+                        <li><a href="{% url 'core:contact' %}" class="text-white">Contact</a></li>
                         <li><a href="#" class="text-white">FAQ</a></li>
                     </ul>
                 </div>
@@ -184,6 +184,165 @@
 
 
     </script>
+
+
+
+
+
+
+<!-- Product Details CSS -->
+<style>
+    .product-gallery {
+        position: relative;
+    }
+    
+    .main-image {
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        height: 400px;
+        object-fit: contain;
+        background: #f8f9fa;
+        padding: 20px;
+    }
+    
+    .thumbnail-container {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .thumbnail {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 5px;
+        background: #f8f9fa;
+    }
+    
+    .thumbnail:hover, .thumbnail.active {
+        border-color: #0d6efd;
+    }
+    
+    .product-info {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 5px;
+    }
+    
+    .price {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #dc3545;
+    }
+    
+    .original-price {
+        text-decoration: line-through;
+        color: #6c757d;
+    }
+    
+    .discount-badge {
+        font-size: 0.9rem;
+    }
+    
+    .quantity-selector {
+        width: 100px;
+    }
+    
+    .product-tabs .nav-link {
+        color: #495057;
+        font-weight: 500;
+    }
+    
+    .product-tabs .nav-link.active {
+        color: #0d6efd;
+        background-color: transparent;
+        border-bottom: 2px solid #0d6efd;
+    }
+    
+    .review-card {
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .related-product-card {
+        transition: transform 0.3s;
+    }
+    
+    .related-product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .rating-stars {
+        color: #ffc107;
+    }
+    
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0;
+    }
+</style>
+
+<!-- Custom JS for Product Details Page -->
+
+
+    <!-- Custom JS -->
+    <script>
+        // Change main image when thumbnail is clicked
+        function changeImage(element) {
+            const mainImage = document.getElementById('mainImage');
+            mainImage.src = element.src;
+            
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+        
+        // Quantity selector functionality
+        document.getElementById('decrement').addEventListener('click', function() {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value);
+            if (quantity > 1) {
+                quantityInput.value = quantity - 1;
+            }
+        });
+        
+        document.getElementById('increment').addEventListener('click', function() {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value);
+            quantityInput.value = quantity + 1;
+        });
+        
+        // Star rating in review modal
+        document.querySelectorAll('.rating-star').forEach(star => {
+            star.addEventListener('click', function() {
+                const value = this.previousElementSibling.value;
+                const stars = document.querySelectorAll('.rating-star');
+                
+                stars.forEach((s, index) => {
+                    if (index < value) {
+                        s.innerHTML = '<i class="fas fa-star"></i>';
+                        s.style.color = '#ffc107';
+                    } else {
+                        s.innerHTML = '<i class="far fa-star"></i>';
+                        s.style.color = '#ffc107';
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+
+
 
 
 
