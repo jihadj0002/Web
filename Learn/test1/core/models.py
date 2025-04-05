@@ -24,7 +24,7 @@ class Product(models.Model):
     def discount_percentage(self):
         if self.discount_price and self.price:
             discount = ((self.price - self.discount_price) / self.price) * 100
-            return round(discount, 2)
+            return round(discount)
     
     def __str__(self):
         return self.title

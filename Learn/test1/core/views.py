@@ -3,7 +3,7 @@ from .models import Product, Category
 
 # Create your views here.
 def index(request):
-    products = Product.objects.all()
+    products = Product.objects.all().order_by('-created_at')
     categories = Category.objects.all()
     context = {
         'f_products': Product.objects.filter(is_featured=True).order_by('-created_at')[:4],
