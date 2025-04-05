@@ -1,6 +1,10 @@
 from django.contrib import admin
-from .models import Product, Category
+from .models import Product, Category, ProductImage
 # Register your models here.
+
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 3 #Number of extra forms to display
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('title', 'price', 'stock', 'is_active', 'is_featured', 'created_at')
@@ -10,6 +14,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ('price', 'stock', 'is_active', 'is_featured')
     ordering = ('-created_at',)
     date_hierarchy = 'created_at'
+    inlines = [ProductImageInline]
     fieldsets = (
         (None, {
             'fields': ('title', 'description', 'price', 'discount_price', 'image', 'stock', 'sku', 'slug', 'category')
@@ -35,6 +40,10 @@ class CategoryAdmin(admin.ModelAdmin):
     list_filter = ('created_at',)
     search_fields = ('name', 'description')
     
+    
+
+
+
     
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
