@@ -26,7 +26,8 @@ urlpatterns = [
     path("user/", include("userauth.urls")),
     
     #My apps Urls
-    path("", include("base.urls")),
+    path("", include("portfolio.urls")),
+    path("base/", include("base.urls")),
     path("urlshort/", include("urlshort.urls")),
     path("recipe/", include("recipe.urls")),
     path("cg/", include("cgpa.urls")),

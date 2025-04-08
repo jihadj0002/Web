@@ -166,6 +166,32 @@
             background-color: #1e1e1e;
             color: #e0e0e0;
         }
+        /* Form Container */
+        
+        /* Dark mode styles */
+        .dark-mode .form-container {
+        background-color: #2c2c2c; /* Dark background */
+        border-color: #ff4444 !important; /* Red border for danger */
+        }
+
+        .dark-mode .form-label {
+        color: #ffffff; /* Light text for labels */
+        }
+
+        .dark-mode .form-control,
+        .dark-mode .form-select {
+        background-color: #1e1e1e !important; /* Dark input background */
+        border-color: #444444 !important; /* Dark border */
+        color: #ffffff; /* Light text */
+        }
+
+        .dark-mode .form-control:focus,
+        .dark-mode .form-select:focus {
+        background-color: #1e1e1e !important;
+        border-color: #555555 ;
+        color: #ffffff;
+        box-shadow: 0 0 0 0.25rem rgba(255, 68, 68, 0.25); /* Red focus shadow */
+        }
 
         .night-mode .table thead th {
             background-color: #333;
