@@ -452,3 +452,67 @@ class BlogPost(models.Model):
     def get_absolute_url(self):
         return reverse('blog_post_detail', kwargs={'slug': self.slug})
     
+class FAQ(models.Model):
+    question = models.CharField(max_length=200)
+    answer = models.TextField()
+    order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['order']
+        verbose_name = 'FAQ'
+        verbose_name_plural = 'FAQs'
+    
+    def __str__(self):
+        return self.question
+    
+    
+class LegalPage(models.Model):
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, null=True, blank=True)
+    content = models.TextField()
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        return reverse('legal_page_detail', kwargs={'slug': self.slug})    
+    
+class NewsLetterSubscription(models.Model):
+    email = models.EmailField(unique=True)
+    is_active = models.BooleanField(default=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+    unsubscribed_at = models.DateTimeField(null=True, blank=True)
+    
+    def __str__(self):
+        return self.email
+    
+
+class ReturnRequest(models.Model):
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+        ('completed', 'Completed'),
+    )
+    
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='return_requests')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='return_requests')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='return_requests')
+    reason = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    request_date = models.DateTimeField(auto_now_add=True)
+    response_date = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"Return Request for {self.product.title} - {self.status}"
