@@ -162,3 +162,20 @@ class ProductImage(models.Model):
     def __str__(self):
         return f"Image for {self.product.title}"
     
+
+class ProductVarient(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
+    name = models.CharField(max_length=200)
+    value = models.CharField(max_length=200)
+    price_adjustment = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    sku = models.CharField(max_length=50, unique=True, blank=True, null=True)
+    quantity = models.PositiveIntegerField(default=5)
+    
+    def save(self, *args, **kwargs):
+        if not self.sku:
+            self.sku = f"SKU-(uuid.uuid4().hex[:8])"
+        super().save(*args, **kwargs)
+        
+    def __str__(self):
+        return f"{self.product.name} - {self.name}: {self.value}"
+    
