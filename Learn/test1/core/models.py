@@ -296,3 +296,20 @@ class OrderItem(models.Model):
         return f"{self.product.title} - {self.quantity} pcs -- (Order # {self.order.order_number})"
     
     
+class ShippingAddress(models.Model):
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='shipping_address')
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    address_line1 = models.CharField(max_length=300)
+    address_line2 = models.CharField(max_length=300, null=True, blank=True)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    postal_code = models.CharField(max_length=20)
+    country = models.CharField(max_length=100)
+    phone = models.CharField(max_length=15, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+    special_instructions = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Shipping Address for Order {self.order.order_number}"
