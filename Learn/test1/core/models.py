@@ -313,3 +313,30 @@ class ShippingAddress(models.Model):
     
     def __str__(self):
         return f"Shipping Address for Order {self.order.order_number}"
+    
+    
+
+class Payment(models.Model):
+    PAYMENT_METHODS = (
+        ('credit_card', 'Credit Card'),
+        ('paypal', 'PayPal'),
+        ('bank_transfer', 'Bank Transfer'),
+        ('cash_on_delivery', 'Cash on Delivery'),
+    )
+
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='payment')
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    transaction_id = models.CharField(max_length=100, unique=True, null=True, blank=True)
+    status = models.CharField(max_length=20, choices=Order.PAYMENT_STATUS, default='pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+    processed_at = models.DateTimeField(auto_now_add=True)
+    raw_response = models.JSONField(null=True, blank=True)
+    is_refunded = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"Payment for Order {self.order.order_number} - {self.payment_method}"
+    
+
+
+
