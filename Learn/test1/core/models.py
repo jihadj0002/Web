@@ -223,11 +223,76 @@ class CartItem(models.Model):
 
     
     
+class Coupon(models.Model):
+    pass
+    
+class Order(models.Model):
+    ORDER_STATUS = (
+        ('pending', 'Pending'),
+        ('processing', 'Processing'),
+        ('shipped', 'Shipped'),
+        ('delivered', 'Delivered'),
+        ('cancelled', 'Cancelled'),
+        ('returned', 'Returned'),
+        ('refunded', 'Refunded'),
+    )
+    
+    PAYMENT_STATUS = (
+        ('pending', 'Pending'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed'),
+        ('refunded', 'Refunded'),
+        ('cancelled', 'Cancelled'),
+    )
+    
+    order_number = models.CharField(max_length=20, unique=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='orders', null=True, blank=True)
+    stauts = models.CharField(max_length=20, choices=ORDER_STATUS, default='pending')
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS, default='pending')
+    
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    shipping_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    
+    discount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    total = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    
+    coupon_code = models.ForeignKey(Coupon, on_delete=models.SET_NULL, null=True, blank=True)
+    cart = models.ForeignKey(Cart, on_delete=models.SET_NULL, related_name='orders', null=True, blank=True)
+    
+    shipping_address = models.CharField(max_length=300, null=True, blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     
     
+    def save(self, *args, **kwargs):
+        if not self.order_number:
+            self.order_number = f"ORD-{uuid.uuid4().hex[:8]}"
+        super().save(*args, **kwargs)
+        
+    def __str__(self):
+        return f"Order {self.order_number} - {self.user.username if self.user else 'Guest'}"
+    
+    def get_absolute_url(self):
+        return reverse('order_detail', kwargs={'order_number': self.order_number})
     
     
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='order_items', null=True, blank=True)
+    varient = models.ForeignKey(ProductVarient, on_delete=models.SET_NULL, null=True, blank=True)
+    quitity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     
+    discount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    
+    def get_total_price(self):
+        if self.varient:
+            return (self.price + self.varient.price_adjustment) * self.quantity
+        return self.price * self.quantity
+    
+    def __str__(self):
+        return f"{self.product.title} - {self.quantity} pcs -- (Order # {self.order.order_number})"
     
     
