@@ -31,6 +31,9 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    # Other Apps
+    "uuid",
+    
     # installed App
     "core",
     "userauth",
