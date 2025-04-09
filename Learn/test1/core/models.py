@@ -179,3 +179,26 @@ class ProductVarient(models.Model):
     def __str__(self):
         return f"{self.product.name} - {self.name}: {self.value}"
     
+    
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart', null=True, blank=True)
+    session_key = models.CharField(max_length=40, unique=True, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        if self.user:
+            return f"Cart for {self.user.username}"
+        return f"Cart {self.session_key}"
+    
+    def get_total_items(self):
+        return sum(item.quantity for item in self.items.all())
+    
+    def get_subtotal(self):
+        return sum(item.get_total_price() for item in self.items.all())
+    
+    def get_total(self):
+        subtotal = self.get_subtotal()
+        # Add shipping and taxes if applicable
+        return subtotal
+    
