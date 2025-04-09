@@ -410,3 +410,45 @@ class Wishlist(models.Model):
     
     def __str__(self):
         return f"{self.user.username}'s Wishlist"
+    
+    
+class BlogPost(models.Model):
+    STATUS_CHOICES = (
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+        ('archived', 'Archived'),
+    )
+    
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, null=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='blog_posts')
+    content = models.TextField()
+    excerpt = models.TextField(null=True, blank=True)
+    tags = models.CharField(max_length=200, null=True, blank=True)
+    
+    feaured_image = models.ImageField(upload_to='blog_posts/', null=True, blank=True)
+    
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft')
+    
+    published_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    seo_title = models.CharField(max_length=200, null=True, blank=True)
+    seo_description = models.TextField(null=True, blank=True)
+    seo_keywords = models.CharField(max_length=200, null=True, blank=True)
+    is_featured = models.BooleanField(default=False)
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        if self.status == 'published' and not self.published_at:
+            self.published_at = timezone.now()
+        super().save(*args, **kwargs)
+        
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        return reverse('blog_post_detail', kwargs={'slug': self.slug})
+    
