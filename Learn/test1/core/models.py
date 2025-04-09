@@ -337,6 +337,32 @@ class Payment(models.Model):
     def __str__(self):
         return f"Payment for Order {self.order.order_number} - {self.payment_method}"
     
+class ProductReview(models.Model):
+    RATING_CHOICES = (
+        (1, '1 Star'),
+        (2, '2 Stars'),
+        (3, '3 Stars'),
+        (4, '4 Stars'),
+        (5, '5 Stars'),
+    )
 
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
+    rating = models.IntegerField(choices=RATING_CHOICES, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    title = models.CharField(max_length=200)
+    review = models.TextField()
+    
+    is_approved = models.BooleanField(default=False)
+    is_featured = models.BooleanField(default=False)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-
+    class Meta:
+        unique_together = ('product', 'user')
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"Review for {self.product.title} by {self.user.username if self.user else 'Guest'}"
+    
+    
