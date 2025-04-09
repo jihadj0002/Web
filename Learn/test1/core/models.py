@@ -224,7 +224,42 @@ class CartItem(models.Model):
     
     
 class Coupon(models.Model):
-    pass
+    DISCOUNT_TYPES = (
+        ('percentage', 'Percentage'),
+        ('fixed_amount', 'Fixed Amount'),
+    )
+    
+    code = models.CharField(max_length=20, unique=True)
+    discount_type = models.CharField(max_length=20, choices=DISCOUNT_TYPES, default='percentage')
+    discount_value = models.DecimalField(max_digits=10, decimal_places=2)
+    max_discount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    min_order_value = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    usage_limit = models.PositiveIntegerField(null=True, blank=True)
+    used_count = models.PositiveIntegerField(default=0)
+    
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Coupon {self.code} - {self.discount_value} {self.discount_type} -- {self.start_date} to {self.end_date}"
+    
+    def is_valid(self, user=None, cart_total=None):
+        if not self.is_active:
+            return False
+        if self.start_date and timezone.now() < self.start_date:
+            return False
+        if self.end_date and timezone.now() > self.end_date:
+            return False
+        if cart_total and self.min_order_value and cart_total < self.min_order_value:
+            return False
+        if self.usage_limit and self.used_count >= self.usage_limit:
+            return False
+        return True
+    
+    
     
 class Order(models.Model):
     ORDER_STATUS = (
@@ -366,3 +401,12 @@ class ProductReview(models.Model):
         return f"Review for {self.product.title} by {self.user.username if self.user else 'Guest'}"
     
     
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wishlist')
+    products = models.ManyToManyField(Product, related_name='wishlists')
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"{self.user.username}'s Wishlist"
