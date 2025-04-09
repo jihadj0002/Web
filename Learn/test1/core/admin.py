@@ -1,6 +1,10 @@
 from django.contrib import admin
-from .models import Product, Category, ProductImage
+from django.contrib.auth.admin import UserAdmin
+
+from .models import User, Product, Category, ProductImage
 # Register your models here.
+
+
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
