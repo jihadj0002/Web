@@ -31,6 +31,12 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+
+     # ...
+    'core.apps.CoreConfig',  # Must come before django.contrib.admin
+    'django.contrib.admin',
+    # ...
+    
     # Other Apps
     "uuid",
     
