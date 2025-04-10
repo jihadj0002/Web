@@ -27,15 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+AUTH_USER_MODEL = 'core.User'
 
 # Application definition
 
 INSTALLED_APPS = [
 
-     # ...
-    'core.apps.CoreConfig',  # Must come before django.contrib.admin
-    'django.contrib.admin',
-    # ...
+
     
     # Other Apps
     "uuid",
