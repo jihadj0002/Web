@@ -535,33 +535,3 @@ class ReturnRequest(models.Model):
     
     def __str__(self):
         return f"Return Request for {self.product.title} - {self.status}"
-
-
-class SiteSettings(models.Model):
-    site_name = models.CharField(max_length=200)
-    site_logo = models.ImageField(upload_to='site/', null=True, blank=True)
-    favicon = models.ImageField(upload_to='site/', null=True, blank=True)
-    contact_email = models.EmailField()
-    contact_phone = models.CharField(max_length=15, null=True, blank=True)
-    address = models.CharField(max_length=300, null=True, blank=True)
-    
-    facebook_url = models.URLField(null=True, blank=True)
-    twitter_url = models.URLField(null=True, blank=True)
-    instagram_url = models.URLField(null=True, blank=True)
-    linkedin_url = models.URLField(null=True, blank=True)
-    youtube_url = models.URLField(null=True, blank=True)
-    
-    meta_title = models.CharField(max_length=200, null=True, blank=True)
-    meta_description = models.TextField(null=True, blank=True)
-    meta_keywords = models.CharField(max_length=200, null=True, blank=True)
-    
-    maintenance_mode = models.BooleanField(default=False)
-    
-    about_us = models.TextField(null=True, blank=True)
-    
-    def __str__(self):
-        return self.site_name
-    
-    class Meta:
-        verbose_name = "Site Settings"
-        verbose_name_plural = "Site Settings"
