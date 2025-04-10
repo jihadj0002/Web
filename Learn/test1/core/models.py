@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
+from django.utils.html import mark_safe
 from django.urls import reverse
 import uuid
 from userauth.models import User
@@ -10,8 +11,8 @@ from userauth.models import User
 
 class Vendor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='vendor_profile')
-    business_name = models.CharField(max_length=200)
-    business_address = models.CharField(max_length=300)
+    business_name = models.CharField(max_length=200, null=True, blank=True)
+    business_address = models.CharField(max_length=300, null=True, blank=True)
     business_phone = models.CharField(max_length=15, null=True, blank=True)
     approved = models.BooleanField(default=False)
     rating = models.FloatField(default=0.0)
@@ -35,6 +36,11 @@ class Category(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def category_image(self):
+        if self.image:
+            return mark_safe(f'<img src="{self.image.url}" width="50" height="50" />')
+        return "No Image"
     
     class Meta:
         verbose_name_plural = 'Categories'
@@ -107,6 +113,11 @@ class Product(models.Model):
     seo_description = models.TextField(null=True, blank=True)
     seo_keywords = models.CharField(max_length=200, null=True, blank=True)
     
+    def product_image(self):
+        if self.image:
+            return mark_safe(f'<img src="{self.image.url}" width="50" height="50" />')
+        return "No Image"
+    
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
@@ -144,8 +155,8 @@ class ProductImage(models.Model):
     
 class ProductVarient(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variants')
-    name = models.CharField(max_length=200)
-    value = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=True, blank=True)
+    value = models.CharField(max_length=200,  null=True, blank=True)
     price_adjustment = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     sku = models.CharField(max_length=50, unique=True, blank=True, null=True)
     quantity = models.PositiveIntegerField(default=5)
@@ -161,6 +172,8 @@ class ProductVarient(models.Model):
     
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart', null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    paid_status = models.BooleanField(default=False)
     session_key = models.CharField(max_length=40, unique=True, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -180,6 +193,9 @@ class Cart(models.Model):
         subtotal = self.get_subtotal()
         # Add shipping and taxes if applicable
         return subtotal
+    
+    class Meta:
+        verbose_name_plural = "Cart Order"
     
 
 class CartItem(models.Model):
@@ -460,6 +476,8 @@ class LegalPage(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+        
+    
     
     def __str__(self):
         return self.title
@@ -484,6 +502,7 @@ class ReturnRequest(models.Model):
         ('rejected', 'Rejected'),
         ('completed', 'Completed'),
     )
+    
     
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='return_requests')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='return_requests')

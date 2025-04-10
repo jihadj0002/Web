@@ -1,5 +1,13 @@
 from django.contrib import admin
-from .models import Product, Category, ProductImage
+from .models import Vendor, Category, Product, ProductImage, ProductVarient, Cart, CartItem, Coupon, Order, OrderItem
+from .models import ShippingAddress, Payment, ProductReview, Wishlist, BlogPost, FAQ, LegalPage, NewsLetterSubscription, ReturnRequest
+
+
+from django.utils.html import format_html
+
+
+
+
 # Register your models here.
 
 class ProductImageInline(admin.TabularInline):
@@ -7,7 +15,7 @@ class ProductImageInline(admin.TabularInline):
     extra = 3 #Number of extra forms to display
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price', 'stock', 'is_active', 'is_featured', 'created_at')
+    list_display = ('product_image', 'title', 'price', 'stock', 'is_active', 'is_featured', 'created_at')
     list_filter = ('is_active','is_featured', 'created_at')
     search_fields = ('title', 'description', 'sku')
     prepopulated_fields = {'slug': ('title',)}
@@ -17,7 +25,7 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
     fieldsets = (
         (None, {
-            'fields': ('title', 'description', 'price', 'discount_price', 'image', 'stock', 'sku', 'slug', 'category')
+            'fields': ('title', 'description', 'price', 'discount_price', 'stock', 'sku', 'slug', 'category')
         }),
         ('Availability', {
             'fields': ('is_active', 'is_featured')
@@ -35,12 +43,48 @@ class ProductAdmin(admin.ModelAdmin):
     mark_as_inactive.short_description = "Mark selected products as inactive"
     
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'created_at', 'is_active', 'is_featured')
+    list_display = ('category_image','name', 'slug', 'created_at', 'is_active', 'is_featured')
     prepopulated_fields = {'slug': ('name',)}
     list_filter = ('created_at',)
     search_fields = ('name', 'description')
     
+
+class VendorAdmin(admin.ModelAdmin):
+    list_display = ('business_name', 'business_phone', 'business_address', 'rating', 'approved')
+   
+admin.site.register(Vendor, VendorAdmin)
+
+
+class ProductVarientAdmin(admin.ModelAdmin):
+    list_display = ('product', 'value', 'sku', 'quantity', 'price_adjustment')
     
+admin.site.register(ProductVarient, ProductVarientAdmin)
+
+    
+# class CartAdmin(admin.ModelAdmin):
+#     list_display = ('user', 'price', 'paid_status', 'created_at')    
+
+# admin.site.register(Cart, CartAdmin)
+
+# class CartItemAdmin(admin.ModelAdmin):
+#     list_display = ('cart', 'product', 'quantity', 'price')
+    
+# admin.site.register(CartItem, CartItemAdmin)
+
+# class CouponAdmin(admin.ModelAdmin):
+#     list_display = ('code', 'discount_type', 'amount', 'start_date', 'end_date', 'is_active')
+#     list_filter = ('discount_type', 'is_active')
+#     search_fields = ('code',)
+#     ordering = ('-start_date',)
+#     date_hierarchy = 'start_date'
+
+# admin.site.register(Coupon, CouponAdmin)
+
+
+# Add this ProductVarientAdmin if you don't have it already
+
+
+
 
 
 
