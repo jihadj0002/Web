@@ -277,7 +277,7 @@ class Order(models.Model):
     
     order_number = models.CharField(max_length=20, unique=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='orders', null=True, blank=True)
-    stauts = models.CharField(max_length=20, choices=ORDER_STATUS, default='pending')
+    status = models.CharField(max_length=20, choices=ORDER_STATUS, default='pending')
     payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS, default='pending')
     
     subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
@@ -312,7 +312,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='order_items', null=True, blank=True)
     varient = models.ForeignKey(ProductVarient, on_delete=models.SET_NULL, null=True, blank=True)
-    quitity = models.PositiveIntegerField(default=1)
+    quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     
     discount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)

@@ -61,29 +61,75 @@ class ProductVarientAdmin(admin.ModelAdmin):
 admin.site.register(ProductVarient, ProductVarientAdmin)
 
     
-# class CartAdmin(admin.ModelAdmin):
-#     list_display = ('user', 'price', 'paid_status', 'created_at')    
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('user', 'price', 'paid_status', 'created_at')    
 
-# admin.site.register(Cart, CartAdmin)
+admin.site.register(Cart, CartAdmin)
 
-# class CartItemAdmin(admin.ModelAdmin):
-#     list_display = ('cart', 'product', 'quantity', 'price')
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ('cart', 'product', 'quantity')
     
-# admin.site.register(CartItem, CartItemAdmin)
+admin.site.register(CartItem, CartItemAdmin)
 
-# class CouponAdmin(admin.ModelAdmin):
-#     list_display = ('code', 'discount_type', 'amount', 'start_date', 'end_date', 'is_active')
-#     list_filter = ('discount_type', 'is_active')
-#     search_fields = ('code',)
-#     ordering = ('-start_date',)
-#     date_hierarchy = 'start_date'
+class CouponAdmin(admin.ModelAdmin):
+    list_display = ('code', 'discount_type', 'discount_value', 'start_date', 'end_date', 'is_active')
+    list_filter = ('discount_type', 'is_active')
+    search_fields = ('code',)
+    ordering = ('-start_date',)
+    date_hierarchy = 'start_date'
 
-# admin.site.register(Coupon, CouponAdmin)
+admin.site.register(Coupon, CouponAdmin)
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('user', 'order_number', 'total', 'status', 'created_at')
+
+admin.site.register(Order, OrderAdmin)
+
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ('order', 'product', 'quantity', 'price')
+
+admin.site.register(OrderItem, OrderItemAdmin)
+
+class ShippingAddressAdmin(admin.ModelAdmin):
+    list_display = ('order', 'first_name', 'city')
+
+admin.site.register(ShippingAddress, ShippingAddressAdmin)
 
 
-# Add this ProductVarientAdmin if you don't have it already
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ('order', 'payment_method', 'amount', 'status', 'created_at')
+
+admin.site.register(Payment, PaymentAdmin)
 
 
+class ProductReviewAdmin(admin.ModelAdmin):
+    list_display = ('product', 'user', 'rating', 'created_at')
+admin.site.register(ProductReview, ProductReviewAdmin)
+
+class WishlistAdmin(admin.ModelAdmin):
+    list_display = ('user', 'created_at')
+    
+admin.site.register(Wishlist, WishlistAdmin)
+
+class BlogPostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'created_at')
+
+admin.site.register(BlogPost, BlogPostAdmin)
+
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ('question', 'answer', 'created_at')
+admin.site.register(FAQ, FAQAdmin)
+
+class LegalPageAdmin(admin.ModelAdmin):
+    list_display = ('title', 'content', 'created_at')
+admin.site.register(LegalPage, LegalPageAdmin)
+
+class NewsletterSubscriptionAdmin(admin.ModelAdmin):
+    list_display = ('email', 'subscribed_at')
+admin.site.register(NewsLetterSubscription, NewsletterSubscriptionAdmin)
+
+class ReturnRequestAdmin(admin.ModelAdmin):
+    list_display = ('order', 'reason', 'status', 'request_date')
 
 
 
