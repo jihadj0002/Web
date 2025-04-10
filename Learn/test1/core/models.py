@@ -19,15 +19,6 @@ class User(AbstractUser):
     email_verified = models.BooleanField(default=False)
     verification_token = models.UUIDField(null=True, blank=True, default=uuid.uuid4, editable=False)
     
-    groups = models.ManyToManyField('auth.Group', blank=True, related_name='user_groups',
-                                    help_text="Te groups this user belongs to. A user will get all permission granted to each of their group",
-                                    related_query_name="core_user",
-                                    )   # Many-to-many relationship with Group model
-    user_permissions = models.ManyToManyField('auth.Permission', blank=True,
-                                              help_text="Specific permissions for this user. Unselect all permissions if you want to remove them.",
-                                              related_name='core_user_permissions',
-                                              related_query_name='core_user',
-                                              )
     
     def __str__(self):
         return self.username
@@ -103,8 +94,8 @@ class Product(models.Model):
     compare_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     cost_per_item = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     
-    category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='products', null=True, blank=True)
-    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='products', null=True)
+    vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, related_name='products')
     sku = models.CharField(max_length=50, unique=True)
     
     barcode = models.CharField(max_length=50, unique=True, null=True, blank=True)
@@ -341,7 +332,7 @@ class OrderItem(models.Model):
     
     
 class ShippingAddress(models.Model):
-    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='order_shipping_address')
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='shipping_address')
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     address_line1 = models.CharField(max_length=300)
