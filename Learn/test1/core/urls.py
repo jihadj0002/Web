@@ -13,4 +13,5 @@ urlpatterns = [
     path("cat/", views.categories, name="cat"),
     path("about/", views.about, name="about"),
     path("contact/", views.contact, name="contact"),
+    path("read/", views.readfile, name="read"),
 ]
