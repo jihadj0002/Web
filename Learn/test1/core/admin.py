@@ -25,7 +25,7 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
     fieldsets = (
         (None, {
-            'fields': ('title', 'description', 'price', 'discount_price', 'stock', 'sku', 'slug', 'category')
+            'fields': ('title', 'description', 'price', 'discount_price',  'stock', 'sku', 'slug', 'category')
         }),
         ('Availability', {
             'fields': ('is_active', 'is_featured')

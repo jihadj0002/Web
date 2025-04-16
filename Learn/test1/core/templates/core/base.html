@@ -80,8 +80,8 @@
                             </button>
                         </div>
                     </form>
-                    <a href="#" class="btn btn-outline-light me-2"><i class="fas fa-user"></i></a>
-                    <a href="#" class="btn btn-outline-light position-relative">
+                    <a href="{% url 'core:cart' %}" class="btn btn-outline-light me-2"><i class="fas fa-user"></i></a>
+                    <a href="{% url 'core:cart' %}" class="btn btn-outline-light position-relative">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             3
@@ -341,6 +341,15 @@
                 });
             });
         });
+
+
+
+        // Add to cart functionality (for demonstration purposes)
+        document.getElementById('add-to-cart-btn').addEventListener('click', function() {
+            
+        })
+
+
     </script>
 
 

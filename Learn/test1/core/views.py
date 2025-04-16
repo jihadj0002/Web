@@ -64,55 +64,5 @@ def about(request):
 
 def contact(request):
     return render(request, "core/contact.html")
-
-def readfile(request):
-    i = 1
-    url = "https://dummyjson.com/products/" + str(i)
-    try:
-    # Fetch data
-        response = requests.get(url)
-        response.raise_for_status()
-        data = response.json()
-        # print(json.dumps(data, indent=4))  # Debugging
-        print(data['title'])
-        # Calculate discount
-        discount_amount = (data['discountPercentage'] * data['price']) / 100
-
-        # Get or create category
-        category, _ = Category.objects.get_or_create(name=data['category'])
-
-        image_url = data.get('image') 
-        # Create product
-        if image_url:
-            print(f"Image URL: {image_url}")
-            image_response = requests.get(image_url)
-            if image_response.status_code == 200:
-                # Create a Django-friendly File object
-                image_file = BytesIO(image_response.content)
-                image_name = image_url.split('/')[-1]  # Extract filename from URL
-
-                # Create the product and assign the image
-                product = Product.objects.create(
-                    title=data['title'],
-                    description=data['description'],
-                    price=data['price'],
-                    category=category,
-                    discount_price=discount_amount,
-                    stock=data['stock'],
-                    image = File(image_file, name=image_name),  # Save the image
-                    # sku=data['sku'],  # Handle SKU uniqueness as discussed earlier
-                )
-                print(f"Product created: {product.title}")
-
-            # Save images (if ProductImage model exists)
-            # for img_url in data['images']:
-            #     ProductImage.objects.create(product=product, image_url=img_url)
-
-            return HttpResponse(f"Successfully imported product: {data['title']}")
-
-    except requests.RequestException as e:
-        return HttpResponse(f"API Error: {e}", status=500)
-    except Exception as e:
-        return HttpResponse(f"Error: {e}", status=500)
-    
-# return render(request, "core/import.html", {'content': content})
+def cart(request):
+    return render(request, 'core/cart.html')
