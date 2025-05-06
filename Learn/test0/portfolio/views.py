@@ -15,7 +15,7 @@ def index(request):
             return redirect('portfolio:index')
         
     
-    return render(request, "portfolio/index.html")
+    return render(request, "portfolio/sus.html")
 
 def about(request):
     return render(request, "portfolio/about.html")
