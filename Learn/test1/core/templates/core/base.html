@@ -346,8 +346,53 @@
 
         // Add to cart functionality (for demonstration purposes)
         document.getElementById('add-to-cart-btn').addEventListener('click', function() {
-            
-        })
+            //Get product details from the card
+            console.log('Add to cart button clicked');
+            const productCard = this.closest('.product-card');
+            const productTitle = productCard.querySelector('.card-title').textContent;
+            const productPrice = productCard.querySelector('h6').textContent;
+            const productImage = productCard.querySelector('img').src;
+
+            // Create a cart item object
+            const cartItem = {
+                title : productTitle,
+                price : productPrice,
+                image : productPrice
+            }
+
+            //get Existing cart from local storage
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            //Check if item already exists in the cart
+            const existingItemIndex = cart.findIndex(item => item.title === productTitle);
+
+            if(existingItemIndex !== -1) {
+                alert('Item already in cart');
+            }
+            else {
+                //add new item to cart
+                cart.push(cartItem);
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                //update cart count
+                updateCartCount();
+
+                //show success message
+                alert('Item added to cart');
+            }
+        });
+
+        // Function to update cart count
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartCountElements = document.querySelectorAll('.cart-count');
+
+            cartCountElements.forEach(element => {
+                element.textContent = cart.length;
+            })
+        }
+        // Call updateCartCount on page load
+        document.addEventListener('DOMContentLoaded', updateCartCount);
 
 
     </script>
